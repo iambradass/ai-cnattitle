@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Up Your AI Tool | CNAT Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #1a2332;
+            --bg-panel: #0f1520;
+            --accent-blue: #2d7dd2;
+            --accent-blue-light: #4a9ae8;
+            --accent-yellow: #faed36;
+            --text-white: #ffffff;
+            --text-grey: #8892a4;
+            --border: #253145;
+            --input-bg: #0a0e16;
+            --card-hover: #1e2d40;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 30px;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-page);
+            color: var(--text-white);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* HERO */
+        .hero {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 24px 50px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 28px;
+            padding: 8px 18px;
+            border: 1px solid rgba(45, 125, 210, 0.25);
+            border-radius: 40px;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 40px);
+            font-weight: 300;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .hero h1 span {
+            color: var(--accent-yellow);
+            font-weight: 600;
+        }
+
+        .hero p {
+            color: var(--text-grey);
+            font-size: 15px;
+            max-width: 520px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        /* PICKER GRID */
+        .picker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .picker-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px 12px 20px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .picker-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(45, 125, 210, 0.15);
+        }
+
+        .picker-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .picker-icon.chatgpt { background: linear-gradient(135deg, #10a37f, #0d8c6d); }
+        .picker-icon.claude { background: linear-gradient(135deg, #d97706, #b45309); }
+        .picker-icon.gemini { background: linear-gradient(135deg, #4285f4, #7b3fe4); }
+        .picker-icon.perplexity { background: linear-gradient(135deg, #20b2aa, #1a8f89); }
+
+        .picker-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        .picker-sub {
+            font-size: 10px;
+            color: var(--text-grey);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* SECTION DIVIDER */
+        .section-divider {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-divider hr {
+            border: none;
+            border-top: 1px solid var(--border);
+        }
+
+        /* MODEL SECTIONS */
+        .model-section {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        .model-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 8px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .dot.chatgpt { background: #10a37f; }
+        .dot.claude { background: #d97706; }
+        .dot.gemini { background: #4285f4; }
+        .dot.perplexity { background: #20b2aa; }
+
+        .model-header h2 {
+            font-size: clamp(22px, 4vw, 28px);
+            font-weight: 300;
+            color: #fff;
+        }
+
+        .model-header h2 span {
+            font-weight: 600;
+        }
+
+        .model-intro {
+            color: var(--text-grey);
+            font-size: 14px;
+            margin-bottom: 35px;
+            line-height: 1.8;
+            padding-left: 26px;
+        }
+
+        .subsection {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px;
+            margin-bottom: 20px;
+        }
+
+        .subsection-label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .subsection h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            color: #fff;
+        }
+
+        .subsection p {
+            color: var(--text-grey);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .subsection p:last-child {
+            margin-bottom: 0;
+        }
+
+        ol.steps {
+            counter-reset: step;
+            list-style: none;
+            padding: 0;
+        }
+
+        ol.steps li {
+            counter-increment: step;
+            position: relative;
+            padding-left: 44px;
+            margin-bottom: 18px;
+            color: var(--text-grey);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        ol.steps li:last-child { margin-bottom: 0; }
+
+        ol.steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(45, 125, 210, 0.12);
+            border: 1px solid rgba(45, 125, 210, 0.25);
+            color: var(--accent-blue);
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 28px;
+        }
+
+        ol.steps li strong {
+            color: var(--text-white);
+            font-weight: 600;
+        }
+
+        /* CONNECTOR GRID */
+        .connector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .connector-chip {
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-white);
+            text-align: center;
+            transition: border-color 0.2s;
+        }
+
+        .connector-chip:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .connector-chip .chip-sub {
+            display: block;
+            font-size: 9px;
+            color: var(--text-grey);
+            margin-top: 4px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        /* PRO TIP */
+        .pro-tip {
+            background: rgba(250, 237, 54, 0.06);
+            border: 1px solid rgba(250, 237, 54, 0.15);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-top: 20px;
+        }
+
+        .pro-tip-label {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-yellow);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .pro-tip p {
+            color: var(--text-grey);
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        /* BACK TO TOP */
+        .back-top {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .back-top a {
+            font-size: 12px;
+            color: var(--text-grey);
+            text-decoration: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .back-top a:hover { color: var(--accent-blue); }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 50px 24px 40px;
+            border-top: 1px solid var(--border);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .footer .logo-text {
+            font-size: 11px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .footer .tagline {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-grey);
+            font-weight: 400;
+        }
+
+        .footer .tagline span {
+            color: var(--accent-yellow);
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+            .picker-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero { padding: 40px 20px 35px; }
+            .model-section { padding: 45px 20px; }
+            .subsection { padding: 24px 20px; }
+            .model-intro { padding-left: 0; }
+
+            .connector-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 380px) {
+            .connector-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero" id="top">
+        <div class="hero-badge">AI Setup Guide</div>
+        <h1>Set up your <span>AI tool</span></h1>
+        <p>You went paid. Now let's actually set it up so it works like a real assistant. Pick yours below.</p>
+
+        <div class="picker-grid">
+            <a href="#chatgpt" class="picker-card">
+                <div class="picker-icon chatgpt">G</div>
+                <span class="picker-name">ChatGPT</span>
+                <span class="picker-sub">OpenAI</span>
+            </a>
+            <a href="#claude" class="picker-card">
+                <div class="picker-icon claude">C</div>
+                <span class="picker-name">Claude</span>
+                <span class="picker-sub">Anthropic</span>
+            </a>
+            <a href="#gemini" class="picker-card">
+                <div class="picker-icon gemini">G</div>
+                <span class="picker-name">Gemini</span>
+                <span class="picker-sub">Google</span>
+            </a>
+            <a href="#perplexity" class="picker-card">
+                <div class="picker-icon perplexity">P</div>
+                <span class="picker-name">Perplexity</span>
+                <span class="picker-sub">Research</span>
+            </a>
+        </div>
+    </section>
+
+    <div class="section-divider"><hr></div>
+
+    <!-- CHATGPT -->
+    <section class="model-section" id="chatgpt">
+        <div class="model-header">
+            <div class="dot chatgpt"></div>
+            <h2><span>ChatGPT</span> Setup Guide</h2>
+        </div>
+        <p class="model-intro">ChatGPT is the most widely used AI tool on the market. If you're on a Plus or Pro plan, the features below will turn it from a chat window into something that actually knows your business.</p>
+
+        <div class="subsection">
+            <div class="subsection-label">Custom Instructions</div>
+            <h3>Tell ChatGPT Who You Are</h3>
+            <p>Custom instructions are background context that ChatGPT reads before every single conversation. Set them once and you never have to re-explain yourself.</p>
+            <ol class="steps">
+                <li>Open ChatGPT, click your <strong>profile icon</strong> in the bottom-left, then <strong>Customize ChatGPT</strong></li>
+                <li>In the first box ("What would you like ChatGPT to know about you?"), write a paragraph about who you are: your name, your role (agent, lender, broker), what market you serve, what types of clients you typically work with, your brokerage name, and how long you've been in the business</li>
+                <li>In the second box ("How would you like ChatGPT to respond?"), describe your communication style: do you want things casual or formal? Short and direct or detailed? Should it avoid jargon, use your local market terminology, etc.</li>
+                <li>Hit <strong>Save</strong>. Every new conversation from this point forward starts with this context loaded</li>
+            </ol>
+        </div>
+
+        <div class="subsection">
+            <div class="subsection-label">Custom GPTs</div>
+            <h3>Build Purpose-Built Assistants</h3>
+            <p>Custom GPTs are specialized versions of ChatGPT that you configure for a specific job. Think of it like creating a team member who only does one thing but does it well.</p>
+            <ol class="steps">
+                <li>Click <strong>Explore GPTs</strong> in the sidebar, then <strong>Create</strong> in the top right</li>
+                <li>Give it a name and description that matches its purpose (e.g., "Listing Research Assistant" or "Client Follow-Up Writer")</li>
+                <li>In the <strong>Instructions</strong> field, be specific about what it does, what tone it uses, what it should avoid, and what kind of output you expect</li>
+                <li>Upload any reference files it should know about: your brand guidelines, market data, templates, or past examples of work you liked</li>
+                <li>Enable <strong>Web Browsing</strong> if it needs current data. Enable <strong>Code Interpreter</strong> if it needs to analyze spreadsheets or data</li>
+            </ol>
+        </div>
+
+        <div class="subsection">
+            <div class="subsection-label">Recommended Connections</div>
+            <h3>Connect Your Workflow</h3>
+            <p>ChatGPT can plug directly into the tools you already use. These connections let it read your files, check your calendar, and pull in real-time data without you copy-pasting anything.</p>
+            <div class="connector-grid">
+                <div class="connector-chip">Google Drive <span class="chip-sub">Files &amp; Docs</span></div>
+                <div class="connector-chip">Google Calendar <span class="chip-sub">Schedule</span></div>
+                <div class="connector-chip">OneDrive <span class="chip-sub">Files</span></div>
+                <div class="connector-chip">Canva <span class="chip-sub">Design</span></div>
+                <div class="connector-chip">Zapier <span class="chip-sub">Automations</span></div>
+            </div>
+
+            <div class="pro-tip">
+                <div class="pro-tip-label">Pro Tip</div>
+                <p>The ChatGPT desktop app can see what's on your screen. Pull up a listing on MLS, ask it to analyze what you're looking at. That screen-reading feature alone is worth the paid plan.</p>
+            </div>
+        </div>
+
+        <div class="back-top"><a href="#top">Back to top</a></div>
+    </section>
+
+    <div class="section-divider"><hr></div>
+
+    <!-- CLAUDE -->
+    <section class="model-section" id="claude">
+        <div class="model-header">
+            <div class="dot claude"></div>
+            <h2><span>Claude</span> Setup Guide</h2>
+        </div>
+        <p class="model-intro">Claude's strength is deep, thoughtful work. Projects let you load context that stays active across every conversation in that workspace, and MCP connectors give it direct access to your tools.</p>
+
+        <div class="subsection">
+            <div class="subsection-label">User Preferences</div>
+            <h3>Tell Claude Who You Are</h3>
+            <p>User Preferences work like custom instructions. Claude reads them at the start of every conversation so it always has context about you and your work.</p>
+            <ol class="steps">
+                <li>Click your <strong>profile icon</strong>, then go to <strong>Settings</strong></li>
+                <li>Find <strong>Profile</strong> and look for the <strong>User Preferences</strong> section</li>
+                <li>Write a paragraph covering: your name, your role, your market area, your client types, your communication style, and anything you want Claude to always keep in mind</li>
+                <li>Hit <strong>Save</strong>. This context is now loaded into every new conversation automatically</li>
+            </ol>
+        </div>
+
+        <div class="subsection">
+            <div class="subsection-label">Projects</div>
+            <h3>Give Claude Permanent Context</h3>
+            <p>Projects are workspaces where you upload reference documents that Claude can access in every conversation within that project. Market reports, brand guidelines, transaction checklists, client profiles. Load it once, use it forever.</p>
+            <ol class="steps">
+                <li>In the sidebar, click <strong>Projects</strong>, then <strong>Create Project</strong></li>
+                <li>Give it a clear name like "Listing Research" or "Client Communications"</li>
+                <li>Add <strong>Project Instructions</strong> that tell Claude the purpose of this workspace and how it should behave when you're working in it</li>
+                <li>Upload relevant files: templates, past examples, market data, brand voice guidelines, anything Claude should reference</li>
+                <li>Start a new conversation inside the project. Claude now has access to everything you uploaded, every time</li>
+            </ol>
+        </div>
+
+        <div class="subsection">
+            <div class="subsection-label">Recommended Connections</div>
+            <h3>Connect Your Workflow</h3>
+            <p>Claude uses MCP (Model Context Protocol) connectors to talk directly to your apps. Once connected, it can read your emails, check your calendar, search your files, and more without leaving the conversation.</p>
+            <div class="connector-grid">
+                <div class="connector-chip">Gmail <span class="chip-sub">Email</span></div>
+                <div class="connector-chip">Google Calendar <span class="chip-sub">Schedule</span></div>
+                <div class="connector-chip">Google Drive <span class="chip-sub">Files</span></div>
+                <div class="connector-chip">Slack <span class="chip-sub">Messaging</span></div>
+                <div class="connector-chip">Canva <span class="chip-sub">Design</span></div>
+            </div>
+
+            <div class="pro-tip">
+                <div class="pro-tip-label">Pro Tip</div>
+                <p>Claude also has a desktop app and mobile app. The desktop app has a keyboard shortcut that summons Claude from any screen on your computer. Use it mid-workflow when you need a quick answer without switching tabs.</p>
+            </div>
+        </div>
+
+        <div class="back-top"><a href="#top">Back to top</a></div>
+    </section>
+
+    <div class="section-divider"><hr></div>
+
+    <!-- GEMINI -->
+    <section class="model-section" id="gemini">
+        <div class="model-header">
+            <div class="dot gemini"></div>
+            <h2><span>Gemini</span> Setup Guide</h2>
+        </div>
+        <p class="model-intro">If you already live in Google Workspace, Gemini is the lowest-friction option. Turn on Extensions and it plugs directly into Gmail, Calendar, Drive, Docs, and Sheets. No copy-pasting required.</p>
+
+        <div class="subsection">
+            <div class="subsection-label">Custom Instructions</div>
+            <h3>Tell Gemini Who You Are</h3>
+            <p>Gemini lets you set instructions that shape how it responds in every conversation. Same concept as the other tools: give it context once, benefit every time.</p>
+            <ol class="steps">
+                <li>Open <strong>gemini.google.com</strong> and click <strong>Settings</strong> (gear icon)</li>
+                <li>Find <strong>Saved Info</strong> and click into it</li>
+                <li>Add details about yourself: name, profession, market area, client types, communication preferences</li>
+                <li>Save your changes. Gemini now factors this into every response</li>
+            </ol>
+        </div>
+
+        <div class="subsection">
+            <div class="subsection-label">Gems</div>
+            <h3>Build Custom AI Agents</h3>
+            <p>Gems are Gemini's version of custom assistants. You define a persona, give it instructions, and it becomes a dedicated tool for a specific task.</p>
+            <ol class="steps">
+                <li>In the Gemini sidebar, click <strong>Gem manager</strong>, then <strong>New Gem</strong></li>
+                <li>Name it something specific to its job (e.g., "Market Report Writer" or "Open House Follow-Up")</li>
+                <li>Write detailed instructions about what it does, the tone it uses, and what output format you expect</li>
+                <li>Save it. Your Gem appears in the sidebar and is ready to use anytime</li>
+            </ol>
+        </div>
+
+        <div class="subsection">
+            <div class="subsection-label">Extensions</div>
+            <h3>Connect Google Workspace</h3>
+            <p>This is where Gemini really shines if you're already in the Google ecosystem. Extensions let Gemini read and interact with your Google apps directly.</p>
+            <div class="connector-grid">
+                <div class="connector-chip">Gmail <span class="chip-sub">Email</span></div>
+                <div class="connector-chip">Google Calendar <span class="chip-sub">Schedule</span></div>
+                <div class="connector-chip">Google Drive <span class="chip-sub">Files</span></div>
+                <div class="connector-chip">Google Docs <span class="chip-sub">Documents</span></div>
+                <div class="connector-chip">Google Sheets <span class="chip-sub">Spreadsheets</span></div>
+                <div class="connector-chip">Google Maps <span class="chip-sub">Location</span></div>
+                <div class="connector-chip">YouTube <span class="chip-sub">Video</span></div>
+                <div class="connector-chip">Google Flights <span class="chip-sub">Travel</span></div>
+            </div>
+            <ol class="steps" style="margin-top: 20px;">
+                <li>In Gemini, go to <strong>Settings</strong>, then <strong>Extensions</strong></li>
+                <li>Toggle on each Google service you want Gemini to access</li>
+                <li>That's it. You can now say things like "check my calendar for tomorrow" or "find the listing spreadsheet in my Drive" and Gemini pulls it up directly</li>
+            </ol>
+
+            <div class="pro-tip">
+                <div class="pro-tip-label">Pro Tip</div>
+                <p>If you're on a Google Workspace Business plan, Gemini appears in the sidebar of Gmail, Docs, Sheets, and Slides. You can use it without even leaving your inbox. Draft replies, summarize email threads, analyze spreadsheets, all in context.</p>
+            </div>
+        </div>
+
+        <div class="back-top"><a href="#top">Back to top</a></div>
+    </section>
+
+    <div class="section-divider"><hr></div>
+
+    <!-- PERPLEXITY -->
+    <section class="model-section" id="perplexity">
+        <div class="model-header">
+            <div class="dot perplexity"></div>
+            <h2><span>Perplexity</span> Setup Guide</h2>
+        </div>
+        <p class="model-intro">Perplexity fills a different role than the other three. It's a research tool first. Sourced answers, current data, deep dives. The play here is pre-meeting prep and market intelligence.</p>
+
+        <div class="subsection">
+            <div class="subsection-label">Profile</div>
+            <h3>Tell Perplexity Who You Are</h3>
+            <p>Perplexity lets you set a profile that shapes its responses. Less customizable than the others, but still worth setting up so it knows your context.</p>
+            <ol class="steps">
+                <li>Open Perplexity, click your <strong>profile icon</strong>, then <strong>Settings</strong></li>
+                <li>Find the <strong>Profile</strong> or <strong>AI Profile</strong> section</li>
+                <li>Fill in your name, profession, location, and areas of interest. Mention your market area and the types of properties or clients you work with</li>
+                <li>Save. Perplexity will tailor search results and summaries to your professional context</li>
+            </ol>
+        </div>
+
+        <div class="subsection">
+            <div class="subsection-label">Spaces</div>
+            <h3>Organize Your Research</h3>
+            <p>Spaces let you keep ongoing research organized by topic. Instead of starting from scratch every time, you build a knowledge base that grows over time.</p>
+            <ol class="steps">
+                <li>In the sidebar, click <strong>Spaces</strong>, then <strong>Create Space</strong></li>
+                <li>Name it for the topic you're researching (e.g., "Southlake Market Trends" or "Luxury Buyer Relocation")</li>
+                <li>Add relevant files, links, or notes to give the Space context</li>
+                <li>Every search you run inside that Space builds on everything that's already there</li>
+            </ol>
+        </div>
+
+        <div class="subsection">
+            <div class="subsection-label">Pro Search</div>
+            <h3>Go Deeper Than Google</h3>
+            <p>Pro Search doesn't just find links. It reads multiple sources, synthesizes the information, and gives you a sourced answer with citations. Perfect for client prep.</p>
+            <ol class="steps">
+                <li>Toggle <strong>Pro</strong> on before running a search (it's the button next to the search bar)</li>
+                <li>Ask specific questions: "What are the top 5 concerns for Bay Area families relocating to Frisco, TX?" or "What's the average days on market for homes over $1.5M in Westlake?"</li>
+                <li>Perplexity will pull from multiple current sources and cite each one. You can click through to verify anything</li>
+            </ol>
+
+            <div class="pro-tip">
+                <div class="pro-tip-label">Use Case</div>
+                <p>Before a listing appointment or buyer meeting, run a Pro Search on the neighborhood, the buyer's current city, recent comparable sales, and local development news. Perplexity gives you sourced, current data you can reference in your meeting. This is the kind of preparation that makes clients feel like you've done your homework, because you actually did.</p>
+            </div>
+        </div>
+
+        <div class="back-top"><a href="#top">Back to top</a></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="logo-text">CNAT Title</div>
+        <p class="tagline">#AlwaysBeClosing &middot; <span>Texas Style</span></p>
+    </footer>
+
+</body>
+</html>

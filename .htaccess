@@ -1,3 +1,8 @@
+AddDefaultCharset UTF-8
+<IfModule mod_mime.c>
+  AddCharset UTF-8 .html
+</IfModule>
+
 RewriteEngine On
 
 RewriteCond %{REQUEST_FILENAME} -f [OR]
@@ -7,3 +12,4 @@ RewriteRule ^ - [L]
 RewriteRule ^$ index.html [L]
 RewriteRule ^community/?$ community.html [L]
 RewriteRule ^the-vault/?$ vault-hosted.html [L]
+RewriteRule ^setup/?$ setup.html [L]

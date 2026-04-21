@@ -1,13 +1,8 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    {
-      "source": "/community",
-      "destination": "/community.html"
-    },
-    {
-      "source": "/the-vault",
-      "destination": "/vault-hosted.html"
-    }
+    { "source": "/community", "destination": "/community.html" },
+    { "source": "/the-vault", "destination": "/vault-hosted.html" },
+    { "source": "/setup", "destination": "/setup.html" }
   ]
 }
