@@ -501,6 +501,146 @@
   .pl-actions button:hover, .pl-actions a:hover { border-color: var(--accent-blue); color: var(--accent-blue-light); }
   .pl-actions .pl-copy.copied { background: var(--ok); border-color: var(--ok); color: #fff; }
 
+  /* ---------- CMD-K SEARCH ---------- */
+  .cmdk-btn {
+    position: fixed; bottom: 20px; right: 20px; z-index: 90;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--accent-yellow); color: #0a0e16;
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 14px 36px rgba(250,237,54,0.34), 0 2px 8px rgba(0,0,0,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cmdk-btn:hover { transform: translateY(-2px) scale(1.04); }
+  .cmdk-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .cmdk-btn .kbd {
+    position: absolute; top: -8px; right: -8px;
+    background: #0a0e16; color: #fff;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+    padding: 3px 6px; border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .cmdk-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(8, 14, 22, 0.78);
+    backdrop-filter: blur(6px);
+    display: none; align-items: flex-start; justify-content: center;
+    padding: 12vh 20px 20px;
+  }
+  .cmdk-overlay.show { display: flex; animation: cmdk-in 0.18s ease; }
+  @keyframes cmdk-in { from { opacity: 0; } to { opacity: 1; } }
+  .cmdk-modal {
+    width: 100%; max-width: 620px;
+    background: var(--bg-panel-2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+  .cmdk-input-wrap {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cmdk-input-wrap svg {
+    width: 18px; height: 18px; fill: none; stroke: var(--text-grey);
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+  .cmdk-input {
+    flex: 1;
+    background: transparent; border: 0;
+    color: var(--text-white);
+    font: inherit; font-size: 16px;
+    outline: none;
+  }
+  .cmdk-input::placeholder { color: var(--text-dim); }
+  .cmdk-esc {
+    font-size: 10px; letter-spacing: 1px; color: var(--text-dim);
+    padding: 4px 8px; border: 1px solid var(--border); border-radius: 6px;
+    font-weight: 700;
+  }
+  .cmdk-results {
+    max-height: 50vh; overflow-y: auto;
+    padding: 8px;
+  }
+  .cmdk-result {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; border-radius: 10px;
+    color: var(--text-white); text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .cmdk-result:hover, .cmdk-result.focused {
+    background: rgba(45,125,210,0.14);
+  }
+  .cmdk-result-kind {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-dim); font-weight: 700;
+    width: 70px; flex-shrink: 0;
+  }
+  .cmdk-result-title { flex: 1; font-size: 14px; font-weight: 500; }
+  .cmdk-result-enter {
+    color: var(--text-dim); font-size: 14px;
+  }
+  .cmdk-empty {
+    padding: 30px 20px; text-align: center;
+    color: var(--text-grey); font-size: 14px;
+  }
+
+  /* ---------- NEW RIBBON ---------- */
+  .ribbon-new {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 8px; margin-left: 8px;
+    background: rgba(250,237,54,0.14); border: 1px solid rgba(250,237,54,0.32);
+    color: var(--accent-yellow);
+    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;
+    border-radius: 999px;
+    vertical-align: middle;
+  }
+  .ribbon-new::before {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent-yellow);
+    box-shadow: 0 0 6px rgba(250,237,54,0.6);
+  }
+
+  /* ---------- WIZARD (Build-My-AI-Assistant) ---------- */
+  .wiz {
+    background: linear-gradient(145deg, var(--bg-panel-2), var(--bg-panel));
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 32px;
+  }
+  .wiz-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  .wiz-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .wiz-tab {
+    padding: 8px 14px; border-radius: 999px;
+    background: var(--input-bg); border: 1px solid var(--border);
+    color: var(--text-grey); font-size: 12px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .wiz-tab:hover { color: var(--text-white); border-color: var(--accent-blue); }
+  .wiz-tab.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+  .wiz-panel { display: none; }
+  .wiz-panel.active { display: block; }
+  .wiz-output { margin-top: 22px; display: none; }
+  .wiz-output.show { display: block; }
+  .wiz-block {
+    background: var(--input-bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px;
+    margin-bottom: 12px; position: relative;
+  }
+  .wiz-block-label {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent-blue-light); font-weight: 700; margin-bottom: 8px;
+  }
+  .wiz-block-content {
+    color: #e2e8f0; font-size: 14px; line-height: 1.7;
+    white-space: pre-wrap; font-family: 'SF Mono', Menlo, Consolas, monospace;
+  }
+
   /* ---------- REFERRAL BANNER ---------- */
   .ref-banner {
     display: none;
@@ -931,6 +1071,75 @@
 
 <div class="divider"><hr></div>
 
+<!-- BUILD MY AI ASSISTANT WIZARD -->
+<section class="section" id="wizard">
+  <div class="wrap">
+    <span class="section-eyebrow">Step 2 · Spin up your first AI assistant</span>
+    <h2 class="section-title">Build <span>my AI assistant</span></h2>
+    <p class="section-lede">Pick your role and a job to delegate. We'll generate a complete assistant blueprint — name, description, full instructions, 4 conversation starters, and a knowledge-file checklist — ready to paste into a Custom GPT, Claude Project, or Gemini Gem.</p>
+
+    <form class="wiz" id="wizForm" onsubmit="return false;">
+      <div class="wiz-grid">
+        <div class="cig-field">
+          <label for="wiz-role">Your role</label>
+          <select id="wiz-role">
+            <option>Real Estate Agent</option>
+            <option>Lender / Loan Officer</option>
+            <option>Broker / Team Lead</option>
+            <option>Transaction Coordinator</option>
+            <option>Title Rep</option>
+            <option>Real Estate Investor</option>
+          </select>
+        </div>
+        <div class="cig-field">
+          <label for="wiz-use">Job to delegate</label>
+          <select id="wiz-use">
+            <option value="listing">Listing Writer — MLS remarks, descriptions, social captions</option>
+            <option value="buyer">Buyer Intake Interviewer</option>
+            <option value="market">Daily Market Brief Writer</option>
+            <option value="contract">Contract &amp; Document Reviewer</option>
+            <option value="email">Email Reply Assistant</option>
+            <option value="openhouse">Open House Planner</option>
+            <option value="social">Social Content Generator</option>
+            <option value="lender-rate">Lender Rate Explainer</option>
+          </select>
+        </div>
+      </div>
+      <div class="cig-actions">
+        <button class="btn btn-primary" type="button" onclick="buildAssistant()">Build my assistant</button>
+      </div>
+
+      <div class="wiz-output" id="wizOutput">
+        <div class="wiz-tabs">
+          <button class="wiz-tab active" data-wtab="gpt">ChatGPT · Custom GPT</button>
+          <button class="wiz-tab" data-wtab="claude">Claude · Project</button>
+          <button class="wiz-tab" data-wtab="gemini">Gemini · Gem</button>
+        </div>
+
+        <div class="wiz-panel active" id="wp-gpt">
+          <div class="wiz-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><div class="wiz-block-label">Name</div><div class="wiz-block-content" id="w-name-gpt"></div></div>
+          <div class="wiz-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><div class="wiz-block-label">Description</div><div class="wiz-block-content" id="w-desc-gpt"></div></div>
+          <div class="wiz-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><div class="wiz-block-label">Instructions (paste into the big box)</div><div class="wiz-block-content" id="w-inst-gpt"></div></div>
+          <div class="wiz-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><div class="wiz-block-label">Conversation Starters</div><div class="wiz-block-content" id="w-starters-gpt"></div></div>
+          <div class="wiz-block"><div class="wiz-block-label">Knowledge files to upload</div><div class="wiz-block-content" id="w-files-gpt"></div></div>
+        </div>
+        <div class="wiz-panel" id="wp-claude">
+          <div class="wiz-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><div class="wiz-block-label">Project Name</div><div class="wiz-block-content" id="w-name-claude"></div></div>
+          <div class="wiz-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><div class="wiz-block-label">Project Instructions</div><div class="wiz-block-content" id="w-inst-claude"></div></div>
+          <div class="wiz-block"><div class="wiz-block-label">Files to add to this Project</div><div class="wiz-block-content" id="w-files-claude"></div></div>
+        </div>
+        <div class="wiz-panel" id="wp-gemini">
+          <div class="wiz-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><div class="wiz-block-label">Gem Name</div><div class="wiz-block-content" id="w-name-gemini"></div></div>
+          <div class="wiz-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><div class="wiz-block-label">Gem Instructions</div><div class="wiz-block-content" id="w-inst-gemini"></div></div>
+          <div class="wiz-block"><div class="wiz-block-label">Extensions to enable</div><div class="wiz-block-content" id="w-ext-gemini"></div></div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
 <!-- TOOL MATCHMAKER -->
 <section class="section" id="matchmaker">
   <div class="wrap">
@@ -1079,7 +1288,7 @@ Always highlight school district, walkability, and any feature that justifies pr
     </div>
 
     <div class="subsection">
-      <div class="subsection-label">Canvas</div>
+      <div class="subsection-label">Canvas<span class="ribbon-new">New</span></div>
       <h3>Write and edit side-by-side</h3>
       <p>Canvas opens a doc panel next to the chat so you can edit a listing description, email draft, or contract letter in real-time with ChatGPT suggesting changes inline. Way faster than copy-paste cycles.</p>
       <ul>
@@ -1131,7 +1340,7 @@ Always highlight school district, walkability, and any feature that justifies pr
     </div>
 
     <div class="subsection">
-      <div class="subsection-label">Agents &amp; Tasks</div>
+      <div class="subsection-label">Agents &amp; Tasks<span class="ribbon-new">New</span></div>
       <h3>Scheduled and agentic actions</h3>
       <p>Tasks (Plus+) let ChatGPT run on a schedule. Agents (Pro) let it take actions in a browser on your behalf.</p>
       <ul>
@@ -1225,7 +1434,7 @@ Always highlight school district, walkability, and any feature that justifies pr
     <span class="level advanced">Advanced</span>
 
     <div class="subsection">
-      <div class="subsection-label">Artifacts</div>
+      <div class="subsection-label">Artifacts<span class="ribbon-new">New</span></div>
       <h3>Claude builds tools for you</h3>
       <p>Artifacts are working mini-apps Claude generates inside the chat — calculators, forms, charts, HTML pages. For real estate this is absurdly useful.</p>
       <ul>
@@ -1261,7 +1470,7 @@ Always highlight school district, walkability, and any feature that justifies pr
     </div>
 
     <div class="subsection">
-      <div class="subsection-label">Skills</div>
+      <div class="subsection-label">Skills<span class="ribbon-new">New</span></div>
       <h3>Automated capability packs</h3>
       <p>Claude Skills are reusable playbooks Claude runs on command. For agents/lenders, think of them as macros: "run-listing-launch", "build-cma", "draft-seller-disclosure-email".</p>
       <ul>
@@ -1380,7 +1589,7 @@ Always highlight school district, walkability, and any feature that justifies pr
     </div>
 
     <div class="subsection">
-      <div class="subsection-label">NotebookLM</div>
+      <div class="subsection-label">NotebookLM<span class="ribbon-new">New</span></div>
       <h3>The secret weapon for listings &amp; client prep</h3>
       <p>NotebookLM (at notebooklm.google.com) is a Google research tool that turns your documents into an interactive knowledge base — complete with an AI-generated podcast of two voices discussing your content. Sounds gimmicky. It's not.</p>
       <ul>
@@ -1488,7 +1697,7 @@ Always highlight school district, walkability, and any feature that justifies pr
     </div>
 
     <div class="subsection">
-      <div class="subsection-label">Comet Browser</div>
+      <div class="subsection-label">Comet Browser<span class="ribbon-new">New</span></div>
       <h3>AI that browses for you</h3>
       <p>Comet is Perplexity's AI-native browser. Ask it to do something online and it does it — no clicks, no tabs. Still early, but for research tasks this saves hours.</p>
       <ul>
@@ -1637,6 +1846,22 @@ Always highlight school district, walkability, and any feature that justifies pr
       <span class="cert-mark">ai.cnattitle.com</span>
       <span id="certDate"></span>
     </div>
+  </div>
+</div>
+
+<!-- CMD-K SEARCH -->
+<button class="cmdk-btn" id="cmdkBtn" type="button" onclick="cmdkOpen()" aria-label="Search the page">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+  <span class="kbd">⌘K</span>
+</button>
+<div class="cmdk-overlay" id="cmdkOverlay" onclick="if(event.target===this)cmdkClose()">
+  <div class="cmdk-modal" role="dialog" aria-label="Search">
+    <div class="cmdk-input-wrap">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+      <input type="text" id="cmdkInput" class="cmdk-input" placeholder="Search tools, prompts, features…" autocomplete="off">
+      <span class="cmdk-esc">ESC</span>
+    </div>
+    <div class="cmdk-results" id="cmdkResults"></div>
   </div>
 </div>
 
@@ -2009,6 +2234,255 @@ function shareCert(mode) {
   }
 }
 
+/* =========================================================
+   CMD-K SEARCH
+   ========================================================= */
+let cmdkIndex = [];
+let cmdkFocused = 0;
+function buildCmdkIndex() {
+  const idx = [];
+  // Sections
+  document.querySelectorAll('section[id]').forEach(s => {
+    const title = s.querySelector('.section-title, .tool-header h2');
+    if (title) idx.push({ kind: 'Section', label: title.textContent.trim(), href: '#' + s.id });
+  });
+  // Subsection headers
+  document.querySelectorAll('.subsection h3').forEach(h => {
+    const sec = h.closest('section[id]');
+    if (!sec) return;
+    const label = h.querySelector('.subsection-label');
+    idx.push({ kind: 'Feature', label: h.textContent.trim(), href: '#' + sec.id });
+  });
+  // Prompt library items
+  (typeof PROMPTS !== 'undefined' ? PROMPTS : []).forEach(p => {
+    idx.push({ kind: 'Prompt', label: `${p.title} · ${p.tool}`, href: '#library', promptBody: p.body });
+  });
+  // Interactive tools
+  idx.push({ kind: 'Tool', label: 'Custom Instructions Generator', href: '#generator' });
+  idx.push({ kind: 'Tool', label: 'Build My AI Assistant wizard', href: '#wizard' });
+  idx.push({ kind: 'Tool', label: 'Tool Matchmaker quiz', href: '#matchmaker' });
+  idx.push({ kind: 'Tool', label: 'AI ROI Calculator', href: '#roi' });
+  idx.push({ kind: 'Tool', label: 'Prompt Library', href: '#library' });
+  return idx;
+}
+function cmdkOpen() {
+  if (!cmdkIndex.length) cmdkIndex = buildCmdkIndex();
+  document.getElementById('cmdkOverlay').classList.add('show');
+  const input = document.getElementById('cmdkInput');
+  input.value = '';
+  cmdkRender('');
+  setTimeout(() => input.focus(), 60);
+}
+function cmdkClose() {
+  document.getElementById('cmdkOverlay').classList.remove('show');
+}
+function cmdkRender(query) {
+  const q = query.trim().toLowerCase();
+  let results = cmdkIndex;
+  if (q) {
+    results = cmdkIndex.filter(r => r.label.toLowerCase().includes(q) || r.kind.toLowerCase().includes(q)).slice(0, 12);
+  } else {
+    results = cmdkIndex.filter(r => r.kind === 'Section' || r.kind === 'Tool').slice(0, 10);
+  }
+  const el = document.getElementById('cmdkResults');
+  if (!results.length) {
+    el.innerHTML = '<div class="cmdk-empty">No matches. Try a tool name, feature, or topic.</div>';
+    return;
+  }
+  cmdkFocused = 0;
+  el.innerHTML = results.map((r, i) => `
+    <a class="cmdk-result ${i === 0 ? 'focused' : ''}" href="${r.href}" data-idx="${i}" onclick="cmdkPick(${i})">
+      <span class="cmdk-result-kind">${r.kind}</span>
+      <span class="cmdk-result-title">${r.label}</span>
+      <span class="cmdk-result-enter">↵</span>
+    </a>
+  `).join('');
+  window._cmdkCurrent = results;
+}
+function cmdkPick(i) {
+  const r = window._cmdkCurrent[i];
+  if (!r) return;
+  cmdkClose();
+  if (r.promptBody) {
+    navigator.clipboard.writeText(r.promptBody).catch(() => {});
+  }
+  setTimeout(() => { location.hash = r.href; }, 80);
+}
+function initCmdk() {
+  document.addEventListener('keydown', e => {
+    const open = document.getElementById('cmdkOverlay').classList.contains('show');
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      open ? cmdkClose() : cmdkOpen();
+      return;
+    }
+    if (!open) return;
+    if (e.key === 'Escape') { e.preventDefault(); cmdkClose(); }
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const items = document.querySelectorAll('.cmdk-result');
+      if (!items.length) return;
+      items[cmdkFocused]?.classList.remove('focused');
+      cmdkFocused = (cmdkFocused + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+      items[cmdkFocused].classList.add('focused');
+      items[cmdkFocused].scrollIntoView({ block: 'nearest' });
+    }
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      cmdkPick(cmdkFocused);
+    }
+  });
+  document.getElementById('cmdkInput').addEventListener('input', e => cmdkRender(e.target.value));
+}
+
+/* =========================================================
+   BUILD-MY-AI-ASSISTANT WIZARD
+   ========================================================= */
+const WIZ_CASES = {
+  listing: {
+    name: 'Listing Launch Writer',
+    desc: 'Turns raw listing info into MLS remarks, full descriptions, and social captions in the agent\'s brand voice.',
+    instructionsCore: `You are a real estate listing writer for {ROLE}. When I share raw property info (beds/baths/sqft, features, neighborhood, price), always produce:\n1) A 280-character MLS public remark, leading with the strongest feature. Never use the words "nestled," "charming," "must-see," or "cozy."\n2) A 700–900 word full listing description with 3 subheaded sections (Highlights, Inside, Location).\n3) Five short social captions (Instagram, Facebook, TikTok) tailored to the price band.\nAlways highlight school district, walkability, and any feature that justifies price per sq ft. Match my brand voice (polished, direct, confident). Never invent features — if a detail is missing, ask before writing.`,
+    starters: [
+      'Here\'s a listing: [paste MLS info]. Write the MLS remark + full description + 5 socials.',
+      'Rewrite this tired description in my brand voice: [paste]',
+      'Give me 3 different angle concepts for launching a listing at $[price] in [neighborhood]',
+      'Write 10 one-line hooks I could use as Instagram captions for a modern farmhouse at $899k'
+    ],
+    files: ['2–3 past listing descriptions you love (brand voice samples)', 'Your brokerage brand guide or voice doc', 'Common restricted words list (your brand no-no\'s)', 'Template for MLS remark formatting']
+  },
+  buyer: {
+    name: 'Buyer Intake Interviewer',
+    desc: 'Conducts a warm, structured pre-consult intake that uncovers timing, budget, must-haves, and deal-breakers.',
+    instructionsCore: `You are a buyer intake assistant for {ROLE}. When I start a new chat with a buyer\'s name, run a 10-question intake covering: timing, budget, pre-approval status and lender, must-haves, deal-breakers, commute, lifestyle, school needs, pet/kid considerations, and the "if we only saw one perfect home" question. Ask them one at a time, conversationally. At the end, output a structured 1-page buyer brief with: Summary, Top 3 neighborhoods to suggest, 5 property criteria, and 3 yellow flags I should address on the consult. Warm but efficient tone.`,
+    starters: [
+      'Start a new buyer intake for: [client name, relocating from X, budget Y]',
+      'Here\'s my buyer\'s rough notes — structure them into the intake format: [paste]',
+      'Generate the pre-consult email that precedes the intake',
+      'Build a 20-min consult agenda based on this intake summary'
+    ],
+    files: ['Your standard buyer questionnaire (if you have one)', 'Sample past buyer briefs you wrote', 'Neighborhood shortlists by lifestyle segment', 'Your preferred lender\'s one-sheet']
+  },
+  market: {
+    name: 'Daily Market Brief Writer',
+    desc: 'Generates a 5-minute morning read covering your market ZIPs, rate movement, and talking points for the day.',
+    instructionsCore: `You are a market brief writer for {ROLE}. Every time I say "brief me," pull the latest (use browsing if available) on: 1) New and pending listings in my ZIPs, 2) Current 30-year fixed rate and any 48-hour movement, 3) Local market news that could affect buyer or seller conversations, 4) Three talking points I can use in any client call today. Format as a scannable 5-bullet read with H3 section headers. No fluff. Data-first.`,
+    starters: [
+      'Brief me',
+      'Write a longer seller-facing version of today\'s brief',
+      'Build a short email version I can send my sphere on Monday',
+      'What\'s the one thing in today\'s data most people will miss?'
+    ],
+    files: ['Your target ZIP codes and neighborhoods', 'Preferred sources (MLS, rate sites, local news)', 'Last 90 days of your market reports (for tone matching)']
+  },
+  contract: {
+    name: 'Contract & Document Reviewer',
+    desc: 'Reads contracts, title commitments, HOA packets, and inspection reports; surfaces risks in plain language.',
+    instructionsCore: `You are a contract and document reviewer for {ROLE}. When I upload a contract, title commitment, HOA packet, inspection report, or disclosure, produce: 1) A one-paragraph executive summary, 2) The top 10 things my client must know, with risk scored 1–10, 3) Three specific action items for me, 4) Any flags that could delay or kill the deal. Plain English — if you use a legal term, define it. Never give legal advice; flag items for attorney review when appropriate.`,
+    starters: [
+      'Here\'s a title commitment — summarize the exceptions for my buyer: [attach]',
+      'Scan this inspection report and categorize: cosmetic / maintenance / material defect',
+      'Review this HOA packet for any buyer-unfriendly restrictions',
+      'Compare these two contracts side by side and flag the differences'
+    ],
+    files: ['A blank TREC contract or your state\'s standard forms (context)', 'Your brokerage\'s contract review checklist', 'Past inspection repair request letters you liked', 'List of common title exceptions in your market']
+  },
+  email: {
+    name: 'Email Reply Assistant',
+    desc: 'Drafts replies in your brand voice, handles common buyer/seller scenarios, never sounds like a chatbot.',
+    instructionsCore: `You are an email reply assistant for {ROLE}. When I paste an incoming email, draft a reply in my brand voice (polished, direct, never stiff). Default structure: 1) Acknowledge what they said, 2) Answer any question, 3) Set the next step with a specific time/action. Keep to 100–150 words unless the situation demands detail. Sign-off: "{NAME}". Never use "I hope this finds you well," "please don\'t hesitate," or "at your earliest convenience."`,
+    starters: [
+      'Draft a reply to this email: [paste]',
+      'Rewrite this email I drafted to sound more confident and less apologetic: [paste]',
+      'Give me 3 different tone variations of this reply',
+      'Turn this quick voice note into a clean email reply: [paste transcript]'
+    ],
+    files: ['5–10 sample emails you\'ve sent that you\'re proud of (voice match)', 'Your brokerage email signature', 'List of phrases you never use', 'Common objection-handling scripts']
+  },
+  openhouse: {
+    name: 'Open House Planner',
+    desc: 'Plans the open house from neighborhood outreach to post-event follow-up.',
+    instructionsCore: `You are an open house planner for {ROLE}. When I share a listing address, date, and time, produce: 1) A pre-event checklist (72-hour, 48-hour, day-of), 2) Door-knock script for the 40 closest neighbors, 3) Social post copy (Instagram, Facebook, NextDoor), 4) Sign-in sheet field list, 5) Day-of talking points for the 3 most likely buyer objections at this price point, 6) Post-event follow-up email templates (48-hour and 1-week). Tone: confident, hospitable, never pushy.`,
+    starters: [
+      'Plan an open house for 1245 Cedar Lane this Saturday 1–3pm',
+      'Write the door-knock script for 40 neighbors in a $500k price range',
+      'Draft my Instagram post to promote Saturday\'s open house',
+      'Build my 48-hour follow-up email template'
+    ],
+    files: ['Sign-in sheet template (iPad or paper)', 'Open house flyer template', 'Past door-knock scripts that worked', 'Neighborhood talking points / stats sheet']
+  },
+  social: {
+    name: 'Social Content Generator',
+    desc: 'Generates platform-ready real estate social content by the week or the month.',
+    instructionsCore: `You are a social content generator for {ROLE}. When I ask for a weekly or monthly calendar, produce platform-specific content (Instagram, Facebook, TikTok, LinkedIn) with: post type, caption, hashtag cluster (5–8), and visual direction. Mix listings, market updates, educational carousels, local features, and personal posts. Captions should be natural, conversational, and tuned to the platform. Never use corporate buzzwords. Always include a soft CTA.`,
+    starters: [
+      'Build me a 30-day Instagram + Facebook calendar starting Monday',
+      'Write 5 Instagram carousel ideas about first-time buyer mistakes',
+      'Generate 7 days of Stories I can post this week',
+      'Rewrite this social post in 3 different voices: [paste]'
+    ],
+    files: ['Your top 10 performing past posts (voice + format match)', 'Brand color/font reference', 'Your local stats and ZIP codes', 'Key local businesses or partners to tag']
+  },
+  'lender-rate': {
+    name: 'Lender Rate Explainer',
+    desc: 'Translates rate moves and loan programs into clear client-facing emails and one-pagers.',
+    instructionsCore: `You are a lender communications assistant for {ROLE}. When rates move or a client has a loan question, produce: 1) A clear, non-alarmist email (subject + body, ~150 words), 2) Monthly-payment impact on a typical loan in my market, 3) Whether the client should act or wait, 4) A specific CTA (book a call, lock now, refi quote). For loan-program explainers (203(k), HomeReady, DPA, jumbo), write plain-English one-pagers aimed at first-time buyers. Never give absolute predictions on rates.`,
+    starters: [
+      'Rates just went up 25 bps. Write my email to pre-approved buyers who haven\'t locked.',
+      'Explain 203(k) loans in plain English for a first-time buyer',
+      'Write a comparison one-pager: FHA vs. conventional for $450k purchase',
+      'Draft a "rates just dropped" social post and email combo'
+    ],
+    files: ['Your current rate sheet or typical rates', 'List of loan programs you offer', 'Past client-facing explainers you liked', 'Common first-time-buyer objections']
+  }
+};
+function buildAssistant() {
+  const role = document.getElementById('wiz-role').value;
+  const useKey = document.getElementById('wiz-use').value;
+  const use = WIZ_CASES[useKey];
+  if (!use) return;
+  const instructions = use.instructionsCore.replace(/\{ROLE\}/g, role).replace(/\{NAME\}/g, 'Me');
+  const starters = use.starters.map((s, i) => `${i + 1}. ${s}`).join('\n');
+  const files = use.files.map(f => `• ${f}`).join('\n');
+
+  // ChatGPT Custom GPT
+  document.getElementById('w-name-gpt').textContent = use.name;
+  document.getElementById('w-desc-gpt').textContent = use.desc;
+  document.getElementById('w-inst-gpt').textContent = instructions;
+  document.getElementById('w-starters-gpt').textContent = starters;
+  document.getElementById('w-files-gpt').textContent = files;
+
+  // Claude Project
+  document.getElementById('w-name-claude').textContent = use.name + ' (Project)';
+  document.getElementById('w-inst-claude').textContent = instructions + '\n\nWhen I start a new chat inside this Project, you have access to every file I\'ve uploaded here. Reference them by name when you use them.';
+  document.getElementById('w-files-claude').textContent = files;
+
+  // Gemini Gem
+  document.getElementById('w-name-gemini').textContent = use.name + ' Gem';
+  document.getElementById('w-inst-gemini').textContent = instructions;
+  const extMap = {
+    listing: '• Google Drive (for brand voice samples + templates)\n• YouTube (for video caption research)',
+    buyer: '• Google Calendar (schedule consults)\n• Gmail (auto-draft pre-consult emails)\n• Google Drive (intake form templates)',
+    market: '• Google Search (real-time data)\n• Gmail (send the brief)\n• Google Maps (market area queries)',
+    contract: '• Google Drive (upload contracts, commitments)\n• Gmail (send review summaries)',
+    email: '• Gmail (read incoming, draft outgoing)',
+    openhouse: '• Google Calendar\n• Google Drive (flyer + sign-in templates)\n• Google Maps (door-knock route)',
+    social: '• Google Drive (brand assets)\n• YouTube (content inspiration)',
+    'lender-rate': '• Google Search (rate moves)\n• Gmail (auto-draft client emails)'
+  };
+  document.getElementById('w-ext-gemini').textContent = extMap[useKey] || '• Gmail\n• Google Drive';
+
+  document.getElementById('wizOutput').classList.add('show');
+  document.getElementById('wizOutput').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+document.addEventListener('click', e => {
+  if (e.target.matches('.wiz-tab')) {
+    const key = e.target.dataset.wtab;
+    document.querySelectorAll('.wiz-tab').forEach(t => t.classList.toggle('active', t === e.target));
+    document.querySelectorAll('.wiz-panel').forEach(p => p.classList.toggle('active', p.id === 'wp-' + key));
+  }
+});
+
 /* INIT */
 document.addEventListener('DOMContentLoaded', () => {
   initReferral();
@@ -2016,6 +2490,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderPrompts();
   initROI();
   initCertificate();
+  initCmdk();
 });
 </script>
 
