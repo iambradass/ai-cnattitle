@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNAT Title | The Vault</title>
+    <style>
+        :root {
+            --bg: #f3f6fb;
+            --card: #ffffff;
+            --text: #0f213a;
+            --muted: #55657f;
+            --primary: #1f5ea9;
+            --primary-dark: #174f90;
+            --border: #d9e4f3;
+            --shadow: 0 10px 24px rgba(12, 38, 76, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(180deg, #e9f1fc 0%, var(--bg) 42%, #edf3fb 100%);
+            color: var(--text);
+        }
+
+        .vault-page {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 34px 18px 52px;
+        }
+
+        .hero {
+            margin-bottom: 18px;
+        }
+
+        .hero-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 11px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #0f4d92;
+            background: rgba(31, 94, 169, 0.12);
+        }
+
+        .hero-link {
+            color: #1f4f8b;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .hero h1 {
+            margin: 0 0 8px;
+            font-size: clamp(28px, 4.3vw, 40px);
+            line-height: 1.12;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.55;
+            color: var(--muted);
+            max-width: 740px;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .tool-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .tool-header h2 {
+            margin: 0 0 8px;
+            font-size: 22px;
+        }
+
+        .tool-header p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+
+        .tool-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 15px;
+            border-radius: 11px;
+            border: 0;
+            text-decoration: none;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(120deg, var(--primary) 0%, var(--primary-dark) 100%);
+            width: fit-content;
+        }
+
+        .tool-link:hover {
+            opacity: 0.92;
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #617694;
+        }
+
+        @media (max-width: 640px) {
+            .hero-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="vault-page">
+        <section class="hero">
+            <div class="hero-top">
+                <span class="eyebrow">CNAT Title Vault</span>
+                <a class="hero-link" href="/">Back to AI Hub</a>
+            </div>
+            <h1>Tools for <span>Agents and Lenders</span></h1>
+            <p>Specialized tools for fast, practical workflow support in title and real estate operations.</p>
+        </section>
+
+        <section class="tool-grid">
+            <article class="tool-card">
+                <div class="tool-header">
+                    <h2>SIG Generator</h2>
+                    <p>Create polished signature blocks quickly and copy them into email clients and daily workflows.</p>
+                </div>
+                <a class="tool-link" href="https://sig-generator.vercel.app/" target="_blank" rel="noopener noreferrer">Open SIG Generator</a>
+            </article>
+        </section>
+
+        <p class="note">External tools open in a new tab.</p>
+    </main>
+</body>
+</html>

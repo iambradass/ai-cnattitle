@@ -1,0 +1,517 @@
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --bg-page: #1a2332;
+        --bg-panel: #0f1520;
+        --accent-blue: #2d7dd2;
+        --accent-blue-light: #4a9ae8;
+        --accent-yellow: #faed36;
+        --text-white: #ffffff;
+        --text-grey: #8892a4;
+        --border: #253245;
+        --disabled-bg: #111827;
+        --disabled-border: #1e293b;
+        --disabled-text: #4a5568;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    .ai-hub-wrapper {
+        font-family: 'Montserrat', sans-serif;
+        background: var(--bg-page);
+        color: var(--text-white);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 60px 20px;
+    }
+
+    .ai-hub-page {
+        max-width: 640px;
+        width: 100%;
+    }
+
+    /* ========================
+       HERO
+       ======================== */
+    .ai-hub-hero {
+        background: var(--bg-panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 55px 40px 50px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 
+            0 25px 60px rgba(0, 0, 0, 0.3),
+            0 10px 30px rgba(0, 0, 0, 0.15);
+        animation: aihContainerFadeIn 0.7s ease-out;
+    }
+
+    .ai-hub-hero::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, 
+            transparent, 
+            rgba(45, 125, 210, 0.1), 
+            transparent, 
+            rgba(250, 237, 54, 0.1), 
+            transparent);
+        border-radius: 17px;
+        z-index: -1;
+        animation: aihBorderGlow 8s linear infinite;
+        background-size: 400% 400%;
+    }
+
+    @keyframes aihBorderGlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    @keyframes aihContainerFadeIn {
+        from { opacity: 0; transform: translateY(20px) scale(0.98); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes aihFadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ai-hub-logo {
+        margin-bottom: 30px;
+        animation: aihFadeIn 0.8s ease-out 0.2s both;
+    }
+
+    .ai-hub-logo-text {
+        font-size: 11px;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--accent-blue);
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .ai-hub-logo-sub {
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--text-grey);
+        font-weight: 400;
+    }
+
+    .ai-hub-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(45, 125, 210, 0.1);
+        border: 1px solid rgba(45, 125, 210, 0.25);
+        border-radius: 50px;
+        padding: 8px 18px;
+        margin-bottom: 28px;
+        animation: aihFadeIn 0.8s ease-out 0.3s both;
+    }
+
+    .ai-hub-badge .pulse-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--accent-blue);
+        border-radius: 50%;
+        animation: aihPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes aihPulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .ai-hub-badge span {
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent-blue-light);
+        font-weight: 500;
+    }
+
+    .ai-hub-hero h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 30px;
+        font-weight: 300;
+        margin-bottom: 14px;
+        letter-spacing: 0.5px;
+        color: #fff;
+        line-height: 1.3;
+        animation: aihFadeIn 0.8s ease-out 0.4s both;
+    }
+
+    .ai-hub-hero h1 span {
+        color: var(--accent-yellow);
+        font-weight: 500;
+    }
+
+    .ai-hub-hero .subtitle {
+        color: var(--text-grey);
+        font-size: 14px;
+        margin-bottom: 0;
+        line-height: 1.8;
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+        animation: aihFadeIn 0.8s ease-out 0.5s both;
+    }
+
+    /* ========================
+       TILES
+       ======================== */
+    .ai-hub-tiles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 14px;
+    }
+
+    .ai-hub-tile {
+        background: var(--bg-panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 32px 20px 28px;
+        text-align: center;
+        text-decoration: none;
+        color: var(--text-white);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 
+            0 8px 25px rgba(0, 0, 0, 0.2),
+            0 4px 10px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        animation: aihTileFadeIn 0.6s ease-out forwards;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .ai-hub-tile:nth-child(1) { animation-delay: 0.7s; }
+    .ai-hub-tile:nth-child(2) { animation-delay: 0.85s; }
+    .ai-hub-tile:nth-child(3) { animation-delay: 1.0s; }
+
+    @keyframes aihTileFadeIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ai-hub-tile.active {
+        cursor: pointer;
+    }
+
+    .ai-hub-tile.active::before {
+        content: '';
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        background: linear-gradient(145deg, 
+            rgba(45, 125, 210, 0.2), 
+            transparent 60%);
+        border-radius: 14px;
+        z-index: 0;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .ai-hub-tile.active:hover::before {
+        opacity: 1;
+    }
+
+    .ai-hub-tile.active:hover {
+        border-color: var(--accent-blue);
+        transform: translateY(-4px);
+        box-shadow: 
+            0 16px 40px rgba(45, 125, 210, 0.15),
+            0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .ai-hub-tile.active:active {
+        transform: translateY(-2px) scale(0.98);
+        transition: all 0.1s ease;
+    }
+
+    .ai-hub-tile.disabled {
+        background: var(--disabled-bg);
+        border-color: var(--disabled-border);
+        cursor: default;
+        opacity: 0.45;
+    }
+
+    .ai-hub-tile.disabled .tile-icon {
+        filter: grayscale(100%);
+        opacity: 0.4;
+    }
+
+    .ai-hub-tile.disabled .tile-title {
+        color: var(--disabled-text);
+    }
+
+    .ai-hub-tile.disabled .tile-desc {
+        color: var(--disabled-text);
+        opacity: 0.7;
+    }
+
+    .ai-hub-tile .tile-icon {
+        font-size: 32px;
+        margin-bottom: 16px;
+        display: block;
+        position: relative;
+        z-index: 1;
+    }
+
+    .ai-hub-tile .tile-title {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 10px;
+        color: var(--text-white);
+        position: relative;
+        z-index: 1;
+    }
+
+    .ai-hub-tile.active .tile-title {
+        color: var(--accent-yellow);
+    }
+
+    .ai-hub-tile .tile-desc {
+        font-size: 11px;
+        color: var(--text-grey);
+        line-height: 1.6;
+        position: relative;
+        z-index: 1;
+    }
+
+    .ai-hub-tile .tile-badge {
+        display: inline-block;
+        margin-top: 14px;
+        padding: 5px 12px;
+        border-radius: 50px;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        position: relative;
+        z-index: 1;
+    }
+
+    .ai-hub-tile.active .tile-badge {
+        background: rgba(45, 125, 210, 0.15);
+        color: var(--accent-blue-light);
+        border: 1px solid rgba(45, 125, 210, 0.25);
+    }
+
+    .ai-hub-tile.disabled .tile-badge {
+        background: rgba(74, 85, 104, 0.15);
+        color: var(--disabled-text);
+        border: 1px solid rgba(74, 85, 104, 0.2);
+    }
+
+    /* ========================
+       FOOTER
+       ======================== */
+    .ai-hub-footer {
+        text-align: center;
+        margin-top: 30px;
+        opacity: 0;
+        animation: aihFadeIn 0.8s ease-out 1.3s forwards;
+    }
+
+    .ai-hub-footer .tagline {
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--text-grey);
+        font-weight: 400;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .ai-hub-footer .tagline span {
+        color: var(--accent-yellow);
+    }
+
+    .ai-hub-footer .footer-link {
+        display: block;
+        margin-top: 12px;
+        font-size: 11px;
+        color: var(--text-grey);
+        text-decoration: none;
+        transition: color 0.3s;
+        letter-spacing: 0.5px;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .ai-hub-footer .footer-link:hover {
+        color: var(--accent-blue);
+    }
+
+    /* ========================
+       RESPONSIVE
+       ======================== */
+    @media (max-width: 600px) {
+        .ai-hub-wrapper {
+            padding: 40px 14px;
+        }
+
+        .ai-hub-hero {
+            padding: 40px 24px 38px;
+            border-radius: 12px;
+        }
+
+        .ai-hub-hero h1 {
+            font-size: 24px;
+        }
+
+        .ai-hub-hero .subtitle {
+            font-size: 13px;
+        }
+
+        .ai-hub-tiles {
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .ai-hub-tile {
+            padding: 22px 24px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            text-align: left;
+            gap: 18px;
+        }
+
+        .ai-hub-tile .tile-icon {
+            font-size: 28px;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+
+        .ai-hub-tile .tile-content {
+            flex: 1;
+        }
+
+        .ai-hub-tile .tile-title {
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+        .ai-hub-tile .tile-desc {
+            font-size: 11px;
+            margin-bottom: 0;
+        }
+
+        .ai-hub-tile .tile-badge {
+            margin-top: 8px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .ai-hub-hero {
+            padding: 35px 20px 32px;
+        }
+
+        .ai-hub-hero h1 {
+            font-size: 21px;
+        }
+
+        .ai-hub-tile {
+            padding: 18px 20px;
+        }
+    }
+</style>
+
+<div class="ai-hub-wrapper">
+    <div class="ai-hub-page">
+
+        <!-- HERO -->
+        <div class="ai-hub-hero">
+            
+            <div class="ai-hub-logo">
+                <div class="ai-hub-logo-text">CNAT Title</div>
+                <div class="ai-hub-logo-sub">Community National Title</div>
+            </div>
+
+            <div class="ai-hub-badge">
+                <div class="pulse-dot"></div>
+                <span>AI-Powered Resources</span>
+            </div>
+
+            <h1>The CNAT <span>AI Hub</span></h1>
+            <p class="subtitle">Smart tools and resources built to help you close faster, stay informed, and work smarter — powered by AI.</p>
+
+        </div>
+
+        <!-- TILES -->
+        <div class="ai-hub-tiles">
+
+            <a href="/the-vault" class="ai-hub-tile active">
+                <span class="tile-icon">🏠</span>
+                <div class="tile-content">
+                    <div class="tile-title">Agents & Lenders</div>
+                    <p class="tile-desc">AI tools built for real estate pros</p>
+                    <span class="tile-badge">Explore →</span>
+                </div>
+            </a>
+
+            <a href="/community" class="ai-hub-tile active">
+                <span class="tile-icon">🌐</span>
+                <div class="tile-content">
+                    <div class="tile-title">Public</div>
+                    <p class="tile-desc">Tools for homebuyers & sellers</p>
+                    <span class="tile-badge">Explore →</span>
+                </div>
+            </a>
+
+            <div class="ai-hub-tile disabled">
+                <span class="tile-icon">🔒</span>
+                <div class="tile-content">
+                    <div class="tile-title">Internal</div>
+                    <p class="tile-desc">Team tools & operations</p>
+                    <span class="tile-badge">Coming Soon</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="ai-hub-footer">
+            <p class="tagline">#AlwaysBeClosing · <span>Texas Style</span></p>
+            <a href="https://cnattitle.tech" class="footer-link">← Back to cnattitle.tech</a>
+        </div>
+
+    </div>
+</div>
+
+<script>
+(function() {
+    var el = document.querySelector('.ai-hub-wrapper');
+    while (el && el !== document.body) {
+        el.style.maxWidth = '100%';
+        el.style.width = '100%';
+        el.style.padding = '0';
+        el.style.margin = '0';
+        el.style.overflow = 'visible';
+        el = el.parentElement;
+    }
+    document.body.style.background = '#1a2332';
+    document.body.style.margin = '0';
+})();
+</script>

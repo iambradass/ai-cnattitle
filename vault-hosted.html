@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Vault | CNAT AI Hub</title>
+  <meta name="description" content="Hosted standalone wrapper for the live-synced Vault build.">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #08101b;
+      --panel: #102035;
+      --text: #eff5ff;
+      --muted: #9eb3cc;
+      --accent: #faed36;
+      --line: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Montserrat", "Segoe UI", sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .frame-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background:
+        radial-gradient(circle at top, rgba(250, 237, 54, 0.08), transparent 24%),
+        linear-gradient(180deg, #11213a 0%, var(--bg) 100%);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(8, 16, 27, 0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: right;
+    }
+
+    .meta a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    iframe {
+      display: block;
+      flex: 1 1 auto;
+      width: 100%;
+      min-height: calc(100vh - 63px);
+      border: 0;
+      background: var(--bg);
+    }
+
+    .noscript {
+      padding: 24px;
+    }
+
+    .noscript a {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .meta {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame-shell">
+    <header class="topbar">
+      <div class="brand">CNAT AI Hub</div>
+      <div class="meta">
+        Standalone Vault wrapper
+        <br>
+        <a href="./ai-hub-landing.html">Back to AI Hub</a>
+      </div>
+    </header>
+    <iframe src="./the%20vault/The%20Vault.live-20260316.html" title="The Vault"></iframe>
+    <noscript>
+      <div class="noscript">
+        JavaScript is not required for the Vault itself, but this wrapper uses an iframe.
+        Open <a href="./the%20vault/The%20Vault.live-20260316.html">the live-synced Vault source</a> directly if needed.
+      </div>
+    </noscript>
+  </div>
+</body>
+</html>

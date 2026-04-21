@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CNAT Title Community Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #1a2332;
+            --bg-panel: #0f1520;
+            --bg-soft: #111a27;
+            --accent-blue: #2d7dd2;
+            --accent-blue-light: #4a9ae8;
+            --accent-yellow: #faed36;
+            --text-white: #ffffff;
+            --text-grey: #98a4b8;
+            --border: #253245;
+            --success: #2fbf71;
+            --warning: #f7b731;
+            --danger: #ff6b6b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: radial-gradient(circle at top right, #26354d 0%, var(--bg-page) 45%);
+            color: var(--text-white);
+            margin: 0;
+            padding: 32px 16px 44px;
+        }
+
+        .community-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .hero {
+            background: linear-gradient(145deg, rgba(45, 125, 210, 0.2), rgba(15, 21, 32, 0.95) 45%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 34px 28px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            right: -80px;
+            bottom: -90px;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(250, 237, 54, 0.2) 0%, rgba(250, 237, 54, 0) 70%);
+        }
+
+        .hero-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            font-size: 10px;
+            letter-spacing: 2.2px;
+            text-transform: uppercase;
+            color: var(--accent-blue-light);
+            border: 1px solid rgba(74, 154, 232, 0.4);
+            border-radius: 50px;
+            padding: 8px 14px;
+            background: rgba(45, 125, 210, 0.12);
+        }
+
+        .hero-link {
+            font-size: 12px;
+            text-decoration: none;
+            color: #d8e9ff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+            padding: 8px 12px;
+            transition: 0.2s ease;
+        }
+
+        .hero-link:hover {
+            border-color: var(--accent-blue-light);
+            color: #fff;
+        }
+
+        .hero h1 {
+            font-size: clamp(24px, 5vw, 39px);
+            font-weight: 500;
+            line-height: 1.25;
+            margin-bottom: 11px;
+            max-width: 680px;
+        }
+
+        .hero h1 span {
+            color: var(--accent-yellow);
+            font-weight: 600;
+        }
+
+        .hero p {
+            max-width: 760px;
+            color: var(--text-grey);
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .tool-card {
+            background: linear-gradient(180deg, #121b2a 0%, #0f1520 100%);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: 100%;
+        }
+
+        .tool-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .tool-header p {
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--text-grey);
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #bad5f4;
+            font-weight: 600;
+        }
+
+        .field input,
+        .field select {
+            background: var(--bg-soft);
+            border: 1px solid #334966;
+            border-radius: 10px;
+            padding: 11px 12px;
+            color: var(--text-white);
+            font-size: 13px;
+            font-family: inherit;
+            width: 100%;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            outline: 2px solid rgba(74, 154, 232, 0.55);
+            border-color: rgba(74, 154, 232, 0.8);
+        }
+
+        .tool-action {
+            margin-top: 4px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn.primary {
+            background: linear-gradient(90deg, var(--accent-blue), #1f95e5);
+            color: #fff;
+        }
+
+        .btn.ghost {
+            background: transparent;
+            border: 1px solid #3f5676;
+            color: #d1def1;
+        }
+
+        .result {
+            background: rgba(45, 125, 210, 0.1);
+            border: 1px solid rgba(74, 154, 232, 0.35);
+            border-radius: 12px;
+            padding: 12px 13px;
+            min-height: 78px;
+            font-size: 12px;
+        }
+
+        .result.empty {
+            color: #90a1bc;
+            display: flex;
+            align-items: center;
+        }
+
+        .result-grid {
+            display: grid;
+            gap: 8px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 12px;
+        }
+
+        .result-row strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .result-row .total {
+            color: var(--accent-yellow);
+        }
+
+        .timeline {
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+
+        .timeline li {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 9px 11px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .timeline li span {
+            color: #d5e6fb;
+            font-size: 12px;
+        }
+
+        .timeline li strong {
+            font-size: 11px;
+            color: #f7fbff;
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+        }
+
+        .footer-note {
+            background: rgba(15, 21, 32, 0.85);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 14px 16px;
+            color: #9eb0c8;
+            font-size: 12px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .error {
+            color: var(--danger);
+        }
+
+        @media (max-width: 900px) {
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 540px) {
+            body {
+                padding: 18px 10px 32px;
+            }
+
+            .hero {
+                padding: 26px 18px;
+            }
+
+            .hero-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .field-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="community-page">
+        <section class="hero">
+            <div class="hero-top">
+                <span class="eyebrow">CNAT Title Community</span>
+                <a class="hero-link" href="/">Back to AI Hub</a>
+            </div>
+            <h1>Public Tools for <span>Homebuyers and Sellers</span></h1>
+            <p>Practical calculators and planning tools your clients can use in minutes. Every estimate is instant, mobile-friendly, and designed to simplify real estate decisions before they become stressful.</p>
+        </section>
+
+        <section class="tool-grid">
+            <article class="tool-card">
+                <div class="tool-header">
+                    <h2>Monthly Payment Calculator</h2>
+                    <p>Estimate principal, interest, escrow, and total monthly payment from listing-price assumptions.</p>
+                </div>
+                <form id="mortgage-form" class="field-grid">
+                    <div class="field">
+                        <label for="mp-home-price">Home Price ($)</label>
+                        <input id="mp-home-price" type="number" min="0" step="1000" value="350000" required>
+                    </div>
+                    <div class="field">
+                        <label for="mp-down-pct">Down Payment (%)</label>
+                        <input id="mp-down-pct" type="number" min="0" max="100" step="0.1" value="10" required>
+                    </div>
+                    <div class="field">
+                        <label for="mp-rate">Interest Rate (%)</label>
+                        <input id="mp-rate" type="number" min="0" step="0.01" value="6.75" required>
+                    </div>
+                    <div class="field">
+                        <label for="mp-years">Term (Years)</label>
+                        <input id="mp-years" type="number" min="1" step="1" value="30" required>
+                    </div>
+                    <div class="field">
+                        <label for="mp-tax">Annual Property Tax ($)</label>
+                        <input id="mp-tax" type="number" min="0" step="100" value="5400">
+                    </div>
+                    <div class="field">
+                        <label for="mp-insurance">Annual Insurance ($)</label>
+                        <input id="mp-insurance" type="number" min="0" step="100" value="2100">
+                    </div>
+                    <div class="field full">
+                        <label for="mp-hoa">Monthly HOA ($)</label>
+                        <input id="mp-hoa" type="number" min="0" step="10" value="0">
+                    </div>
+                    <div class="tool-action full">
+                        <button type="submit" class="btn primary">Calculate Payment</button>
+                        <button type="button" class="btn ghost" data-reset="mortgage-form">Reset</button>
+                    </div>
+                </form>
+                <div id="mortgage-result" class="result empty" aria-live="polite">Run the calculator to see monthly payment estimates.</div>
+            </article>
+
+            <article class="tool-card">
+                <div class="tool-header">
+                    <h2>Buyer Cash-to-Close Estimator</h2>
+                    <p>Forecast total cash needed by combining down payment, fees, prepaids, and expected credits.</p>
+                </div>
+                <form id="buyer-form" class="field-grid">
+                    <div class="field">
+                        <label for="bc-price">Purchase Price ($)</label>
+                        <input id="bc-price" type="number" min="0" step="1000" value="350000" required>
+                    </div>
+                    <div class="field">
+                        <label for="bc-down-pct">Down Payment (%)</label>
+                        <input id="bc-down-pct" type="number" min="0" max="100" step="0.1" value="10" required>
+                    </div>
+                    <div class="field">
+                        <label for="bc-close-pct">Closing Costs (%)</label>
+                        <input id="bc-close-pct" type="number" min="0" step="0.1" value="3.0" required>
+                    </div>
+                    <div class="field">
+                        <label for="bc-prepaid-pct">Prepaids (%)</label>
+                        <input id="bc-prepaid-pct" type="number" min="0" step="0.1" value="1.2" required>
+                    </div>
+                    <div class="field">
+                        <label for="bc-earnest">Earnest Money ($)</label>
+                        <input id="bc-earnest" type="number" min="0" step="100" value="5000">
+                    </div>
+                    <div class="field">
+                        <label for="bc-inspection">Inspection/Appraisal ($)</label>
+                        <input id="bc-inspection" type="number" min="0" step="50" value="950">
+                    </div>
+                    <div class="field">
+                        <label for="bc-lender">Lender Fees ($)</label>
+                        <input id="bc-lender" type="number" min="0" step="50" value="1800">
+                    </div>
+                    <div class="field">
+                        <label for="bc-title">Title/Escrow Fees ($)</label>
+                        <input id="bc-title" type="number" min="0" step="50" value="2400">
+                    </div>
+                    <div class="field full">
+                        <label for="bc-credits">Seller Credits ($)</label>
+                        <input id="bc-credits" type="number" min="0" step="100" value="0">
+                    </div>
+                    <div class="tool-action full">
+                        <button type="submit" class="btn primary">Estimate Cash to Close</button>
+                        <button type="button" class="btn ghost" data-reset="buyer-form">Reset</button>
+                    </div>
+                </form>
+                <div id="buyer-result" class="result empty" aria-live="polite">Estimate how much cash a buyer should plan to bring to closing.</div>
+            </article>
+
+            <article class="tool-card">
+                <div class="tool-header">
+                    <h2>Seller Net Proceeds Estimator</h2>
+                    <p>Calculate likely take-home funds after commissions, payoff, concessions, and estimated closing costs.</p>
+                </div>
+                <form id="seller-form" class="field-grid">
+                    <div class="field">
+                        <label for="sn-sale-price">Sale Price ($)</label>
+                        <input id="sn-sale-price" type="number" min="0" step="1000" value="450000" required>
+                    </div>
+                    <div class="field">
+                        <label for="sn-payoff">Mortgage Payoff ($)</label>
+                        <input id="sn-payoff" type="number" min="0" step="1000" value="275000" required>
+                    </div>
+                    <div class="field">
+                        <label for="sn-listing">Listing Commission (%)</label>
+                        <input id="sn-listing" type="number" min="0" step="0.1" value="3.0" required>
+                    </div>
+                    <div class="field">
+                        <label for="sn-buyer-agent">Buyer Agent Commission (%)</label>
+                        <input id="sn-buyer-agent" type="number" min="0" step="0.1" value="3.0" required>
+                    </div>
+                    <div class="field">
+                        <label for="sn-close-pct">Seller Closing Costs (%)</label>
+                        <input id="sn-close-pct" type="number" min="0" step="0.1" value="1.5" required>
+                    </div>
+                    <div class="field">
+                        <label for="sn-repairs">Repairs/Prep ($)</label>
+                        <input id="sn-repairs" type="number" min="0" step="100" value="2000">
+                    </div>
+                    <div class="field full">
+                        <label for="sn-concessions">Buyer Concessions ($)</label>
+                        <input id="sn-concessions" type="number" min="0" step="100" value="0">
+                    </div>
+                    <div class="tool-action full">
+                        <button type="submit" class="btn primary">Estimate Net Proceeds</button>
+                        <button type="button" class="btn ghost" data-reset="seller-form">Reset</button>
+                    </div>
+                </form>
+                <div id="seller-result" class="result empty" aria-live="polite">Enter assumptions to estimate a seller's net proceeds.</div>
+            </article>
+
+            <article class="tool-card">
+                <div class="tool-header">
+                    <h2>Contract-to-Close Planner</h2>
+                    <p>Generate a practical milestone schedule based on contract date and financing profile.</p>
+                </div>
+                <form id="timeline-form" class="field-grid">
+                    <div class="field">
+                        <label for="tl-contract-date">Contract Date</label>
+                        <input id="tl-contract-date" type="date" required>
+                    </div>
+                    <div class="field">
+                        <label for="tl-financing">Financing Type</label>
+                        <select id="tl-financing">
+                            <option value="conventional">Conventional Loan</option>
+                            <option value="fha-va">FHA / VA Loan</option>
+                            <option value="cash">Cash Purchase</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="tl-option-days">Option Period (Days)</label>
+                        <input id="tl-option-days" type="number" min="1" step="1" value="7">
+                    </div>
+                    <div class="field">
+                        <label for="tl-contingency">Contingency Buffer (Days)</label>
+                        <input id="tl-contingency" type="number" min="0" step="1" value="0">
+                    </div>
+                    <div class="tool-action full">
+                        <button type="submit" class="btn primary">Build Timeline</button>
+                        <button type="button" class="btn ghost" data-reset="timeline-form">Reset</button>
+                    </div>
+                </form>
+                <div id="timeline-result" class="result empty" aria-live="polite">Generate contract milestones and closing target date.</div>
+            </article>
+        </section>
+
+        <section class="footer-note">
+            Estimates are for educational planning only and not a loan commitment, legal advice, or a final settlement statement. Figures may vary by county, lender, title requirements, and negotiated terms.
+        </section>
+    </main>
+
+    <script>
+        (function() {
+            var money = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 0
+            });
+
+            var moneyPrecise = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+            var dayLabel = new Intl.DateTimeFormat('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+
+            function value(id) {
+                var el = document.getElementById(id);
+                return el ? Number(el.value) || 0 : 0;
+            }
+
+            function clearResult(el, text) {
+                el.classList.add('empty');
+                el.innerHTML = text;
+            }
+
+            function setResult(el, html) {
+                el.classList.remove('empty');
+                el.innerHTML = html;
+            }
+
+            function makeRows(rows, highlightKey) {
+                var html = '<div class="result-grid">';
+                rows.forEach(function(row) {
+                    var klass = row.key === highlightKey ? ' class="total"' : '';
+                    html += '<div class="result-row"><span>' + row.label + '</span><strong' + klass + '>' + row.value + '</strong></div>';
+                });
+                html += '</div>';
+                return html;
+            }
+
+            document.getElementById('mortgage-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var result = document.getElementById('mortgage-result');
+                var homePrice = value('mp-home-price');
+                var downPct = value('mp-down-pct');
+                var rate = value('mp-rate');
+                var years = value('mp-years');
+                var annualTax = value('mp-tax');
+                var annualInsurance = value('mp-insurance');
+                var hoa = value('mp-hoa');
+
+                if (homePrice <= 0 || years <= 0 || downPct < 0 || downPct > 100 || rate < 0) {
+                    setResult(result, '<span class="error">Enter valid inputs for home price, term, and interest rate.</span>');
+                    return;
+                }
+
+                var downPayment = homePrice * (downPct / 100);
+                var loanAmount = Math.max(homePrice - downPayment, 0);
+                var monthlyRate = (rate / 100) / 12;
+                var months = years * 12;
+                var principalInterest;
+
+                if (monthlyRate === 0) {
+                    principalInterest = loanAmount / months;
+                } else {
+                    var growth = Math.pow(1 + monthlyRate, months);
+                    principalInterest = loanAmount * (monthlyRate * growth) / (growth - 1);
+                }
+
+                var escrow = (annualTax + annualInsurance) / 12;
+                var totalMonthly = principalInterest + escrow + hoa;
+
+                setResult(result, makeRows([
+                    { key: 'loan', label: 'Estimated Loan Amount', value: money.format(loanAmount) },
+                    { key: 'pi', label: 'Principal + Interest', value: moneyPrecise.format(principalInterest) },
+                    { key: 'escrow', label: 'Taxes + Insurance', value: moneyPrecise.format(escrow) },
+                    { key: 'hoa', label: 'HOA', value: moneyPrecise.format(hoa) },
+                    { key: 'total', label: 'Estimated Total Monthly', value: moneyPrecise.format(totalMonthly) }
+                ], 'total'));
+            });
+
+            document.getElementById('buyer-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var result = document.getElementById('buyer-result');
+                var purchasePrice = value('bc-price');
+                var downPct = value('bc-down-pct');
+                var closingPct = value('bc-close-pct');
+                var prepaidPct = value('bc-prepaid-pct');
+                var earnest = value('bc-earnest');
+                var inspection = value('bc-inspection');
+                var lender = value('bc-lender');
+                var title = value('bc-title');
+                var credits = value('bc-credits');
+
+                if (purchasePrice <= 0 || downPct < 0 || downPct > 100 || closingPct < 0 || prepaidPct < 0) {
+                    setResult(result, '<span class="error">Enter valid purchase price and percentage values.</span>');
+                    return;
+                }
+
+                var downPayment = purchasePrice * (downPct / 100);
+                var closingCosts = purchasePrice * (closingPct / 100);
+                var prepaids = purchasePrice * (prepaidPct / 100);
+                var estimated = downPayment + closingCosts + prepaids + inspection + lender + title - earnest - credits;
+                estimated = Math.max(estimated, 0);
+
+                var lowerRange = estimated * 0.93;
+                var upperRange = estimated * 1.07;
+
+                setResult(result, makeRows([
+                    { key: 'down', label: 'Down Payment', value: money.format(downPayment) },
+                    { key: 'close', label: 'Closing Costs', value: money.format(closingCosts) },
+                    { key: 'prep', label: 'Prepaids', value: money.format(prepaids) },
+                    { key: 'fees', label: 'Other Fees', value: money.format(inspection + lender + title) },
+                    { key: 'total', label: 'Estimated Cash to Close', value: money.format(estimated) },
+                    { key: 'range', label: 'Planning Range', value: money.format(lowerRange) + ' - ' + money.format(upperRange) }
+                ], 'total'));
+            });
+
+            document.getElementById('seller-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var result = document.getElementById('seller-result');
+                var salePrice = value('sn-sale-price');
+                var payoff = value('sn-payoff');
+                var listingPct = value('sn-listing');
+                var buyerAgentPct = value('sn-buyer-agent');
+                var closingPct = value('sn-close-pct');
+                var repairs = value('sn-repairs');
+                var concessions = value('sn-concessions');
+
+                if (salePrice <= 0 || listingPct < 0 || buyerAgentPct < 0 || closingPct < 0 || payoff < 0) {
+                    setResult(result, '<span class="error">Enter valid sale price, payoff, and percentage assumptions.</span>');
+                    return;
+                }
+
+                var listingFee = salePrice * (listingPct / 100);
+                var buyerAgentFee = salePrice * (buyerAgentPct / 100);
+                var closingCosts = salePrice * (closingPct / 100);
+                var totalCosts = listingFee + buyerAgentFee + closingCosts + repairs + concessions;
+                var net = salePrice - payoff - totalCosts;
+
+                setResult(result, makeRows([
+                    { key: 'gross', label: 'Gross Sale Price', value: money.format(salePrice) },
+                    { key: 'comm', label: 'Total Commissions', value: money.format(listingFee + buyerAgentFee) },
+                    { key: 'costs', label: 'Closing + Other Costs', value: money.format(closingCosts + repairs + concessions) },
+                    { key: 'payoff', label: 'Mortgage Payoff', value: money.format(payoff) },
+                    { key: 'total', label: 'Estimated Net Proceeds', value: money.format(net) }
+                ], 'total'));
+            });
+
+            function addDays(date, days) {
+                var next = new Date(date);
+                next.setDate(next.getDate() + days);
+                return next;
+            }
+
+            document.getElementById('timeline-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var result = document.getElementById('timeline-result');
+                var contractDateRaw = document.getElementById('tl-contract-date').value;
+                var financing = document.getElementById('tl-financing').value;
+                var optionDays = value('tl-option-days');
+                var contingency = value('tl-contingency');
+
+                if (!contractDateRaw || optionDays < 1 || contingency < 0) {
+                    setResult(result, '<span class="error">Choose a contract date and valid day counts.</span>');
+                    return;
+                }
+
+                var contractDate = new Date(contractDateRaw + 'T00:00:00');
+                if (isNaN(contractDate.getTime())) {
+                    setResult(result, '<span class="error">The contract date is invalid.</span>');
+                    return;
+                }
+
+                var planConfig = {
+                    conventional: { close: 30, ctc: 24, appraisal: 16 },
+                    'fha-va': { close: 35, ctc: 28, appraisal: 19 },
+                    cash: { close: 15, ctc: 11, appraisal: 0 }
+                }[financing];
+
+                var closeDays = planConfig.close + contingency;
+                var ctcDays = planConfig.ctc + contingency;
+                var milestones = [
+                    { label: 'Earnest Money Delivered', date: addDays(contractDate, 1) },
+                    { label: 'Option Period Ends', date: addDays(contractDate, optionDays) },
+                    { label: 'Inspection Window Target', date: addDays(contractDate, Math.max(optionDays - 1, 1)) },
+                    { label: 'Title Commitment Review', date: addDays(contractDate, 4) }
+                ];
+
+                if (planConfig.appraisal > 0) {
+                    milestones.push({ label: 'Appraisal Returned', date: addDays(contractDate, planConfig.appraisal) });
+                }
+
+                milestones.push({ label: 'Clear to Close Target', date: addDays(contractDate, ctcDays) });
+                milestones.push({ label: 'Projected Closing Date', date: addDays(contractDate, closeDays) });
+
+                var list = '<ul class="timeline">';
+                milestones.forEach(function(item) {
+                    list += '<li><span>' + item.label + '</span><strong>' + dayLabel.format(item.date) + '</strong></li>';
+                });
+                list += '</ul>';
+
+                setResult(result, list);
+            });
+
+            document.querySelectorAll('[data-reset]').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var formId = button.getAttribute('data-reset');
+                    var form = document.getElementById(formId);
+                    if (!form) {
+                        return;
+                    }
+                    form.reset();
+                    var resultByForm = {
+                        'mortgage-form': 'mortgage-result',
+                        'buyer-form': 'buyer-result',
+                        'seller-form': 'seller-result',
+                        'timeline-form': 'timeline-result'
+                    };
+                    var placeholderByForm = {
+                        'mortgage-form': 'Run the calculator to see monthly payment estimates.',
+                        'buyer-form': 'Estimate how much cash a buyer should plan to bring to closing.',
+                        'seller-form': 'Enter assumptions to estimate a seller\'s net proceeds.',
+                        'timeline-form': 'Generate contract milestones and closing target date.'
+                    };
+                    var result = document.getElementById(resultByForm[formId]);
+                    if (result) {
+                        clearResult(result, placeholderByForm[formId]);
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
