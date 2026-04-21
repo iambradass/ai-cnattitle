@@ -1,665 +1,1482 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Set Up Your AI Tool | CNAT Title</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-page: #1a2332;
-            --bg-panel: #0f1520;
-            --accent-blue: #2d7dd2;
-            --accent-blue-light: #4a9ae8;
-            --accent-yellow: #faed36;
-            --text-white: #ffffff;
-            --text-grey: #8892a4;
-            --border: #253145;
-            --input-bg: #0a0e16;
-            --card-hover: #1e2d40;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Set Up Your AI Tool | CNAT Title</title>
+<meta name="description" content="The complete AI setup playbook for real estate pros. ChatGPT, Claude, Gemini, Perplexity — beginner and advanced. Custom instructions, prompt library, progress tracker.">
+<meta property="og:title" content="Set Up Your AI Tool | CNAT AI Hub">
+<meta property="og:description" content="Turn your AI tool into a real assistant. Setup guide, custom instructions generator, and 30+ real-estate prompts.">
+<meta property="og:image" content="/og-setup.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/og-setup.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #1a2332;
+    --bg-panel: #0f1520;
+    --bg-panel-2: #141e2e;
+    --accent-blue: #2d7dd2;
+    --accent-blue-light: #4a9ae8;
+    --accent-yellow: #faed36;
+    --text-white: #ffffff;
+    --text-grey: #8892a4;
+    --text-dim: #5c6b82;
+    --border: #253145;
+    --border-soft: #1c2638;
+    --input-bg: #0a0e16;
+    --card-hover: #1e2d40;
+    --ok: #10a37f;
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+    --brand-chatgpt: #10a37f;
+    --brand-claude: #d97706;
+    --brand-gemini: #4285f4;
+    --brand-perplexity: #20b2aa;
+  }
 
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 30px;
-        }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: var(--bg-page);
-            color: var(--text-white);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-        }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--bg-page);
+    color: var(--text-white);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
 
-        /* HERO */
-        .hero {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 60px 24px 50px;
-            text-align: center;
-        }
+  a { color: var(--accent-blue-light); }
 
-        .hero-badge {
-            display: inline-block;
-            font-size: 10px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--accent-blue);
-            font-weight: 600;
-            margin-bottom: 28px;
-            padding: 8px 18px;
-            border: 1px solid rgba(45, 125, 210, 0.25);
-            border-radius: 40px;
-        }
+  /* ---------- PROGRESS BAR ---------- */
+  .progress-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 14, 22, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .progress-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-grey);
+    font-weight: 600;
+  }
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.06);
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-fill {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 0%;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+    transition: width 0.5s ease;
+    border-radius: 6px;
+  }
+  .progress-pct { color: var(--accent-yellow); font-weight: 700; }
 
-        .hero h1 {
-            font-size: clamp(28px, 5vw, 40px);
-            font-weight: 300;
-            letter-spacing: -0.5px;
-            margin-bottom: 16px;
-            color: #fff;
-        }
+  /* ---------- HERO ---------- */
+  .hero {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 24px 36px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--accent-blue); font-weight: 600;
+    margin-bottom: 28px;
+    padding: 8px 18px;
+    border: 1px solid rgba(45,125,210,0.28);
+    border-radius: 40px;
+  }
+  .hero-badge::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent-blue);
+    box-shadow: 0 0 0 4px rgba(45,125,210,0.18);
+  }
+  .hero h1 {
+    font-size: clamp(32px, 6vw, 48px);
+    font-weight: 300; letter-spacing: -0.5px;
+    margin-bottom: 18px; color: #fff;
+  }
+  .hero h1 span { color: var(--accent-yellow); font-weight: 700; }
+  .hero p {
+    color: var(--text-grey); font-size: 16px;
+    max-width: 580px; margin: 0 auto 48px;
+  }
 
-        .hero h1 span {
-            color: var(--accent-yellow);
-            font-weight: 600;
-        }
+  /* ---------- PICKER ---------- */
+  .picker-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 14px; max-width: 620px; margin: 0 auto;
+  }
+  .picker-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 12px 18px;
+    text-decoration: none;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    position: relative; overflow: hidden;
+  }
+  .picker-card::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+    background: var(--brand); opacity: 0.75;
+  }
+  .picker-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--brand);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.35);
+  }
+  .picker-card.chatgpt { --brand: var(--brand-chatgpt); }
+  .picker-card.claude { --brand: var(--brand-claude); }
+  .picker-card.gemini { --brand: var(--brand-gemini); }
+  .picker-card.perplexity { --brand: var(--brand-perplexity); }
 
-        .hero p {
-            color: var(--text-grey);
-            font-size: 15px;
-            max-width: 520px;
-            margin: 0 auto 40px;
-            line-height: 1.8;
-        }
+  .picker-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    background: linear-gradient(135deg, var(--brand), color-mix(in srgb, var(--brand) 65%, #000));
+  }
+  .picker-icon svg { width: 28px; height: 28px; fill: currentColor; }
 
-        /* PICKER GRID */
-        .picker-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-            max-width: 560px;
-            margin: 0 auto;
-        }
+  .picker-name { font-size: 14px; font-weight: 700; color: var(--text-white); }
+  .picker-sub { font-size: 10px; color: var(--text-grey); letter-spacing: 1.2px; text-transform: uppercase; }
 
-        .picker-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px 12px 20px;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-        }
+  /* ---------- SECTION / DIVIDER ---------- */
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 64px 0; }
+  .divider { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+  .divider hr { border: none; border-top: 1px solid var(--border-soft); }
 
-        .picker-card:hover {
-            border-color: var(--accent-blue);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(45, 125, 210, 0.15);
-        }
+  .section-eyebrow {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--accent-yellow); font-weight: 700;
+    display: inline-block; margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(24px, 4.2vw, 32px); font-weight: 300;
+    color: #fff; letter-spacing: -0.4px; margin-bottom: 10px;
+  }
+  .section-title span { font-weight: 700; }
+  .section-lede { color: var(--text-grey); font-size: 15px; max-width: 640px; margin-bottom: 32px; }
 
-        .picker-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 20px;
-            color: #fff;
-        }
+  /* ---------- CUSTOM INSTRUCTIONS GENERATOR ---------- */
+  .cig {
+    background: linear-gradient(145deg, var(--bg-panel-2), var(--bg-panel));
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 32px;
+  }
+  .cig-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+  }
+  .cig-field { display: flex; flex-direction: column; gap: 6px; }
+  .cig-field.full { grid-column: 1 / -1; }
+  .cig-field label {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-grey); font-weight: 600;
+  }
+  .cig-field input, .cig-field select, .cig-field textarea {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--text-white);
+    font: inherit;
+    font-size: 14px;
+    transition: border-color 0.2s;
+    min-height: 44px;
+  }
+  .cig-field input:focus, .cig-field select:focus, .cig-field textarea:focus {
+    outline: none; border-color: var(--accent-blue);
+  }
+  .cig-field textarea { resize: vertical; min-height: 80px; }
+  .cig-actions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 22px; border-radius: 999px;
+    font: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    border: 1px solid transparent; cursor: pointer;
+    text-decoration: none; min-height: 44px;
+    transition: transform .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
+  }
+  .btn-primary { background: var(--accent-yellow); color: #0a0e16; }
+  .btn-primary:hover { background: #fff36b; transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--text-white); border-color: var(--border); }
+  .btn-ghost:hover { border-color: var(--accent-blue); color: var(--accent-blue-light); }
 
-        .picker-icon.chatgpt { background: linear-gradient(135deg, #10a37f, #0d8c6d); }
-        .picker-icon.claude { background: linear-gradient(135deg, #d97706, #b45309); }
-        .picker-icon.gemini { background: linear-gradient(135deg, #4285f4, #7b3fe4); }
-        .picker-icon.perplexity { background: linear-gradient(135deg, #20b2aa, #1a8f89); }
+  /* CIG OUTPUTS */
+  .cig-output { margin-top: 26px; display: none; }
+  .cig-output.show { display: block; }
+  .cig-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .cig-tab {
+    padding: 8px 14px; border-radius: 999px;
+    background: var(--input-bg); border: 1px solid var(--border);
+    color: var(--text-grey); font-size: 12px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .cig-tab:hover { color: var(--text-white); border-color: var(--accent-blue); }
+  .cig-tab.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+  .cig-panel { display: none; }
+  .cig-panel.active { display: block; }
 
-        .picker-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-white);
-        }
+  .code-block {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px 18px;
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.65;
+    color: #cbd5e1;
+    white-space: pre-wrap;
+    position: relative;
+  }
+  .code-copy {
+    position: absolute; top: 10px; right: 10px;
+    background: var(--accent-blue);
+    color: #fff;
+    border: 0;
+    border-radius: 8px;
+    padding: 7px 12px;
+    font: inherit; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .code-copy:hover { background: var(--accent-blue-light); }
+  .code-copy.copied { background: var(--ok); }
 
-        .picker-sub {
-            font-size: 10px;
-            color: var(--text-grey);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+  /* ---------- TOOL SECTIONS ---------- */
+  .tool-header {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 10px;
+  }
+  .tool-header .mark {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+  }
+  .tool-header .mark svg { width: 24px; height: 24px; fill: currentColor; }
+  .tool-header.chatgpt .mark { background: linear-gradient(135deg, var(--brand-chatgpt), #0d8c6d); }
+  .tool-header.claude .mark { background: linear-gradient(135deg, var(--brand-claude), #b45309); }
+  .tool-header.gemini .mark { background: linear-gradient(135deg, var(--brand-gemini), #7b3fe4); }
+  .tool-header.perplexity .mark { background: linear-gradient(135deg, var(--brand-perplexity), #1a8f89); }
+  .tool-header h2 {
+    font-size: clamp(24px, 4vw, 30px); font-weight: 300; color: #fff;
+  }
+  .tool-header h2 span { font-weight: 700; }
 
-        /* SECTION DIVIDER */
-        .section-divider {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
+  .tool-intro {
+    color: var(--text-grey); font-size: 15px; margin-bottom: 28px;
+  }
 
-        .section-divider hr {
-            border: none;
-            border-top: 1px solid var(--border);
-        }
+  /* LEVEL STRIPE */
+  .level {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .level.beginner { background: rgba(45,125,210,0.14); color: var(--accent-blue-light); border: 1px solid rgba(45,125,210,0.28); }
+  .level.advanced { background: rgba(250,237,54,0.12); color: var(--accent-yellow); border: 1px solid rgba(250,237,54,0.28); }
+  .level::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
-        /* MODEL SECTIONS */
-        .model-section {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 60px 24px;
-        }
+  .subsection {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 16px;
+  }
+  .subsection .subsection-label {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent-blue); font-weight: 700; margin-bottom: 10px;
+  }
+  .subsection h3 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+  .subsection p { color: var(--text-grey); font-size: 14px; margin-bottom: 16px; }
+  .subsection p:last-child { margin-bottom: 0; }
+  .subsection ul { list-style: none; padding: 0; }
+  .subsection ul li {
+    padding-left: 20px; position: relative; color: var(--text-grey); font-size: 14px; margin-bottom: 8px;
+  }
+  .subsection ul li::before {
+    content: ""; position: absolute; left: 0; top: 10px; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--accent-blue);
+  }
+  .subsection strong { color: var(--text-white); font-weight: 700; }
 
-        .model-header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 8px;
-        }
+  ol.steps { counter-reset: step; list-style: none; padding: 0; }
+  ol.steps li {
+    counter-increment: step;
+    position: relative; padding-left: 44px;
+    margin-bottom: 14px; color: var(--text-grey); font-size: 14px; line-height: 1.65;
+  }
+  ol.steps li:last-child { margin-bottom: 0; }
+  ol.steps li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 0; width: 28px; height: 28px;
+    border-radius: 8px;
+    background: rgba(45,125,210,0.14); border: 1px solid rgba(45,125,210,0.28);
+    color: var(--accent-blue); font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  ol.steps li strong { color: var(--text-white); font-weight: 700; }
 
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
+  /* CONNECTOR CHIPS */
+  .chip-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px; margin-top: 18px;
+  }
+  .chip {
+    background: var(--input-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px;
+    font-size: 12px; font-weight: 600; color: var(--text-white); text-align: center;
+    transition: border-color 0.2s;
+  }
+  .chip:hover { border-color: var(--accent-blue); }
+  .chip small { display: block; font-size: 10px; color: var(--text-grey); margin-top: 4px; font-weight: 500; letter-spacing: 0.3px; }
 
-        .dot.chatgpt { background: #10a37f; }
-        .dot.claude { background: #d97706; }
-        .dot.gemini { background: #4285f4; }
-        .dot.perplexity { background: #20b2aa; }
+  /* STEP CHECKBOX */
+  .step-check {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 18px; padding: 12px 14px;
+    background: var(--input-bg); border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .step-check:hover { border-color: var(--accent-blue); }
+  .step-check input {
+    appearance: none; -webkit-appearance: none;
+    width: 20px; height: 20px; flex-shrink: 0;
+    border: 2px solid var(--accent-blue); border-radius: 5px;
+    cursor: pointer; position: relative;
+    transition: all 0.2s;
+  }
+  .step-check input:checked {
+    background: var(--accent-blue); border-color: var(--accent-blue);
+  }
+  .step-check input:checked::after {
+    content: ""; position: absolute; left: 5px; top: 1px;
+    width: 5px; height: 10px;
+    border: solid #fff; border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .step-check span {
+    font-size: 13px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; color: var(--text-white);
+  }
+  .step-check.done { border-color: var(--ok); background: rgba(16,163,127,0.08); }
+  .step-check.done span { color: var(--ok); }
 
-        .model-header h2 {
-            font-size: clamp(22px, 4vw, 28px);
-            font-weight: 300;
-            color: #fff;
-        }
+  /* PRO TIP */
+  .pro-tip {
+    background: rgba(250,237,54,0.06);
+    border: 1px solid rgba(250,237,54,0.2);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-top: 18px;
+  }
+  .pro-tip-label {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent-yellow); font-weight: 700; margin-bottom: 6px;
+  }
+  .pro-tip p { color: var(--text-grey); font-size: 13px; margin-bottom: 0; line-height: 1.7; }
 
-        .model-header h2 span {
-            font-weight: 600;
-        }
+  /* FEATURED PROMPT */
+  .featured-prompt {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-top: 18px;
+    position: relative;
+  }
+  .featured-prompt .fp-label {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent-blue-light); font-weight: 700; margin-bottom: 8px;
+    display: block;
+  }
+  .featured-prompt .fp-body {
+    color: #cbd5e1; font-size: 13px; font-family: 'SF Mono', Menlo, Consolas, monospace;
+    line-height: 1.6; white-space: pre-wrap;
+  }
 
-        .model-intro {
-            color: var(--text-grey);
-            font-size: 14px;
-            margin-bottom: 35px;
-            line-height: 1.8;
-            padding-left: 26px;
-        }
+  /* ---------- PROMPT LIBRARY ---------- */
+  .pl-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .pl-filter-label {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-grey); font-weight: 700;
+    width: 100%; margin: 10px 0 4px;
+  }
+  .pl-chip {
+    padding: 8px 14px; border-radius: 999px;
+    background: var(--input-bg); border: 1px solid var(--border);
+    color: var(--text-grey); font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .pl-chip:hover { color: var(--text-white); border-color: var(--accent-blue); }
+  .pl-chip.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+  .pl-chip[data-tool="chatgpt"].active { background: var(--brand-chatgpt); border-color: var(--brand-chatgpt); }
+  .pl-chip[data-tool="claude"].active { background: var(--brand-claude); border-color: var(--brand-claude); }
+  .pl-chip[data-tool="gemini"].active { background: var(--brand-gemini); border-color: var(--brand-gemini); }
+  .pl-chip[data-tool="perplexity"].active { background: var(--brand-perplexity); border-color: var(--brand-perplexity); }
 
-        .subsection {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 32px;
-            margin-bottom: 20px;
-        }
+  .pl-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+  .pl-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .pl-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); }
+  .pl-card-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .pl-tag {
+    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700;
+    padding: 4px 10px; border-radius: 999px;
+  }
+  .pl-tag.chatgpt { background: rgba(16,163,127,0.14); color: var(--brand-chatgpt); }
+  .pl-tag.claude { background: rgba(217,119,6,0.14); color: var(--brand-claude); }
+  .pl-tag.gemini { background: rgba(66,133,244,0.14); color: var(--brand-gemini); }
+  .pl-tag.perplexity { background: rgba(32,178,170,0.14); color: var(--brand-perplexity); }
+  .pl-cat {
+    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;
+    color: var(--text-dim);
+  }
+  .pl-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .pl-body {
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 12px; color: var(--text-grey); line-height: 1.65;
+    background: var(--input-bg); border: 1px solid var(--border-soft);
+    border-radius: 8px; padding: 12px 14px;
+    max-height: 120px; overflow: hidden; position: relative;
+    transition: max-height 0.3s ease;
+    white-space: pre-wrap;
+  }
+  .pl-body.expanded { max-height: 2000px; }
+  .pl-body::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 40px;
+    background: linear-gradient(transparent, var(--input-bg));
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .pl-body.expanded::after { opacity: 0; }
+  .pl-actions { display: flex; gap: 8px; }
+  .pl-actions button {
+    flex: 1;
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-white);
+    padding: 10px 14px; border-radius: 10px;
+    font: inherit; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 40px;
+  }
+  .pl-actions button:hover { border-color: var(--accent-blue); color: var(--accent-blue-light); }
+  .pl-actions .pl-copy.copied { background: var(--ok); border-color: var(--ok); color: #fff; }
 
-        .subsection-label {
-            font-size: 10px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--accent-blue);
-            font-weight: 600;
-            margin-bottom: 14px;
-        }
+  /* ---------- FOOTER / BACK-TO-TOP ---------- */
+  .back-top { text-align: center; margin-top: 32px; }
+  .back-top a {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-grey); text-decoration: none; font-weight: 600;
+  }
+  .back-top a:hover { color: var(--accent-blue-light); }
 
-        .subsection h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 14px;
-            color: #fff;
-        }
+  .footer {
+    text-align: center; padding: 56px 24px 48px;
+    border-top: 1px solid var(--border-soft);
+    max-width: 820px; margin: 0 auto;
+  }
+  .footer .logo-text { font-size: 11px; letter-spacing: 6px; text-transform: uppercase; color: var(--accent-blue); font-weight: 700; margin-bottom: 8px; }
+  .footer .tagline { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-grey); font-weight: 500; }
+  .footer .tagline span { color: var(--accent-yellow); font-weight: 700; }
+  .footer .back-hub { display: inline-block; margin-top: 18px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: var(--accent-blue-light); text-decoration: none; }
+  .footer .back-hub:hover { color: var(--accent-yellow); }
 
-        .subsection p {
-            color: var(--text-grey);
-            font-size: 14px;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
+  /* ---------- COMPLETION BURST ---------- */
+  .completion {
+    display: none;
+    max-width: 820px; margin: 0 auto; padding: 0 24px 20px;
+  }
+  .completion.show { display: block; }
+  .completion-inner {
+    background: linear-gradient(135deg, rgba(250,237,54,0.12), rgba(45,125,210,0.12));
+    border: 1px solid rgba(250,237,54,0.35);
+    border-radius: 18px; padding: 28px;
+    text-align: center;
+  }
+  .completion h3 { color: var(--accent-yellow); font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .completion p { color: var(--text-grey); font-size: 14px; }
 
-        .subsection p:last-child {
-            margin-bottom: 0;
-        }
-
-        ol.steps {
-            counter-reset: step;
-            list-style: none;
-            padding: 0;
-        }
-
-        ol.steps li {
-            counter-increment: step;
-            position: relative;
-            padding-left: 44px;
-            margin-bottom: 18px;
-            color: var(--text-grey);
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        ol.steps li:last-child { margin-bottom: 0; }
-
-        ol.steps li::before {
-            content: counter(step);
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            background: rgba(45, 125, 210, 0.12);
-            border: 1px solid rgba(45, 125, 210, 0.25);
-            color: var(--accent-blue);
-            font-size: 12px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            line-height: 28px;
-        }
-
-        ol.steps li strong {
-            color: var(--text-white);
-            font-weight: 600;
-        }
-
-        /* CONNECTOR GRID */
-        .connector-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .connector-chip {
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px 14px;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-white);
-            text-align: center;
-            transition: border-color 0.2s;
-        }
-
-        .connector-chip:hover {
-            border-color: var(--accent-blue);
-        }
-
-        .connector-chip .chip-sub {
-            display: block;
-            font-size: 9px;
-            color: var(--text-grey);
-            margin-top: 4px;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-        }
-
-        /* PRO TIP */
-        .pro-tip {
-            background: rgba(250, 237, 54, 0.06);
-            border: 1px solid rgba(250, 237, 54, 0.15);
-            border-radius: 10px;
-            padding: 20px 24px;
-            margin-top: 20px;
-        }
-
-        .pro-tip-label {
-            font-size: 10px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--accent-yellow);
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .pro-tip p {
-            color: var(--text-grey);
-            font-size: 13px;
-            line-height: 1.7;
-            margin-bottom: 0;
-        }
-
-        /* BACK TO TOP */
-        .back-top {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        .back-top a {
-            font-size: 12px;
-            color: var(--text-grey);
-            text-decoration: none;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: color 0.2s;
-        }
-
-        .back-top a:hover { color: var(--accent-blue); }
-
-        /* FOOTER */
-        .footer {
-            text-align: center;
-            padding: 50px 24px 40px;
-            border-top: 1px solid var(--border);
-            max-width: 720px;
-            margin: 0 auto;
-        }
-
-        .footer .logo-text {
-            font-size: 11px;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            color: var(--accent-blue);
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .footer .tagline {
-            font-size: 10px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-grey);
-            font-weight: 400;
-        }
-
-        .footer .tagline span {
-            color: var(--accent-yellow);
-        }
-
-        /* MOBILE */
-        @media (max-width: 600px) {
-            .picker-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .hero { padding: 40px 20px 35px; }
-            .model-section { padding: 45px 20px; }
-            .subsection { padding: 24px 20px; }
-            .model-intro { padding-left: 0; }
-
-            .connector-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 380px) {
-            .connector-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 680px) {
+    .picker-grid { grid-template-columns: repeat(2, 1fr); }
+    .cig-grid { grid-template-columns: 1fr; }
+    .subsection { padding: 22px 20px; }
+    .section { padding: 48px 0; }
+    .hero { padding: 56px 20px 28px; }
+    .progress-inner { padding: 10px 16px; gap: 10px; font-size: 11px; }
+  }
+  @media (max-width: 420px) {
+    .tool-header { gap: 12px; }
+    .tool-header .mark { width: 40px; height: 40px; }
+    .pl-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
 
-    <section class="hero" id="top">
-        <div class="hero-badge">AI Setup Guide</div>
-        <h1>Set up your <span>AI tool</span></h1>
-        <p>You went paid. Now let's actually set it up so it works like a real assistant. Pick yours below.</p>
+<!-- PROGRESS BAR -->
+<div class="progress-bar">
+  <div class="progress-inner">
+    <span>Your AI Setup</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-pct" id="progressPct">0%</span>
+  </div>
+</div>
 
-        <div class="picker-grid">
-            <a href="#chatgpt" class="picker-card">
-                <div class="picker-icon chatgpt">G</div>
-                <span class="picker-name">ChatGPT</span>
-                <span class="picker-sub">OpenAI</span>
-            </a>
-            <a href="#claude" class="picker-card">
-                <div class="picker-icon claude">C</div>
-                <span class="picker-name">Claude</span>
-                <span class="picker-sub">Anthropic</span>
-            </a>
-            <a href="#gemini" class="picker-card">
-                <div class="picker-icon gemini">G</div>
-                <span class="picker-name">Gemini</span>
-                <span class="picker-sub">Google</span>
-            </a>
-            <a href="#perplexity" class="picker-card">
-                <div class="picker-icon perplexity">P</div>
-                <span class="picker-name">Perplexity</span>
-                <span class="picker-sub">Research</span>
-            </a>
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-badge">AI Setup Playbook</div>
+  <h1>Turn your AI tool into a <span>real assistant</span></h1>
+  <p>You went paid. Now let's actually wire it up — beginner basics through the advanced moves most agents and lenders never discover. Pick your tool to jump, or scroll to start from the top.</p>
+
+  <div class="picker-grid">
+    <a href="#chatgpt" class="picker-card chatgpt">
+      <div class="picker-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.28 9.71a5.77 5.77 0 0 0-.51-4.75 5.87 5.87 0 0 0-6.33-2.81 5.79 5.79 0 0 0-4.37-1.94 5.87 5.87 0 0 0-5.6 4.06A5.79 5.79 0 0 0 1.6 6.96a5.87 5.87 0 0 0 .72 6.89 5.77 5.77 0 0 0 .5 4.75 5.87 5.87 0 0 0 6.33 2.81 5.77 5.77 0 0 0 4.37 1.94 5.87 5.87 0 0 0 5.6-4.07 5.79 5.79 0 0 0 3.87-2.81 5.87 5.87 0 0 0-.71-6.76zm-8.55 11.9a4.34 4.34 0 0 1-2.79-1.01c.04-.02.1-.06.14-.08l4.69-2.71a.77.77 0 0 0 .39-.67v-6.62l1.98 1.15c.02.01.03.03.04.05v5.48a4.36 4.36 0 0 1-4.45 4.41zm-9.45-4.03a4.36 4.36 0 0 1-.52-2.93c.04.02.1.05.14.08l4.69 2.71c.24.14.54.14.78 0l5.72-3.31v2.29a.07.07 0 0 1-.03.06l-4.73 2.73a4.37 4.37 0 0 1-6.05-1.63zm-1.24-10.3a4.34 4.34 0 0 1 2.28-1.91v5.58c0 .28.15.53.39.67l5.72 3.31-1.98 1.15a.08.08 0 0 1-.07 0l-4.74-2.74A4.37 4.37 0 0 1 3.04 7.28zm16.29 3.79-5.72-3.31 1.98-1.14a.08.08 0 0 1 .07 0l4.74 2.73a4.37 4.37 0 0 1-.65 7.87v-5.48c0-.28-.14-.53-.39-.67zm1.97-2.95c-.04-.02-.1-.05-.14-.08L15.69 5.43a.79.79 0 0 0-.78 0L9.19 8.74V6.45c0-.02.01-.04.03-.06l4.74-2.73a4.36 4.36 0 0 1 6.47 4.51zM8.1 12.72l-1.98-1.14a.07.07 0 0 1-.04-.06V5.97A4.36 4.36 0 0 1 13.19 2.3c-.04.02-.1.06-.14.08L8.37 5.09a.77.77 0 0 0-.39.67l-.01 6.95zm1.08-2.32 2.55-1.47 2.55 1.47v2.94l-2.55 1.47-2.55-1.47V10.4z"/></svg>
+      </div>
+      <span class="picker-name">ChatGPT</span>
+      <span class="picker-sub">OpenAI</span>
+    </a>
+    <a href="#claude" class="picker-card claude">
+      <div class="picker-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c.3 0 .55.2.62.5l1.23 4.98a3 3 0 0 0 2.17 2.17l4.98 1.23c.3.07.5.33.5.62s-.2.55-.5.62l-4.98 1.23a3 3 0 0 0-2.17 2.17l-1.23 4.98a.63.63 0 0 1-1.22 0l-1.23-4.98a3 3 0 0 0-2.17-2.17l-4.98-1.23a.63.63 0 0 1 0-1.22l4.98-1.23a3 3 0 0 0 2.17-2.17l1.22-4.98A.63.63 0 0 1 12 2.5z"/></svg>
+      </div>
+      <span class="picker-name">Claude</span>
+      <span class="picker-sub">Anthropic</span>
+    </a>
+    <a href="#gemini" class="picker-card gemini">
+      <div class="picker-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c.2 2.9 1.3 5.5 3 7.3S19.1 11.8 22 12c-2.9.2-5.5 1.3-7 3s-2.8 4.1-3 7c-.2-2.9-1.3-5.5-3-7s-4.1-2.8-7-3c2.9-.2 5.5-1.3 7-3s2.8-4.1 3-7z"/></svg>
+      </div>
+      <span class="picker-name">Gemini</span>
+      <span class="picker-sub">Google</span>
+    </a>
+    <a href="#perplexity" class="picker-card perplexity">
+      <div class="picker-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5zm0 2.3 7 3.9v7.6l-7 3.9-7-3.9V8.2l7-3.9zm0 3.2-4.5 2.5v5l4.5 2.5 4.5-2.5v-5L12 7.5zm0 2.3 2.5 1.4v2.8L12 13.4 9.5 12V9.2l2.5-1.4z"/></svg>
+      </div>
+      <span class="picker-name">Perplexity</span>
+      <span class="picker-sub">Research</span>
+    </a>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- CUSTOM INSTRUCTIONS GENERATOR -->
+<section class="section" id="generator">
+  <div class="wrap">
+    <span class="section-eyebrow">Step 1 · 90 seconds</span>
+    <h2 class="section-title">Generate your <span>Custom Instructions</span></h2>
+    <p class="section-lede">Every AI tool has a profile field that loads context before every conversation. Fill in the form once — we'll build copy-paste-ready instructions tailored for ChatGPT, Claude, Gemini, and Perplexity.</p>
+
+    <form class="cig" id="cigForm" onsubmit="return false;">
+      <div class="cig-grid">
+        <div class="cig-field">
+          <label for="cig-name">Your name</label>
+          <input id="cig-name" type="text" placeholder="Bradley Patterson" autocomplete="name">
         </div>
-    </section>
-
-    <div class="section-divider"><hr></div>
-
-    <!-- CHATGPT -->
-    <section class="model-section" id="chatgpt">
-        <div class="model-header">
-            <div class="dot chatgpt"></div>
-            <h2><span>ChatGPT</span> Setup Guide</h2>
+        <div class="cig-field">
+          <label for="cig-role">Your role</label>
+          <select id="cig-role">
+            <option>Real Estate Agent</option>
+            <option>Mortgage Lender</option>
+            <option>Loan Officer</option>
+            <option>Broker / Team Lead</option>
+            <option>Title Rep</option>
+            <option>Transaction Coordinator</option>
+            <option>Real Estate Investor</option>
+          </select>
         </div>
-        <p class="model-intro">ChatGPT is the most widely used AI tool on the market. If you're on a Plus or Pro plan, the features below will turn it from a chat window into something that actually knows your business.</p>
-
-        <div class="subsection">
-            <div class="subsection-label">Custom Instructions</div>
-            <h3>Tell ChatGPT Who You Are</h3>
-            <p>Custom instructions are background context that ChatGPT reads before every single conversation. Set them once and you never have to re-explain yourself.</p>
-            <ol class="steps">
-                <li>Open ChatGPT, click your <strong>profile icon</strong> in the bottom-left, then <strong>Customize ChatGPT</strong></li>
-                <li>In the first box ("What would you like ChatGPT to know about you?"), write a paragraph about who you are: your name, your role (agent, lender, broker), what market you serve, what types of clients you typically work with, your brokerage name, and how long you've been in the business</li>
-                <li>In the second box ("How would you like ChatGPT to respond?"), describe your communication style: do you want things casual or formal? Short and direct or detailed? Should it avoid jargon, use your local market terminology, etc.</li>
-                <li>Hit <strong>Save</strong>. Every new conversation from this point forward starts with this context loaded</li>
-            </ol>
+        <div class="cig-field">
+          <label for="cig-brokerage">Brokerage / Company</label>
+          <input id="cig-brokerage" type="text" placeholder="e.g., Selling 817 at Monument Realty">
         </div>
-
-        <div class="subsection">
-            <div class="subsection-label">Custom GPTs</div>
-            <h3>Build Purpose-Built Assistants</h3>
-            <p>Custom GPTs are specialized versions of ChatGPT that you configure for a specific job. Think of it like creating a team member who only does one thing but does it well.</p>
-            <ol class="steps">
-                <li>Click <strong>Explore GPTs</strong> in the sidebar, then <strong>Create</strong> in the top right</li>
-                <li>Give it a name and description that matches its purpose (e.g., "Listing Research Assistant" or "Client Follow-Up Writer")</li>
-                <li>In the <strong>Instructions</strong> field, be specific about what it does, what tone it uses, what it should avoid, and what kind of output you expect</li>
-                <li>Upload any reference files it should know about: your brand guidelines, market data, templates, or past examples of work you liked</li>
-                <li>Enable <strong>Web Browsing</strong> if it needs current data. Enable <strong>Code Interpreter</strong> if it needs to analyze spreadsheets or data</li>
-            </ol>
+        <div class="cig-field">
+          <label for="cig-market">Market area</label>
+          <input id="cig-market" type="text" placeholder="e.g., Fort Worth, TX and DFW suburbs">
         </div>
-
-        <div class="subsection">
-            <div class="subsection-label">Recommended Connections</div>
-            <h3>Connect Your Workflow</h3>
-            <p>ChatGPT can plug directly into the tools you already use. These connections let it read your files, check your calendar, and pull in real-time data without you copy-pasting anything.</p>
-            <div class="connector-grid">
-                <div class="connector-chip">Google Drive <span class="chip-sub">Files &amp; Docs</span></div>
-                <div class="connector-chip">Google Calendar <span class="chip-sub">Schedule</span></div>
-                <div class="connector-chip">OneDrive <span class="chip-sub">Files</span></div>
-                <div class="connector-chip">Canva <span class="chip-sub">Design</span></div>
-                <div class="connector-chip">Zapier <span class="chip-sub">Automations</span></div>
-            </div>
-
-            <div class="pro-tip">
-                <div class="pro-tip-label">Pro Tip</div>
-                <p>The ChatGPT desktop app can see what's on your screen. Pull up a listing on MLS, ask it to analyze what you're looking at. That screen-reading feature alone is worth the paid plan.</p>
-            </div>
+        <div class="cig-field">
+          <label for="cig-specialty">Specialty / client types</label>
+          <input id="cig-specialty" type="text" placeholder="e.g., move-up buyers, luxury resale, first-time buyers">
         </div>
-
-        <div class="back-top"><a href="#top">Back to top</a></div>
-    </section>
-
-    <div class="section-divider"><hr></div>
-
-    <!-- CLAUDE -->
-    <section class="model-section" id="claude">
-        <div class="model-header">
-            <div class="dot claude"></div>
-            <h2><span>Claude</span> Setup Guide</h2>
+        <div class="cig-field">
+          <label for="cig-tone">Communication style</label>
+          <select id="cig-tone">
+            <option>Direct and clear — cut the fluff</option>
+            <option>Professional and polished</option>
+            <option>Warm and conversational</option>
+            <option>Casual and confident</option>
+            <option>Data-driven and detailed</option>
+          </select>
         </div>
-        <p class="model-intro">Claude's strength is deep, thoughtful work. Projects let you load context that stays active across every conversation in that workspace, and MCP connectors give it direct access to your tools.</p>
-
-        <div class="subsection">
-            <div class="subsection-label">User Preferences</div>
-            <h3>Tell Claude Who You Are</h3>
-            <p>User Preferences work like custom instructions. Claude reads them at the start of every conversation so it always has context about you and your work.</p>
-            <ol class="steps">
-                <li>Click your <strong>profile icon</strong>, then go to <strong>Settings</strong></li>
-                <li>Find <strong>Profile</strong> and look for the <strong>User Preferences</strong> section</li>
-                <li>Write a paragraph covering: your name, your role, your market area, your client types, your communication style, and anything you want Claude to always keep in mind</li>
-                <li>Hit <strong>Save</strong>. This context is now loaded into every new conversation automatically</li>
-            </ol>
+        <div class="cig-field full">
+          <label for="cig-extra">Anything else the AI should always remember (optional)</label>
+          <textarea id="cig-extra" placeholder="e.g., I close ~30 homes a year, my CRM is Follow Up Boss, avoid corporate jargon, always include a call-to-action in client-facing drafts"></textarea>
         </div>
+      </div>
+      <div class="cig-actions">
+        <button class="btn btn-primary" type="button" onclick="generateInstructions()">Generate my instructions</button>
+        <button class="btn btn-ghost" type="button" onclick="resetCIG()">Reset</button>
+      </div>
+    </form>
 
-        <div class="subsection">
-            <div class="subsection-label">Projects</div>
-            <h3>Give Claude Permanent Context</h3>
-            <p>Projects are workspaces where you upload reference documents that Claude can access in every conversation within that project. Market reports, brand guidelines, transaction checklists, client profiles. Load it once, use it forever.</p>
-            <ol class="steps">
-                <li>In the sidebar, click <strong>Projects</strong>, then <strong>Create Project</strong></li>
-                <li>Give it a clear name like "Listing Research" or "Client Communications"</li>
-                <li>Add <strong>Project Instructions</strong> that tell Claude the purpose of this workspace and how it should behave when you're working in it</li>
-                <li>Upload relevant files: templates, past examples, market data, brand voice guidelines, anything Claude should reference</li>
-                <li>Start a new conversation inside the project. Claude now has access to everything you uploaded, every time</li>
-            </ol>
+    <div class="cig-output" id="cigOutput">
+      <div class="cig-tabs">
+        <button class="cig-tab active" data-tab="chatgpt">ChatGPT</button>
+        <button class="cig-tab" data-tab="claude">Claude</button>
+        <button class="cig-tab" data-tab="gemini">Gemini</button>
+        <button class="cig-tab" data-tab="perplexity">Perplexity</button>
+      </div>
+      <div class="cig-panel active" id="panel-chatgpt">
+        <div class="code-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><span id="out-chatgpt"></span></div>
+        <p style="margin-top:10px;color:var(--text-dim);font-size:12px;letter-spacing:0.5px;">Paste into ChatGPT → Profile icon → Customize ChatGPT → "What would you like ChatGPT to know about you?"</p>
+      </div>
+      <div class="cig-panel" id="panel-claude">
+        <div class="code-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><span id="out-claude"></span></div>
+        <p style="margin-top:10px;color:var(--text-dim);font-size:12px;letter-spacing:0.5px;">Paste into Claude → Settings → Profile → Personal Preferences / What personal preferences should Claude consider.</p>
+      </div>
+      <div class="cig-panel" id="panel-gemini">
+        <div class="code-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><span id="out-gemini"></span></div>
+        <p style="margin-top:10px;color:var(--text-dim);font-size:12px;letter-spacing:0.5px;">Paste into Gemini → Settings → Saved Info → Add new info.</p>
+      </div>
+      <div class="cig-panel" id="panel-perplexity">
+        <div class="code-block"><button class="code-copy" onclick="copyCode(this)">Copy</button><span id="out-perplexity"></span></div>
+        <p style="margin-top:10px;color:var(--text-dim);font-size:12px;letter-spacing:0.5px;">Paste into Perplexity → Settings → Profile / AI Profile.</p>
+      </div>
+    </div>
+
+    <label class="step-check" data-step="cig-done">
+      <input type="checkbox">
+      <span>Mark complete — custom instructions pasted</span>
+    </label>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- CHATGPT SECTION -->
+<section class="section" id="chatgpt">
+  <div class="wrap">
+    <div class="tool-header chatgpt">
+      <div class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.28 9.71a5.77 5.77 0 0 0-.51-4.75 5.87 5.87 0 0 0-6.33-2.81 5.79 5.79 0 0 0-4.37-1.94 5.87 5.87 0 0 0-5.6 4.06A5.79 5.79 0 0 0 1.6 6.96a5.87 5.87 0 0 0 .72 6.89 5.77 5.77 0 0 0 .5 4.75 5.87 5.87 0 0 0 6.33 2.81 5.77 5.77 0 0 0 4.37 1.94 5.87 5.87 0 0 0 5.6-4.07 5.79 5.79 0 0 0 3.87-2.81 5.87 5.87 0 0 0-.71-6.76zM9.18 10.4l2.55-1.47 2.55 1.47v2.94l-2.55 1.47-2.55-1.47V10.4z"/></svg></div>
+      <h2><span>ChatGPT</span> Setup</h2>
+    </div>
+    <p class="tool-intro">The all-rounder. Huge ecosystem, best voice mode, and if you're on Plus ($20/mo) or Pro ($200/mo) you get a stack of features most people never touch. The beginner section gets you from zero to functional. The advanced section is where the magic is.</p>
+
+    <!-- BEGINNER -->
+    <span class="level beginner">Beginner</span>
+    <div class="subsection">
+      <div class="subsection-label">Custom Instructions</div>
+      <h3>Tell ChatGPT who you are</h3>
+      <p>One-time setup that loads into every conversation. Skip this and you're starting every chat from scratch.</p>
+      <ol class="steps">
+        <li>Profile icon (bottom-left) → <strong>Customize ChatGPT</strong></li>
+        <li>Paste what you just generated from Step 1 into the first box</li>
+        <li>In the second box, describe your tone (direct / warm / data-driven)</li>
+        <li>Hit <strong>Save</strong></li>
+      </ol>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Custom GPTs</div>
+      <h3>Build specialized assistants</h3>
+      <p>A Custom GPT is ChatGPT with a job title, a script, and uploaded reference files. Build one and you'll stop re-explaining yourself every time.</p>
+      <ol class="steps">
+        <li><strong>Explore GPTs</strong> in the sidebar → <strong>Create</strong> (top right)</li>
+        <li>Name it after a job: "Listing Writer", "Buyer Intake Interviewer", "CMA Narrative Builder"</li>
+        <li>Instructions: describe exactly what it does, what tone, what it should avoid, what the output format is</li>
+        <li>Upload reference files — brand guidelines, past listing descriptions, sample CMAs, your buyer questionnaire</li>
+        <li>Enable <strong>Web Browsing</strong> for current data, <strong>Code Interpreter</strong> for spreadsheets, <strong>DALL-E</strong> for image gen</li>
+      </ol>
+      <div class="featured-prompt">
+        <span class="fp-label">Starter GPT instructions — Listing Writer</span>
+<pre class="fp-body">You are a luxury listing description writer for a Fort Worth real estate agent. For every listing I share, produce:
+1. A 280-character MLS remark (no fluff, lead with the #1 feature)
+2. A 600-900 word full description with 3-4 subheaded sections
+3. Five short social captions (Instagram, Facebook, TikTok)
+Always highlight school district, walkability, and any feature that justifies price per sq ft. Never use the words "nestled," "charming," or "must-see."</pre>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Native Connections</div>
+      <h3>Plug ChatGPT into your stack</h3>
+      <p>Connect these and ChatGPT can read your Drive, check your calendar, analyze Canva drafts — without copy-pasting.</p>
+      <div class="chip-grid">
+        <div class="chip">Google Drive<small>Files &amp; Docs</small></div>
+        <div class="chip">Google Calendar<small>Schedule</small></div>
+        <div class="chip">Gmail<small>Email context</small></div>
+        <div class="chip">OneDrive<small>Microsoft files</small></div>
+        <div class="chip">Canva<small>Design assets</small></div>
+        <div class="chip">Outlook<small>Email + Calendar</small></div>
+        <div class="chip">Zapier<small>20,000+ apps</small></div>
+      </div>
+    </div>
+
+    <label class="step-check" data-step="chatgpt-beginner">
+      <input type="checkbox">
+      <span>ChatGPT beginner setup complete</span>
+    </label>
+
+    <!-- ADVANCED -->
+    <div style="margin-top: 40px;"></div>
+    <span class="level advanced">Advanced</span>
+    <div class="subsection">
+      <div class="subsection-label">Projects + Memory</div>
+      <h3>Make ChatGPT remember forever</h3>
+      <p><strong>Projects</strong> are workspace folders that keep conversations and reference files grouped. Memory is ChatGPT's long-term recall across all chats. Turn both on and ChatGPT becomes an actual colleague instead of a goldfish.</p>
+      <ol class="steps">
+        <li>Sidebar → <strong>+ New Project</strong> → name it per client ("DavidAndLori-BuyersRelo") or workflow ("ListingLaunches2026")</li>
+        <li>Drop every related doc in there — signed listing agreements, comps, photos, inspection reports</li>
+        <li>Settings → <strong>Personalization</strong> → turn <strong>Memory</strong> ON; then say "Remember that I use Follow Up Boss, always sign emails 'Bradley,' and my buyer intake template lives in this Project"</li>
+        <li>From now on, every conversation inside that Project auto-loads those files and your memory applies everywhere</li>
+      </ol>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Canvas</div>
+      <h3>Write and edit side-by-side</h3>
+      <p>Canvas opens a doc panel next to the chat so you can edit a listing description, email draft, or contract letter in real-time with ChatGPT suggesting changes inline. Way faster than copy-paste cycles.</p>
+      <ul>
+        <li>Start with: "Open this in canvas so we can edit together"</li>
+        <li>Highlight sections to ask for tone changes, length cuts, or rewrites of just that paragraph</li>
+        <li>Use canvas for: full MLS descriptions, seller net sheet explanations, buyer consult agendas, lender memos</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Code Interpreter / Data Analysis</div>
+      <h3>Drop in a CSV. Get insights.</h3>
+      <p>Export your MLS pull, your CRM list, or your lender pipeline to CSV and drop it in. ChatGPT runs Python under the hood to slice it any way you ask.</p>
+      <ul>
+        <li>"Here's 90 days of sold comps in Westlake. Show me median $/sf by month with a chart."</li>
+        <li>"This is my Follow Up Boss contact export. Bucket them into A/B/C leads based on tags and last-contact date."</li>
+        <li>"Here's my closed transactions YTD. What's my average commission, best referral source, and monthly trend?"</li>
+      </ul>
+      <div class="featured-prompt">
+        <span class="fp-label">Try this — paste with an MLS CSV export</span>
+<pre class="fp-body">I'm uploading a CSV of 90 days of sold comps in [ZIP]. Produce:
+1. Median $/sf per month with a line chart
+2. Avg days-on-market by price band ($200-400k, $400-600k, $600k+)
+3. Top 3 subdivisions by closed volume
+4. A one-paragraph market narrative I could send to a seller considering listing next month</pre>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Voice Mode + Mobile App</div>
+      <h3>Your drivetime AI</h3>
+      <p>Advanced Voice on mobile is genuinely conversational — no robotic back-and-forth. Use it between appointments.</p>
+      <ul>
+        <li><strong>Post-showing debrief:</strong> "I just showed 1245 Cedar Lane to the Davises. They loved the kitchen, hated the backyard. Draft my follow-up email."</li>
+        <li><strong>Pre-listing prep:</strong> "Quiz me on the objections a seller in this price range might raise, one at a time."</li>
+        <li><strong>Drive-time CMA:</strong> "Give me three comps for a 2,400 sqft ranch in Fort Worth 76109, most recent first."</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Screen Sharing + Vision</div>
+      <h3>Show ChatGPT exactly what you're looking at</h3>
+      <p>The desktop app can see your screen. The mobile camera can see a house.</p>
+      <ul>
+        <li><strong>Desktop:</strong> pull up an MLS listing → "Rewrite this description in my brand voice"</li>
+        <li><strong>Mobile:</strong> walk through a listing → "Dictate a property walkthrough for my MLS remarks as I film this"</li>
+        <li><strong>Inspection:</strong> "Here's page 4 of the inspection report — summarize the seller-responsibility items in plain language for my buyer"</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Agents &amp; Tasks</div>
+      <h3>Scheduled and agentic actions</h3>
+      <p>Tasks (Plus+) let ChatGPT run on a schedule. Agents (Pro) let it take actions in a browser on your behalf.</p>
+      <ul>
+        <li><strong>Task:</strong> "Every Monday at 7am, check my market area for new listings under $500k with 4+ beds. Email me a shortlist."</li>
+        <li><strong>Agent:</strong> "Go to my MLS, pull the new listings report for my hotlist areas, download the PDFs to my Drive" (Pro plan)</li>
+        <li><strong>Task:</strong> "Every Friday, summarize my week's client emails into follow-up priorities"</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">DALL-E Image Generation</div>
+      <h3>Marketing visuals without Canva</h3>
+      <ul>
+        <li>"Create a 'Just Listed' Instagram post for 1245 Cedar Lane — modern farmhouse, 4/3, pool. Brand color #faed36."</li>
+        <li>"Design a sold celebration graphic with 'JUST SOLD IN 5 DAYS' and a gold accent on dark navy"</li>
+        <li>"Generate a neighborhood lifestyle collage for a Keller, TX listing — parks, schools, dining"</li>
+      </ul>
+    </div>
+
+    <label class="step-check" data-step="chatgpt-advanced">
+      <input type="checkbox">
+      <span>ChatGPT advanced features explored</span>
+    </label>
+
+    <div class="pro-tip">
+      <div class="pro-tip-label">Pro Move</div>
+      <p>Build a "Daily Market Brief" Custom GPT with your market ZIP codes saved, your preferred sources, and your output format. Open it once every morning with "brief me" — you'll have a real-estate-specific market rundown before your first coffee.</p>
+    </div>
+
+    <div class="back-top"><a href="#top">↑ Back to top</a></div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- CLAUDE SECTION -->
+<section class="section" id="claude">
+  <div class="wrap">
+    <div class="tool-header claude">
+      <div class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c.3 0 .55.2.62.5l1.23 4.98a3 3 0 0 0 2.17 2.17l4.98 1.23c.3.07.5.33.5.62s-.2.55-.5.62l-4.98 1.23a3 3 0 0 0-2.17 2.17l-1.23 4.98a.63.63 0 0 1-1.22 0l-1.23-4.98a3 3 0 0 0-2.17-2.17l-4.98-1.23a.63.63 0 0 1 0-1.22l4.98-1.23a3 3 0 0 0 2.17-2.17l1.22-4.98A.63.63 0 0 1 12 2.5z"/></svg></div>
+      <h2><span>Claude</span> Setup</h2>
+    </div>
+    <p class="tool-intro">The deep thinker. Best writing quality, best at long contracts, and Artifacts quietly turns it into a tool-building platform. If ChatGPT is the all-rounder, Claude is the one you hand the 45-page title commitment to.</p>
+
+    <span class="level beginner">Beginner</span>
+    <div class="subsection">
+      <div class="subsection-label">User Preferences</div>
+      <h3>Tell Claude who you are</h3>
+      <ol class="steps">
+        <li>Profile icon → <strong>Settings</strong></li>
+        <li><strong>Profile</strong> → find <strong>What personal preferences should Claude consider</strong></li>
+        <li>Paste your generated instructions from Step 1</li>
+        <li><strong>Save</strong></li>
+      </ol>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Projects</div>
+      <h3>Permanent context with a knowledge base</h3>
+      <p>Projects are workspaces with their own uploaded documents. Claude reads every file in the Project for every conversation you have inside it.</p>
+      <ol class="steps">
+        <li>Sidebar → <strong>Projects</strong> → <strong>Create Project</strong></li>
+        <li>Name it for the workflow: "Listing Launches", "Buyer Consults", "CMAs"</li>
+        <li>Project Instructions: describe exactly what Claude should do inside this workspace</li>
+        <li>Upload files: templates, brand guide, buyer intake form, past award-winning listing descriptions</li>
+      </ol>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Connectors (MCP)</div>
+      <h3>Connect your stack</h3>
+      <p>Claude uses MCP connectors to talk directly to your apps. Turn these on and Claude can pull emails, check calendars, and search Drive without leaving the chat.</p>
+      <div class="chip-grid">
+        <div class="chip">Gmail<small>Email</small></div>
+        <div class="chip">Google Calendar<small>Schedule</small></div>
+        <div class="chip">Google Drive<small>Files</small></div>
+        <div class="chip">Canva<small>Design</small></div>
+        <div class="chip">Notion<small>Notes / DB</small></div>
+        <div class="chip">Asana<small>Tasks</small></div>
+        <div class="chip">Linear<small>Projects</small></div>
+        <div class="chip">HubSpot<small>CRM</small></div>
+      </div>
+    </div>
+
+    <label class="step-check" data-step="claude-beginner">
+      <input type="checkbox">
+      <span>Claude beginner setup complete</span>
+    </label>
+
+    <div style="margin-top: 40px;"></div>
+    <span class="level advanced">Advanced</span>
+
+    <div class="subsection">
+      <div class="subsection-label">Artifacts</div>
+      <h3>Claude builds tools for you</h3>
+      <p>Artifacts are working mini-apps Claude generates inside the chat — calculators, forms, charts, HTML pages. For real estate this is absurdly useful.</p>
+      <ul>
+        <li>"Build me a mortgage payment calculator I can embed on my listing page — 30-year fixed, include taxes and insurance fields, dark theme"</li>
+        <li>"Create an interactive buyer intake form that collects budget, timing, must-haves, and deal-breakers, then generates a summary I can save"</li>
+        <li>"Build a net-to-seller calculator that factors in commission, title fees, taxes, and concessions. Clean mobile-friendly design."</li>
+        <li>"Design a listing flyer as an HTML page with my photo, stats, description, and a QR code placeholder"</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Extended Thinking</div>
+      <h3>When you need the deep dive</h3>
+      <p>Toggle Extended Thinking (top of chat) and Claude takes longer but thinks harder. Use this for the hard stuff where getting it right the first time matters.</p>
+      <ul>
+        <li>Analyzing a complicated contract or title commitment</li>
+        <li>Working through a multi-party negotiation strategy</li>
+        <li>Structuring a complex deal (1031, seller financing, leaseback)</li>
+        <li>Writing a high-stakes client email that needs to land perfectly</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">PDF &amp; Document Analysis</div>
+      <h3>Drop in a 40-page doc. Get answers.</h3>
+      <p>Claude handles long documents better than anything else on the market. The 200K-token context window eats entire transaction files.</p>
+      <ul>
+        <li>Drag in a title commitment → "Flag every exception that could kill my buyer's deal and draft a plain-language cheat sheet"</li>
+        <li>Drop in an inspection report → "Categorize every item into cosmetic / maintenance / material defect, and draft my repair-request letter"</li>
+        <li>Paste an HOA packet → "Summarize the restrictions that would matter to a buyer with two dogs and an RV"</li>
+        <li>Upload an appraisal → "Explain the adjustments to a first-time buyer in 3 bullet points"</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Skills</div>
+      <h3>Automated capability packs</h3>
+      <p>Claude Skills are reusable playbooks Claude runs on command. For agents/lenders, think of them as macros: "run-listing-launch", "build-cma", "draft-seller-disclosure-email".</p>
+      <ul>
+        <li>Use prebuilt skills from the library (doc processing, PDF filling, spreadsheet analysis)</li>
+        <li>Build your own: tell Claude "save this process as a skill called listing-launch" and it packages your workflow for reuse</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Desktop App + Shortcut</div>
+      <h3>Summon Claude from anywhere</h3>
+      <p>Install the desktop app and set the keyboard shortcut. Now Claude is one keystroke away from wherever you're working — inside your email, your CRM, your MLS.</p>
+      <ul>
+        <li>Writing a reply in Gmail? Hit the shortcut, dictate the intent, paste Claude's draft back in.</li>
+        <li>Reading a contract PDF? Hit the shortcut, paste the tough clause, get a plain-language explanation.</li>
+        <li>In MLS? Hit the shortcut, paste the raw listing info, get MLS remarks in your voice.</li>
+      </ul>
+    </div>
+
+    <label class="step-check" data-step="claude-advanced">
+      <input type="checkbox">
+      <span>Claude advanced features explored</span>
+    </label>
+
+    <div class="pro-tip">
+      <div class="pro-tip-label">Pro Move</div>
+      <p>Build a <strong>"Deal Docs"</strong> Project for every active transaction. Upload the contract, amendments, inspection, title commitment, and appraisal as they come in. When any question comes up during the deal, ask Claude inside that Project — it has the entire file and answers with specifics, not generics.</p>
+    </div>
+
+    <div class="back-top"><a href="#top">↑ Back to top</a></div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- GEMINI SECTION -->
+<section class="section" id="gemini">
+  <div class="wrap">
+    <div class="tool-header gemini">
+      <div class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c.2 2.9 1.3 5.5 3 7.3S19.1 11.8 22 12c-2.9.2-5.5 1.3-7 3s-2.8 4.1-3 7c-.2-2.9-1.3-5.5-3-7s-4.1-2.8-7-3c2.9-.2 5.5-1.3 7-3s2.8-4.1 3-7z"/></svg></div>
+      <h2><span>Gemini</span> Setup</h2>
+    </div>
+    <p class="tool-intro">The Google-native AI. If your life already runs on Gmail, Calendar, Drive, Docs, and Sheets, Gemini is a superpower because it reads and writes directly inside those apps. Plus a 2M-token context window no one else matches.</p>
+
+    <span class="level beginner">Beginner</span>
+    <div class="subsection">
+      <div class="subsection-label">Saved Info</div>
+      <h3>Tell Gemini who you are</h3>
+      <ol class="steps">
+        <li>Open <strong>gemini.google.com</strong> → <strong>Settings</strong> (gear icon)</li>
+        <li><strong>Saved Info</strong> → paste your generated instructions from Step 1</li>
+        <li>Save</li>
+      </ol>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Gems</div>
+      <h3>Custom assistants, Google-style</h3>
+      <ol class="steps">
+        <li>Sidebar → <strong>Gem manager</strong> → <strong>New Gem</strong></li>
+        <li>Name it after the job: "Email Drafter", "Market Brief Writer", "Listing Researcher"</li>
+        <li>Write detailed instructions — purpose, tone, output format</li>
+        <li>Save — it appears in your sidebar, one click to use</li>
+      </ol>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Extensions</div>
+      <h3>Google apps, unlocked</h3>
+      <p>This is Gemini's killer feature. Turn these on and Gemini can read and act inside your Google apps directly.</p>
+      <div class="chip-grid">
+        <div class="chip">Gmail<small>Email</small></div>
+        <div class="chip">Google Calendar<small>Schedule</small></div>
+        <div class="chip">Google Drive<small>Files</small></div>
+        <div class="chip">Google Docs<small>Documents</small></div>
+        <div class="chip">Google Sheets<small>Spreadsheets</small></div>
+        <div class="chip">Google Maps<small>Location / drive times</small></div>
+        <div class="chip">YouTube<small>Video</small></div>
+        <div class="chip">Google Flights<small>Client travel</small></div>
+      </div>
+      <ol class="steps" style="margin-top: 20px;">
+        <li>Settings → <strong>Extensions</strong></li>
+        <li>Toggle on every Google service you use</li>
+        <li>Now try: "Find the listing agreement for the Davises in my Drive" or "What's on my calendar Thursday afternoon?"</li>
+      </ol>
+    </div>
+
+    <label class="step-check" data-step="gemini-beginner">
+      <input type="checkbox">
+      <span>Gemini beginner setup complete</span>
+    </label>
+
+    <div style="margin-top: 40px;"></div>
+    <span class="level advanced">Advanced</span>
+
+    <div class="subsection">
+      <div class="subsection-label">Deep Research</div>
+      <h3>Agentic research reports</h3>
+      <p>Deep Research is a whole different mode. Ask a big question, Gemini builds a research plan, scans dozens of sources, and delivers a structured report with citations. It takes minutes — but the output is genuinely impressive.</p>
+      <ul>
+        <li>"Deep research: What are the top 10 relocation factors for tech workers moving from the Bay Area to DFW? Include salary adjustments, commute patterns, and school priorities."</li>
+        <li>"Deep research: Compare the 4 largest master-planned communities in Westlake TX by HOA fees, amenities, school ratings, and median sale price."</li>
+        <li>"Deep research: Current rate forecasts from the 5 major mortgage banks — what's consensus through Q4?"</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Gemini in Gmail, Docs, Sheets</div>
+      <h3>AI in-place, not in a tab</h3>
+      <p>On Google Workspace, Gemini lives inside the apps. No tab-switching.</p>
+      <ul>
+        <li><strong>Gmail:</strong> "Help me write" in your voice, summarize 20-email threads, draft follow-ups from a single highlight</li>
+        <li><strong>Docs:</strong> generate listing presentations, rewrite contract addendum explanations in plain language, build seller net sheets</li>
+        <li><strong>Sheets:</strong> "Build a formula that flags any lead in this list that hasn't been contacted in 30 days" — it writes the formula for you</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">NotebookLM</div>
+      <h3>The secret weapon for listings &amp; client prep</h3>
+      <p>NotebookLM (at notebooklm.google.com) is a Google research tool that turns your documents into an interactive knowledge base — complete with an AI-generated podcast of two voices discussing your content. Sounds gimmicky. It's not.</p>
+      <ul>
+        <li>Upload neighborhood guides, school reports, and market data → generate a 15-min podcast your client listens to during their drive to the showing</li>
+        <li>Upload a listing's CMA, HOA docs, and inspection → get an instant Q&amp;A interface + a podcast walkthrough</li>
+        <li>Upload training materials → ask specific questions and get cited answers</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">2M Token Context</div>
+      <h3>Feed it the whole file cabinet</h3>
+      <p>Gemini's context window is massive. You can paste an entire year's worth of closed transactions, every page of a 300-page HOA packet, or 50 comparable listings in one prompt.</p>
+      <ul>
+        <li>"Here's every listing I took in 2025. Analyze which price points, photo counts, and descriptions had the best DOM-to-list-price ratio."</li>
+        <li>"Here's my full lender ratesheet history for 24 months. Build me a pattern analysis of when rates moved and what triggered each move."</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Gemini Live</div>
+      <h3>Real-time voice + camera</h3>
+      <p>On mobile, point your camera at anything and have a real conversation about what you're seeing.</p>
+      <ul>
+        <li>Walking a listing: "What are the red flags in this crawl space?"</li>
+        <li>In a client meeting: "Live transcribe and flag any objections I should address"</li>
+        <li>At an open house: "Keep a running log of which features visitors comment on"</li>
+      </ul>
+    </div>
+
+    <label class="step-check" data-step="gemini-advanced">
+      <input type="checkbox">
+      <span>Gemini advanced features explored</span>
+    </label>
+
+    <div class="pro-tip">
+      <div class="pro-tip-label">Pro Move</div>
+      <p>Run <strong>NotebookLM</strong> on every listing you take. Upload the CMA, HOA docs, seller disclosures, and a neighborhood brief. Share the notebook link with your seller — they get an interactive Q&amp;A tool about their own listing, and you look like an actual wizard.</p>
+    </div>
+
+    <div class="back-top"><a href="#top">↑ Back to top</a></div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- PERPLEXITY SECTION -->
+<section class="section" id="perplexity">
+  <div class="wrap">
+    <div class="tool-header perplexity">
+      <div class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5zm0 2.3 7 3.9v7.6l-7 3.9-7-3.9V8.2l7-3.9zm0 3.2-4.5 2.5v5l4.5 2.5 4.5-2.5v-5L12 7.5z"/></svg></div>
+      <h2><span>Perplexity</span> Setup</h2>
+    </div>
+    <p class="tool-intro">The research engine. Different species from the other three. Sourced answers with current data — perfect for pre-meeting prep, market intelligence, and anything where citations matter. If the question is "what's true right now," this is the tool.</p>
+
+    <span class="level beginner">Beginner</span>
+    <div class="subsection">
+      <div class="subsection-label">AI Profile</div>
+      <h3>Tell Perplexity who you are</h3>
+      <ol class="steps">
+        <li>Profile icon → <strong>Settings</strong></li>
+        <li><strong>AI Profile</strong> → paste your generated instructions from Step 1</li>
+        <li>Save</li>
+      </ol>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Spaces</div>
+      <h3>Topic-based research workspaces</h3>
+      <ol class="steps">
+        <li>Sidebar → <strong>Spaces</strong> → <strong>Create Space</strong></li>
+        <li>Name it: "Southlake Market", "Luxury Relocation", "Commercial Retail"</li>
+        <li>Upload files or add notes to seed the Space with context</li>
+        <li>Every search inside the Space builds on everything already there</li>
+      </ol>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Pro Search</div>
+      <h3>More than a search engine</h3>
+      <p>Pro Search pulls from multiple current sources and synthesizes a sourced answer. This is how you walk into a listing appointment knowing more about the neighborhood than the people who live there.</p>
+      <ol class="steps">
+        <li>Toggle <strong>Pro</strong> on before the search</li>
+        <li>Ask a specific question, not a keyword: "What are the top 5 concerns for Bay Area families relocating to Frisco TX, with citations to current data?"</li>
+        <li>Every claim comes with a source — click through to verify before you quote to a client</li>
+      </ol>
+    </div>
+
+    <label class="step-check" data-step="perplexity-beginner">
+      <input type="checkbox">
+      <span>Perplexity beginner setup complete</span>
+    </label>
+
+    <div style="margin-top: 40px;"></div>
+    <span class="level advanced">Advanced</span>
+
+    <div class="subsection">
+      <div class="subsection-label">Labs</div>
+      <h3>Full research reports with charts</h3>
+      <p>Perplexity Labs (Pro plan) doesn't just give you a text answer — it generates fully formatted reports with charts, tables, and dashboards. Drop these straight into a listing presentation or buyer consult.</p>
+      <ul>
+        <li>"Build me a relocation report for a family moving from Austin to Keller. Include cost-of-living comparison, school ratings, commute analysis, and the top 3 neighborhoods with charts."</li>
+        <li>"Build a luxury market report for $1M+ homes in Southlake — 12-month trend, median DOM, top 5 builders, price-per-sqft comparison to 76092."</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Comet Browser</div>
+      <h3>AI that browses for you</h3>
+      <p>Comet is Perplexity's AI-native browser. Ask it to do something online and it does it — no clicks, no tabs. Still early, but for research tasks this saves hours.</p>
+      <ul>
+        <li>"Go to my MLS portal and pull every new listing today in 76109 under $600k. Save as PDF."</li>
+        <li>"Check the Redfin, Zillow, and Realtor.com estimates for 1245 Cedar Lane. Email me the three numbers side-by-side."</li>
+        <li>"Research the top 5 schools in Westlake and build me a one-pager with ratings, demographics, and highlights"</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">File Upload</div>
+      <h3>Research on your own documents</h3>
+      <ul>
+        <li>Upload a buyer's wishlist PDF → "Match this wishlist to 20 current listings in my market with citations"</li>
+        <li>Upload a lender's ratesheet → "Compare this to current market rates and tell me what's competitive"</li>
+        <li>Upload an HOA packet → "Pull the 10 restrictions most likely to be a deal-breaker for a buyer with kids, dogs, and home business"</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Pages</div>
+      <h3>Publish researched content</h3>
+      <p>Pages turns any Perplexity research into a shareable, published webpage. Drop the link in a client email and skip the attachments.</p>
+      <ul>
+        <li>Turn a Deep Research into a published neighborhood guide you share with your sphere</li>
+        <li>Build a luxury market update Page and link it from your email signature every Monday</li>
+        <li>Create buyer-facing "Why Fort Worth?" relocation Pages and send the link during consults</li>
+      </ul>
+    </div>
+
+    <label class="step-check" data-step="perplexity-advanced">
+      <input type="checkbox">
+      <span>Perplexity advanced features explored</span>
+    </label>
+
+    <div class="pro-tip">
+      <div class="pro-tip-label">Pro Move</div>
+      <p>Before every listing appointment, run a Perplexity Pro search on: the neighborhood's last-12-month trend, the 3 closest competing listings, recent local news that could affect value, and the seller's "why they're moving" rationale. You walk in with sourced data the seller didn't know about their own block. Credibility, instant.</p>
+    </div>
+
+    <div class="back-top"><a href="#top">↑ Back to top</a></div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- PROMPT LIBRARY -->
+<section class="section" id="library">
+  <div class="wrap">
+    <span class="section-eyebrow">Prompt Library</span>
+    <h2 class="section-title">Copy. Paste. <span>Close more deals.</span></h2>
+    <p class="section-lede">Real-estate-specific prompts tuned for each tool. Filter by AI or use case. Every card has a one-click copy button.</p>
+
+    <div class="pl-filters" id="pl-filters">
+      <div class="pl-filter-label">Filter by Tool</div>
+      <button class="pl-chip active" data-filter="tool" data-value="all">All</button>
+      <button class="pl-chip" data-tool="chatgpt" data-filter="tool" data-value="chatgpt">ChatGPT</button>
+      <button class="pl-chip" data-tool="claude" data-filter="tool" data-value="claude">Claude</button>
+      <button class="pl-chip" data-tool="gemini" data-filter="tool" data-value="gemini">Gemini</button>
+      <button class="pl-chip" data-tool="perplexity" data-filter="tool" data-value="perplexity">Perplexity</button>
+
+      <div class="pl-filter-label">Filter by Category</div>
+      <button class="pl-chip active" data-filter="category" data-value="all">All</button>
+      <button class="pl-chip" data-filter="category" data-value="listing">Listings</button>
+      <button class="pl-chip" data-filter="category" data-value="buyer">Buyers</button>
+      <button class="pl-chip" data-filter="category" data-value="lender">Lenders</button>
+      <button class="pl-chip" data-filter="category" data-value="marketing">Marketing</button>
+      <button class="pl-chip" data-filter="category" data-value="negotiation">Negotiation</button>
+      <button class="pl-chip" data-filter="category" data-value="research">Research</button>
+      <button class="pl-chip" data-filter="category" data-value="ops">Ops</button>
+    </div>
+
+    <div class="pl-grid" id="pl-grid"></div>
+  </div>
+</section>
+
+<!-- COMPLETION -->
+<div class="completion" id="completion">
+  <div class="completion-inner">
+    <h3>🎯 You're fully set up</h3>
+    <p>You've now got more AI firepower than 95% of agents in your market. Open the <a href="/the-vault">Vault</a> for CNAT's custom-built real estate tools, or scroll back up to explore any advanced feature you haven't tried yet.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="logo-text">CNAT Title</div>
+  <p class="tagline">#AlwaysBeClosing &middot; <span>Texas Style</span></p>
+  <a href="/" class="back-hub">← Back to AI Hub</a>
+</footer>
+
+<script>
+/* =========================================================
+   CUSTOM INSTRUCTIONS GENERATOR
+   ========================================================= */
+function val(id) { return (document.getElementById(id).value || '').trim(); }
+function buildInstructions() {
+  const name = val('cig-name') || 'I am a real estate professional';
+  const role = val('cig-role');
+  const brokerage = val('cig-brokerage');
+  const market = val('cig-market');
+  const specialty = val('cig-specialty');
+  const tone = val('cig-tone');
+  const extra = val('cig-extra');
+
+  const base = `My name is ${name}. I'm a ${role}${brokerage ? ' at ' + brokerage : ''}.`;
+  const marketLine = market ? ` My market is ${market}.` : '';
+  const specLine = specialty ? ` I specialize in working with ${specialty}.` : '';
+  const toneMap = {
+    'Direct and clear — cut the fluff': 'Be direct and clear. Cut the fluff. Lead with the answer, then details.',
+    'Professional and polished': 'Respond with a professional, polished tone. Grammatically tight. No slang.',
+    'Warm and conversational': 'Use a warm, conversational tone. Write like a trusted advisor, not a corporate email.',
+    'Casual and confident': 'Write casually and confidently. Natural language. Avoid stiffness.',
+    'Data-driven and detailed': 'Ground responses in data and detail. Cite numbers and sources when possible.'
+  };
+  const toneLine = toneMap[tone] || '';
+  const extraLine = extra ? ` ${extra}` : '';
+
+  const body = base + marketLine + specLine + extraLine;
+  const styleNote = toneLine ? `\n\nResponse style: ${toneLine}` : '';
+  const realEstateContext = ` I work with clients on real estate transactions — listings, buyer consultations, negotiations, and marketing. When drafting client-facing content, always consider the stage of the deal and the audience (seller, buyer, lender, co-op agent). Default to Texas-specific forms and terminology unless told otherwise. Never invent market data — if you don't know, say so.`;
+
+  return {
+    chatgpt: body + realEstateContext + styleNote,
+    claude: body + realEstateContext + styleNote + '\n\nFor contract and document review, surface material risks first. For writing tasks, default to my brand voice described above.',
+    gemini: body + realEstateContext + styleNote,
+    perplexity: body + ' When researching, prioritize current sources, cite everything, and flag anything that may be outdated.' + styleNote
+  };
+}
+function generateInstructions() {
+  const out = buildInstructions();
+  document.getElementById('out-chatgpt').textContent = out.chatgpt;
+  document.getElementById('out-claude').textContent = out.claude;
+  document.getElementById('out-gemini').textContent = out.gemini;
+  document.getElementById('out-perplexity').textContent = out.perplexity;
+  document.getElementById('cigOutput').classList.add('show');
+  document.getElementById('cigOutput').scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+function resetCIG() {
+  ['cig-name','cig-brokerage','cig-market','cig-specialty','cig-extra'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('cig-role').selectedIndex = 0;
+  document.getElementById('cig-tone').selectedIndex = 0;
+  document.getElementById('cigOutput').classList.remove('show');
+}
+document.querySelectorAll('.cig-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const key = tab.dataset.tab;
+    document.querySelectorAll('.cig-tab').forEach(t => t.classList.toggle('active', t === tab));
+    document.querySelectorAll('.cig-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + key));
+  });
+});
+function copyCode(btn) {
+  const code = btn.parentElement.querySelector('span') || btn.parentElement;
+  const text = code.textContent || code.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.textContent;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1600);
+  });
+}
+
+/* =========================================================
+   PROGRESS TRACKER (localStorage)
+   ========================================================= */
+const STORAGE_KEY = 'cnat-ai-setup-progress';
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+function saveProgress(state) { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+function updateProgressUI() {
+  const checks = document.querySelectorAll('.step-check input[type="checkbox"]');
+  const total = checks.length;
+  const done = Array.from(checks).filter(c => c.checked).length;
+  const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('completion').classList.toggle('show', pct >= 100);
+  document.querySelectorAll('.step-check').forEach(el => {
+    const cb = el.querySelector('input');
+    el.classList.toggle('done', cb.checked);
+  });
+}
+function initProgress() {
+  const state = loadProgress();
+  document.querySelectorAll('.step-check').forEach(el => {
+    const step = el.dataset.step;
+    const cb = el.querySelector('input');
+    if (state[step]) cb.checked = true;
+    cb.addEventListener('change', () => {
+      const s = loadProgress();
+      s[step] = cb.checked;
+      saveProgress(s);
+      updateProgressUI();
+    });
+  });
+  updateProgressUI();
+}
+
+/* =========================================================
+   PROMPT LIBRARY
+   ========================================================= */
+const PROMPTS = [
+  { tool: 'chatgpt', cat: 'listing', title: 'MLS Remarks (280 char)', body: `Here's the raw listing info:\n[paste bullets]\n\nWrite:\n1) A 280-character MLS public remark (lead with the #1 feature, no fluff words like "nestled" or "charming")\n2) A 700-word full description with 3 subheaded sections (Highlights, Inside, Location)\n3) 5 short social captions (Instagram, Facebook, TikTok)\n\nMy brand voice is [direct / polished / warm]. Always highlight school district and any feature that justifies price per sq ft.` },
+  { tool: 'claude', cat: 'listing', title: 'Just Listed Launch Plan', body: `I'm listing [ADDRESS] at $[PRICE] on [DATE]. 4/3, 2,800 sqft, pool, updated kitchen.\n\nBuild me a 7-day launch plan covering:\n- Pre-list teaser content (1 post, 1 email)\n- Launch-day push (IG reel script, FB carousel copy, 2-email sequence to my sphere)\n- Open house promo\n- Price-aligned buyer targeting talking points\n- A 3-line MLS remark\n- A 600-word full description\n\nKeep tone [VOICE]. Flag anything legally risky before publishing.` },
+  { tool: 'gemini', cat: 'listing', title: 'Photo Order Optimizer', body: `I have 32 listing photos in [Drive folder]. Using best-practice listing photo order, suggest the ideal sequence that tells a story from street view → entry → living → kitchen → primary → other beds → baths → outdoor → amenities. Flag any photos I should retake or drop.` },
+  { tool: 'perplexity', cat: 'listing', title: 'Comp Research Deep Dive', body: `Pro Search: Pull the last 90 days of closed residential sales in [ZIP] between $[LOW] and $[HIGH] with 4+ bedrooms. For each, provide address, sold price, DOM, and key differentiator. Cite each source. Synthesize: median $/sf, DOM trend, and one-sentence market read.` },
+
+  { tool: 'chatgpt', cat: 'buyer', title: 'Buyer Consult Intake', body: `I have a buyer consult with [NAMES] on [DATE]. Timeline: [TIMING]. Budget: $[RANGE]. Pre-approved: [YES/NO with LENDER].\n\nBuild me:\n1) A warm welcome email for 24 hours before the meeting (2 paragraphs)\n2) An intake questionnaire they fill out before we meet (10 questions: must-haves, deal-breakers, lifestyle, dogs/kids, commute, and the "if we only looked at one home and it was perfect, what would it look like" question)\n3) My meeting agenda (45 min)\n4) A one-line follow-up subject line for the recap email` },
+  { tool: 'claude', cat: 'buyer', title: 'Relocation Buyer Brief', body: `My client is relocating from [CITY] to [TARGET MARKET] because of [REASON]. They want [BED/BATH/SQFT] and budget is $[RANGE]. Kids ages [AGES], [NUM] dogs, [SPECIAL REQS].\n\nWrite a 1-page client-facing relocation brief covering:\n- 3 recommended neighborhoods with reasons\n- School district notes matched to their kids' ages\n- Commute analysis to [EMPLOYER]\n- Cultural/lifestyle notes vs their current city\n- Price-point expectations\n\nTone: warm, confident, like I've done this 500 times.` },
+  { tool: 'perplexity', cat: 'buyer', title: 'Neighborhood Intel Pack', body: `Pro Search with citations: For [NEIGHBORHOOD], [CITY, STATE], give me the top 10 things an incoming family should know — schools, crime trends, HOA structures, major employer proximity, upcoming development, walkability, and any recent local news. Cite every claim.` },
+  { tool: 'gemini', cat: 'buyer', title: 'Showing Schedule Builder', body: `Using my Google Calendar, block a 4-hour Saturday showing tour for tomorrow. Find the driving route order that minimizes drive time between these 6 addresses (optimize left-turn aversion). Send calendar invites to [CLIENT EMAILS] with the address order and estimated arrival times.` },
+
+  { tool: 'chatgpt', cat: 'lender', title: 'Rate-Change Client Email', body: `Rates just [MOVED DIRECTION] by [X bps]. My pipeline has [N] pre-approved buyers who haven't locked.\n\nWrite me a clear, non-alarmist email (subject + body) explaining:\n- What happened\n- What it means for their monthly payment on a $[TYPICAL LOAN]\n- Whether to act or wait\n- A clear CTA\n\nEnd with me offering a 15-min call. Brand voice: [VOICE].` },
+  { tool: 'claude', cat: 'lender', title: 'Rehab Loan Explainer', body: `Write a plain-English one-pager for a first-time buyer explaining:\n- What a 203(k) Renovation Loan is\n- How it differs from a standard FHA\n- What kind of properties qualify\n- What the draw process looks like\n- 3 common pitfalls\n- When to use it vs. a HomeStyle\n\nWrite for someone who has never bought before. Avoid jargon or define it when you must use it.` },
+  { tool: 'perplexity', cat: 'lender', title: 'Rate Trend Brief', body: `Pro Search: What happened to 30-year fixed mortgage rates in the last 14 days? Summarize the 3 biggest moves with dates, likely drivers (Fed commentary, jobs data, CPI), and current consensus forecast for the next 30 days. Cite each claim.` },
+
+  { tool: 'chatgpt', cat: 'marketing', title: 'Monthly Sphere Newsletter', body: `Build me a monthly newsletter for my sphere of ~400 contacts. Content for [MONTH]:\n- 1 market update (2 paragraphs, local-specific, data-driven)\n- 1 featured listing or transaction\n- 1 local business highlight\n- 1 helpful tip for homeowners\n- 1 personal/team update\n\nInclude an email subject line, preheader, and a CTA to reply with any real estate questions. Format for GHL email builder.` },
+  { tool: 'claude', cat: 'marketing', title: 'Instagram Content Month', body: `Build me a 30-day Instagram content calendar for a [MARKET] real estate agent. Mix:\n- Listing promos (2 per week)\n- Market update reels (1 per week)\n- "Local feature" posts (1 per week)\n- Educational carousels (1 per week)\n- Personal/story posts (2 per week)\n\nFor each: date, content type, caption draft, hashtag cluster, and visual direction.` },
+  { tool: 'gemini', cat: 'marketing', title: 'Canva Post Brief', body: `Build me a design brief for a "Just Listed" Instagram post for [ADDRESS]. Spec: 1080x1350, dark navy background, gold accent (#faed36), Montserrat font. Include: hero photo, 3 stat callouts (beds/baths/sqft), price, address, brokerage logo placement, my headshot placement. Return exact text and layout.` },
+
+  { tool: 'claude', cat: 'negotiation', title: 'Counter-Offer Strategy', body: `Scenario: My buyer offered $[OFFER] on a home listed at $[LIST]. Seller countered at $[COUNTER] with [CONCESSIONS]. Comps support [VALUE ANALYSIS]. Buyer's max is $[MAX], financing terms are [TERMS].\n\nGive me:\n1) 3 counter-strategy options (aggressive / balanced / concession-based)\n2) The 1-paragraph rationale I'd send to the listing agent for each\n3) Predicted seller responses for each path\n4) My recommended play and why.` },
+  { tool: 'chatgpt', cat: 'negotiation', title: 'Seller Objection Rebuttal', body: `Common seller objection: "[SELLER OBJECTION]"\n\nGive me 3 rebuttal frameworks (logical, emotional, data-driven). For each, write:\n- 1 opening line to reset the conversation\n- 2-3 supporting points\n- A closing question that moves them toward decision.\n\nTone: confident, calm, never defensive.` },
+
+  { tool: 'perplexity', cat: 'research', title: 'School District Compare', body: `Pro Search: Compare [SCHOOL A] vs [SCHOOL B] on — enrollment, student-teacher ratio, state rank, STAAR/STAR test results 3-yr trend, AP offerings, sports programs, recent news. Cite everything. End with a 2-sentence summary of which serves what kind of family best.` },
+  { tool: 'claude', cat: 'research', title: 'HOA Deep Scan', body: `Analyze this attached HOA packet. Flag the top 10 items a buyer should know about:\n- Monthly/annual fees and what they cover\n- Material restrictions (pets, rentals, parking, fences, paint, landscaping)\n- Upcoming special assessments or reserve issues\n- Architectural review requirements\n- Common area rules\n- Anything unusual or buyer-unfriendly\n\nOutput format: one-sentence headline + one-line detail per item. End with a risk score 1-10 with reasoning.` },
+  { tool: 'gemini', cat: 'research', title: 'Commute Time Analysis', body: `For [HOME ADDRESS], compute morning rush hour drive times (8am M-F) to: [EMPLOYER ADDRESSES]. Include 30-day average and worst-case Monday. Note any construction projects that could change this in the next 12 months.` },
+
+  { tool: 'chatgpt', cat: 'ops', title: 'Weekly Pipeline Review', body: `My pipeline (paste below). Review it and tell me:\n1) Top 3 leads I should contact this week and why\n2) Any stalled leads I should disqualify or revive\n3) Any buyer who hasn't been contacted in 14+ days (red flag)\n4) Listing launches or expirations in the next 21 days\n5) My week's top 5 priorities in order\n\n[paste pipeline CSV export]` },
+  { tool: 'claude', cat: 'ops', title: 'Closing Day Debrief', body: `We just closed [ADDRESS]. Write me:\n1) A closing celebration email to the client (warm, personal, includes 1 line asking for a review)\n2) A thank-you note to the co-op agent (2 sentences)\n3) A referral request email to send 30 days post-close\n4) A social post (IG + FB) celebrating the close without violating privacy` },
+  { tool: 'gemini', cat: 'ops', title: 'Gmail Inbox Triage', body: `Scan my unread Gmail from the last 7 days. Bucket into: URGENT (response needed within 4 hours), IMPORTANT (today), NURTURE (touch this week), DELETE. For URGENT and IMPORTANT, draft a one-paragraph reply I can review and send.` }
+];
+function renderPrompts() {
+  const grid = document.getElementById('pl-grid');
+  const state = { tool: 'all', category: 'all' };
+  function render() {
+    grid.innerHTML = '';
+    const filtered = PROMPTS.filter(p =>
+      (state.tool === 'all' || p.tool === state.tool) &&
+      (state.category === 'all' || p.cat === state.category)
+    );
+    if (filtered.length === 0) {
+      grid.innerHTML = '<p style="color:var(--text-grey);font-size:14px;padding:24px;text-align:center;">No prompts match those filters. Try "All".</p>';
+      return;
+    }
+    filtered.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'pl-card';
+      card.innerHTML = `
+        <div class="pl-card-head">
+          <span class="pl-tag ${p.tool}">${p.tool}</span>
+          <span class="pl-cat">${p.cat}</span>
         </div>
-
-        <div class="subsection">
-            <div class="subsection-label">Recommended Connections</div>
-            <h3>Connect Your Workflow</h3>
-            <p>Claude uses MCP (Model Context Protocol) connectors to talk directly to your apps. Once connected, it can read your emails, check your calendar, search your files, and more without leaving the conversation.</p>
-            <div class="connector-grid">
-                <div class="connector-chip">Gmail <span class="chip-sub">Email</span></div>
-                <div class="connector-chip">Google Calendar <span class="chip-sub">Schedule</span></div>
-                <div class="connector-chip">Google Drive <span class="chip-sub">Files</span></div>
-                <div class="connector-chip">Slack <span class="chip-sub">Messaging</span></div>
-                <div class="connector-chip">Canva <span class="chip-sub">Design</span></div>
-            </div>
-
-            <div class="pro-tip">
-                <div class="pro-tip-label">Pro Tip</div>
-                <p>Claude also has a desktop app and mobile app. The desktop app has a keyboard shortcut that summons Claude from any screen on your computer. Use it mid-workflow when you need a quick answer without switching tabs.</p>
-            </div>
+        <div class="pl-title">${p.title}</div>
+        <div class="pl-body">${p.body.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+        <div class="pl-actions">
+          <button class="pl-expand" type="button">Expand</button>
+          <button class="pl-copy" type="button">Copy</button>
         </div>
+      `;
+      const body = card.querySelector('.pl-body');
+      card.querySelector('.pl-expand').addEventListener('click', function() {
+        body.classList.toggle('expanded');
+        this.textContent = body.classList.contains('expanded') ? 'Collapse' : 'Expand';
+      });
+      card.querySelector('.pl-copy').addEventListener('click', function() {
+        navigator.clipboard.writeText(p.body).then(() => {
+          const orig = this.textContent;
+          this.textContent = 'Copied';
+          this.classList.add('copied');
+          setTimeout(() => { this.textContent = orig; this.classList.remove('copied'); }, 1500);
+        });
+      });
+      grid.appendChild(card);
+    });
+  }
+  document.querySelectorAll('#pl-filters .pl-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const filter = chip.dataset.filter;
+      state[filter] = chip.dataset.value;
+      document.querySelectorAll(`#pl-filters .pl-chip[data-filter="${filter}"]`).forEach(c => {
+        c.classList.toggle('active', c === chip);
+      });
+      render();
+    });
+  });
+  render();
+}
 
-        <div class="back-top"><a href="#top">Back to top</a></div>
-    </section>
-
-    <div class="section-divider"><hr></div>
-
-    <!-- GEMINI -->
-    <section class="model-section" id="gemini">
-        <div class="model-header">
-            <div class="dot gemini"></div>
-            <h2><span>Gemini</span> Setup Guide</h2>
-        </div>
-        <p class="model-intro">If you already live in Google Workspace, Gemini is the lowest-friction option. Turn on Extensions and it plugs directly into Gmail, Calendar, Drive, Docs, and Sheets. No copy-pasting required.</p>
-
-        <div class="subsection">
-            <div class="subsection-label">Custom Instructions</div>
-            <h3>Tell Gemini Who You Are</h3>
-            <p>Gemini lets you set instructions that shape how it responds in every conversation. Same concept as the other tools: give it context once, benefit every time.</p>
-            <ol class="steps">
-                <li>Open <strong>gemini.google.com</strong> and click <strong>Settings</strong> (gear icon)</li>
-                <li>Find <strong>Saved Info</strong> and click into it</li>
-                <li>Add details about yourself: name, profession, market area, client types, communication preferences</li>
-                <li>Save your changes. Gemini now factors this into every response</li>
-            </ol>
-        </div>
-
-        <div class="subsection">
-            <div class="subsection-label">Gems</div>
-            <h3>Build Custom AI Agents</h3>
-            <p>Gems are Gemini's version of custom assistants. You define a persona, give it instructions, and it becomes a dedicated tool for a specific task.</p>
-            <ol class="steps">
-                <li>In the Gemini sidebar, click <strong>Gem manager</strong>, then <strong>New Gem</strong></li>
-                <li>Name it something specific to its job (e.g., "Market Report Writer" or "Open House Follow-Up")</li>
-                <li>Write detailed instructions about what it does, the tone it uses, and what output format you expect</li>
-                <li>Save it. Your Gem appears in the sidebar and is ready to use anytime</li>
-            </ol>
-        </div>
-
-        <div class="subsection">
-            <div class="subsection-label">Extensions</div>
-            <h3>Connect Google Workspace</h3>
-            <p>This is where Gemini really shines if you're already in the Google ecosystem. Extensions let Gemini read and interact with your Google apps directly.</p>
-            <div class="connector-grid">
-                <div class="connector-chip">Gmail <span class="chip-sub">Email</span></div>
-                <div class="connector-chip">Google Calendar <span class="chip-sub">Schedule</span></div>
-                <div class="connector-chip">Google Drive <span class="chip-sub">Files</span></div>
-                <div class="connector-chip">Google Docs <span class="chip-sub">Documents</span></div>
-                <div class="connector-chip">Google Sheets <span class="chip-sub">Spreadsheets</span></div>
-                <div class="connector-chip">Google Maps <span class="chip-sub">Location</span></div>
-                <div class="connector-chip">YouTube <span class="chip-sub">Video</span></div>
-                <div class="connector-chip">Google Flights <span class="chip-sub">Travel</span></div>
-            </div>
-            <ol class="steps" style="margin-top: 20px;">
-                <li>In Gemini, go to <strong>Settings</strong>, then <strong>Extensions</strong></li>
-                <li>Toggle on each Google service you want Gemini to access</li>
-                <li>That's it. You can now say things like "check my calendar for tomorrow" or "find the listing spreadsheet in my Drive" and Gemini pulls it up directly</li>
-            </ol>
-
-            <div class="pro-tip">
-                <div class="pro-tip-label">Pro Tip</div>
-                <p>If you're on a Google Workspace Business plan, Gemini appears in the sidebar of Gmail, Docs, Sheets, and Slides. You can use it without even leaving your inbox. Draft replies, summarize email threads, analyze spreadsheets, all in context.</p>
-            </div>
-        </div>
-
-        <div class="back-top"><a href="#top">Back to top</a></div>
-    </section>
-
-    <div class="section-divider"><hr></div>
-
-    <!-- PERPLEXITY -->
-    <section class="model-section" id="perplexity">
-        <div class="model-header">
-            <div class="dot perplexity"></div>
-            <h2><span>Perplexity</span> Setup Guide</h2>
-        </div>
-        <p class="model-intro">Perplexity fills a different role than the other three. It's a research tool first. Sourced answers, current data, deep dives. The play here is pre-meeting prep and market intelligence.</p>
-
-        <div class="subsection">
-            <div class="subsection-label">Profile</div>
-            <h3>Tell Perplexity Who You Are</h3>
-            <p>Perplexity lets you set a profile that shapes its responses. Less customizable than the others, but still worth setting up so it knows your context.</p>
-            <ol class="steps">
-                <li>Open Perplexity, click your <strong>profile icon</strong>, then <strong>Settings</strong></li>
-                <li>Find the <strong>Profile</strong> or <strong>AI Profile</strong> section</li>
-                <li>Fill in your name, profession, location, and areas of interest. Mention your market area and the types of properties or clients you work with</li>
-                <li>Save. Perplexity will tailor search results and summaries to your professional context</li>
-            </ol>
-        </div>
-
-        <div class="subsection">
-            <div class="subsection-label">Spaces</div>
-            <h3>Organize Your Research</h3>
-            <p>Spaces let you keep ongoing research organized by topic. Instead of starting from scratch every time, you build a knowledge base that grows over time.</p>
-            <ol class="steps">
-                <li>In the sidebar, click <strong>Spaces</strong>, then <strong>Create Space</strong></li>
-                <li>Name it for the topic you're researching (e.g., "Southlake Market Trends" or "Luxury Buyer Relocation")</li>
-                <li>Add relevant files, links, or notes to give the Space context</li>
-                <li>Every search you run inside that Space builds on everything that's already there</li>
-            </ol>
-        </div>
-
-        <div class="subsection">
-            <div class="subsection-label">Pro Search</div>
-            <h3>Go Deeper Than Google</h3>
-            <p>Pro Search doesn't just find links. It reads multiple sources, synthesizes the information, and gives you a sourced answer with citations. Perfect for client prep.</p>
-            <ol class="steps">
-                <li>Toggle <strong>Pro</strong> on before running a search (it's the button next to the search bar)</li>
-                <li>Ask specific questions: "What are the top 5 concerns for Bay Area families relocating to Frisco, TX?" or "What's the average days on market for homes over $1.5M in Westlake?"</li>
-                <li>Perplexity will pull from multiple current sources and cite each one. You can click through to verify anything</li>
-            </ol>
-
-            <div class="pro-tip">
-                <div class="pro-tip-label">Use Case</div>
-                <p>Before a listing appointment or buyer meeting, run a Pro Search on the neighborhood, the buyer's current city, recent comparable sales, and local development news. Perplexity gives you sourced, current data you can reference in your meeting. This is the kind of preparation that makes clients feel like you've done your homework, because you actually did.</p>
-            </div>
-        </div>
-
-        <div class="back-top"><a href="#top">Back to top</a></div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="logo-text">CNAT Title</div>
-        <p class="tagline">#AlwaysBeClosing &middot; <span>Texas Style</span></p>
-    </footer>
+/* INIT */
+document.addEventListener('DOMContentLoaded', () => {
+  initProgress();
+  renderPrompts();
+});
+</script>
 
 </body>
 </html>
