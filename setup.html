@@ -2114,7 +2114,7 @@ Always highlight school district, walkability, and any feature that justifies pr
    workflow you create in CNAT GHL (see setup notes in the repo README).
    Leave empty to disable submissions (forms still show success states).
    ========================================================= */
-const GHL_WEBHOOK_URL = '';
+const GHL_WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/9ZNjcEKhpBno9RRXrBA4/webhook-trigger/5d5354a6-6fd3-4349-beed-eb169582411f';
 
 async function postToGHL(payload) {
   if (!GHL_WEBHOOK_URL) {
