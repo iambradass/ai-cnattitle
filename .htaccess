@@ -3,13 +3,22 @@ AddDefaultCharset UTF-8
   AddCharset UTF-8 .html
 </IfModule>
 
+Options -Indexes
+
 RewriteEngine On
 
+# Redirect .html extension to clean URL (301)
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L,NE]
+
+# Serve real files and directories as-is
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-RewriteRule ^$ index.html [L]
-RewriteRule ^community/?$ community.html [L]
+# Named routes where URL differs from filename
 RewriteRule ^the-vault/?$ vault-hosted.html [L]
-RewriteRule ^setup/?$ setup.html [L]
+
+# Generic: serve /page as page.html if the file exists
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+?)/?$ $1.html [L]
