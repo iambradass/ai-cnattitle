@@ -11,6 +11,9 @@ RewriteEngine On
 RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
 RewriteRule ^ /%1 [R=301,L,NE]
 
+# Root serves AI hub landing content directly (no redirect chain)
+RewriteRule ^$ ai-hub-landing.html [L]
+
 # Serve real files and directories as-is
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
