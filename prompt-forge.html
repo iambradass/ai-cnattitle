@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Prompt Forge | CNAT Title</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --navy: #0a1628;
+      --navy-mid: #111d33;
+      --navy-light: #1a2940;
+      --cyan: #00d4ff;
+      --cyan-dim: rgba(0, 212, 255, 0.15);
+      --cyan-glow: rgba(0, 212, 255, 0.25);
+      --teal: #028090;
+      --mint: #02c39a;
+      --gold: #f5a623;
+      --coral: #ff6b6b;
+      --white: #f0f4f8;
+      --muted: #8899aa;
+      --border: rgba(0, 212, 255, 0.12);
+      --card-bg: rgba(17, 29, 51, 0.8);
+      --radius: 12px;
+      --radius-lg: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* === BACKGROUND TEXTURE === */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(2, 128, 144, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 50px,
+          rgba(0, 212, 255, 0.015) 50px,
+          rgba(0, 212, 255, 0.015) 51px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 50px,
+          rgba(0, 212, 255, 0.015) 50px,
+          rgba(0, 212, 255, 0.015) 51px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* === LAYOUT === */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+
+    /* === HEADER === */
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .brand-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .brand-tag .dot {
+      width: 6px; height: 6px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--cyan);
+      background: linear-gradient(135deg, var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* === FRAMEWORK BADGE === */
+    .framework-bar {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin: 24px auto 32px;
+      flex-wrap: wrap;
+    }
+    .fw-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--white);
+      transition: all 0.3s;
+    }
+    .fw-pill .letter {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--cyan);
+    }
+    .fw-pill.active {
+      border-color: var(--cyan);
+      background: var(--cyan-dim);
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+    }
+
+    /* === STEP INDICATOR === */
+    .steps {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 28px;
+    }
+    .step-num {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      background: var(--navy-mid);
+      border: 2px solid var(--border);
+      color: var(--muted);
+      transition: all 0.3s;
+    }
+    .step-num.active {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: var(--cyan-dim);
+      box-shadow: 0 0 12px rgba(0, 212, 255, 0.15);
+    }
+    .step-num.done {
+      border-color: var(--mint);
+      color: var(--mint);
+      background: rgba(2, 195, 154, 0.12);
+    }
+    .step-line {
+      width: 40px; height: 2px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+    .step-line.done { background: var(--mint); }
+
+    /* === CARDS / SECTIONS === */
+    .section {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+    .section.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+
+    /* === CATEGORY GRID === */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 12px;
+    }
+
+    .cat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .cat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--mint));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .cat-card:hover { border-color: rgba(0, 212, 255, 0.3); transform: translateY(-2px); }
+    .cat-card:hover::before { transform: scaleX(1); }
+    .cat-card.selected {
+      border-color: var(--cyan);
+      background: var(--cyan-dim);
+    }
+    .cat-card.selected::before { transform: scaleX(1); }
+
+    .cat-icon {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .cat-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .cat-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* === SUB-TYPE PILLS === */
+    .subtype-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .subtype-btn {
+      padding: 8px 16px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: var(--navy-mid);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .subtype-btn:hover { border-color: rgba(0, 212, 255, 0.4); }
+    .subtype-btn.active {
+      border-color: var(--cyan);
+      background: var(--cyan-dim);
+      color: var(--cyan);
+    }
+
+    /* === FORM === */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .form-group label .rctf-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--cyan-dim);
+      color: var(--cyan);
+      letter-spacing: 0.05em;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--navy-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.08);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(136, 153, 170, 0.6);
+    }
+    .form-group textarea { resize: vertical; min-height: 70px; }
+    .form-group select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2300d4ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 550px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    /* === BUTTONS === */
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), var(--teal));
+      color: var(--navy);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0, 212, 255, 0.25); }
+    .btn-secondary {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      color: var(--white);
+    }
+    .btn-secondary:hover { border-color: rgba(0, 212, 255, 0.3); }
+    .btn-back {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .btn-back:hover { border-color: var(--muted); color: var(--white); }
+
+    /* === OUTPUT === */
+    .output-box {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .output-box pre {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--white);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .output-box .rctf-label {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      color: var(--cyan);
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px; right: 12px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      background: var(--cyan-dim);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      color: var(--cyan);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover { background: rgba(0, 212, 255, 0.2); }
+    .copy-btn.copied {
+      background: rgba(2, 195, 154, 0.2);
+      border-color: rgba(2, 195, 154, 0.3);
+      color: var(--mint);
+    }
+
+    .plain-copy-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background: var(--navy-light);
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .plain-copy-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .tip-box {
+      background: rgba(245, 166, 35, 0.06);
+      border: 1px solid rgba(245, 166, 35, 0.15);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-top: 20px;
+    }
+    .tip-box h4 {
+      font-size: 0.85rem;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .tip-box p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* === FOOTER === */
+    .footer {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .footer p {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .footer .credit {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    /* === BACK LINK === */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.82rem; color: var(--muted); text-decoration: none;
+      margin-bottom: 16px; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--cyan); }
+
+    /* === ACCESSIBILITY === */
+    .cat-card:focus-visible {
+      outline: 2px solid var(--cyan); outline-offset: 2px;
+      border-color: rgba(0, 212, 255, 0.3); transform: translateY(-2px);
+    }
+    .btn:focus-visible, .subtype-btn:focus-visible, .copy-btn:focus-visible, .plain-copy-btn:focus-visible {
+      outline: 2px solid var(--cyan); outline-offset: 2px;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 600px) {
+      .container { padding: 16px 14px 48px; }
+      .cat-grid { grid-template-columns: 1fr; }
+      .btn-row { flex-direction: column; }
+      .btn { width: 100%; text-align: center; }
+      .framework-bar { gap: 6px; }
+      .fw-pill { padding: 6px 10px; font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <a href="https://ai.cnattitle.com/ai-toolkit" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Toolkit</a>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="brand-tag"><span class="dot"></span> CNAT Title &middot; AI Toolkit</div>
+    <h1>The Prompt Forge</h1>
+    <p class="subtitle">Build better AI prompts in 60 seconds. Pick a category, fill in your details, get a copy-paste prompt.</p>
+  </header>
+
+  <!-- R-C-T-F FRAMEWORK BAR -->
+  <div class="framework-bar" id="fwBar">
+    <div class="fw-pill" id="fw-r"><span class="letter">R</span> Role</div>
+    <div class="fw-pill" id="fw-c"><span class="letter">C</span> Context</div>
+    <div class="fw-pill" id="fw-t"><span class="letter">T</span> Task</div>
+    <div class="fw-pill" id="fw-f"><span class="letter">F</span> Format</div>
+  </div>
+
+  <!-- STEP INDICATOR -->
+  <div class="steps">
+    <div class="step-num active" id="s1">1</div>
+    <div class="step-line" id="sl1"></div>
+    <div class="step-num" id="s2">2</div>
+    <div class="step-line" id="sl2"></div>
+    <div class="step-num" id="s3">3</div>
+  </div>
+
+  <!-- ===================== STEP 1: CATEGORY ===================== -->
+  <div class="section active" id="sec1">
+    <div class="section-label"><i class="fa-solid fa-crosshairs"></i> &nbsp; Step 1 — What are you building?</div>
+    <div class="cat-grid" id="catGrid">
+
+      <div class="cat-card" tabindex="0" data-cat="followup">
+        <span class="cat-icon">📬</span>
+        <h3>Lead Follow-Up</h3>
+        <p>Emails, texts, and call scripts for new leads and past clients</p>
+      </div>
+
+      <div class="cat-card" tabindex="0" data-cat="social">
+        <span class="cat-icon">📱</span>
+        <h3>Social Media</h3>
+        <p>Instagram posts, Facebook ads, video hooks, and carousel ideas</p>
+      </div>
+
+      <div class="cat-card" tabindex="0" data-cat="market">
+        <span class="cat-icon">📊</span>
+        <h3>Market Updates</h3>
+        <p>Neighborhood reports, monthly stats, and market analysis for clients</p>
+      </div>
+
+      <div class="cat-card" tabindex="0" data-cat="client">
+        <span class="cat-icon">🤝</span>
+        <h3>Client Comms</h3>
+        <p>Buyer guides, seller prep, transaction updates, and objection handling</p>
+      </div>
+
+      <div class="cat-card" tabindex="0" data-cat="prospect">
+        <span class="cat-icon">🎯</span>
+        <h3>Prospecting</h3>
+        <p>Cold outreach, expired listings, FSBOs, and sphere of influence</p>
+      </div>
+
+      <div class="cat-card" tabindex="0" data-cat="marketing">
+        <span class="cat-icon">🏠</span>
+        <h3>Marketing</h3>
+        <p>Open house promos, just listed/sold announcements, event invites</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================== STEP 2: DETAILS ===================== -->
+  <div class="section" id="sec2">
+    <div class="section-label"><i class="fa-solid fa-sliders"></i> &nbsp; Step 2 — Fill in YOUR details</div>
+
+    <!-- Sub-type pills (dynamic) -->
+    <div class="subtype-row" id="subtypeRow"></div>
+
+    <!-- Dynamic form -->
+    <div id="formArea"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goStep(1)"><i class="fa-solid fa-arrow-left"></i> &nbsp; Back</button>
+      <button class="btn btn-primary" onclick="generatePrompt()"><i class="fa-solid fa-bolt"></i> &nbsp; Forge My Prompt</button>
+    </div>
+  </div>
+
+  <!-- ===================== STEP 3: OUTPUT ===================== -->
+  <div class="section" id="sec3">
+    <div class="section-label"><i class="fa-solid fa-fire"></i> &nbsp; Step 3 — Your prompt is ready</div>
+
+    <div class="output-box" id="outputBox">
+      <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">
+        <i class="fa-regular fa-copy"></i> Copy
+      </button>
+      <pre id="outputText"></pre>
+    </div>
+
+    <button class="plain-copy-btn" onclick="copyPlain()">
+      <i class="fa-regular fa-clipboard"></i> &nbsp; Copy without labels (plain text)
+    </button>
+
+    <div class="tip-box">
+      <h4><i class="fa-solid fa-lightbulb"></i> &nbsp; Pro Tip</h4>
+      <p id="tipText">Paste this into ChatGPT, Claude, Perplexity, or Gemini. Each tool will interpret it slightly differently — try more than one to see which output you like best.</p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goStep(2)"><i class="fa-solid fa-arrow-left"></i> &nbsp; Edit Details</button>
+      <button class="btn btn-secondary" onclick="resetAll()"><i class="fa-solid fa-plus"></i> &nbsp; Build Another</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p class="credit">Built by CNAT Title &middot; Technology Team</p>
+    <p>Part of the CNAT AI Toolkit &middot; The R-C-T-F framework: <strong>Role</strong> &middot; <strong>Context</strong> &middot; <strong>Task</strong> &middot; <strong>Format</strong></p>
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA: Categories, subtypes, and templates
+// ══════════════════════════════════════════
+const DATA = {
+  followup: {
+    label: "Lead Follow-Up",
+    subtypes: [
+      { id: "new_lead", label: "New Lead Email" },
+      { id: "past_client", label: "Past Client Check-In" },
+      { id: "open_house_lead", label: "Open House Follow-Up" },
+    ],
+    forms: {
+      new_lead: {
+        fields: [
+          { id: "source", label: "Where did the lead come from?", tag: "C", type: "select", options: ["Zillow", "Realtor.com", "Your website", "Facebook/Instagram ad", "Google ad", "Referral", "Other"], placeholder: "" },
+          { id: "area", label: "What area are they looking in?", tag: "C", type: "text", placeholder: "e.g., Southlake, TX or North Fort Worth" },
+          { id: "buyer_type", label: "What kind of buyer?", tag: "C", type: "select", options: ["First-time buyer", "Move-up buyer", "Downsizer", "Relocating from out of state", "Investor", "Not sure yet"], placeholder: "" },
+          { id: "budget", label: "Budget range (if known)", tag: "C", type: "text", placeholder: "e.g., $350K–$450K" },
+          { id: "tone", label: "What tone do you want?", tag: "F", type: "select", options: ["Friendly and casual", "Professional but warm", "Straight to the point", "High-energy and enthusiastic"], placeholder: "" },
+        ],
+        role: "You are a friendly, knowledgeable real estate agent who specializes in helping people find the right home — not just any home.",
+        taskTemplate: (d) => `Write a personalized follow-up email to a ${d.buyer_type.toLowerCase()} who found me on ${d.source}. They're looking in the ${d.area} area${d.budget ? ` with a budget around ${d.budget}` : ''}. This is my first email to them — I want to stand out from every other agent who's also reaching out. Don't be generic or salesy.`,
+        formatTemplate: (d) => `Tone: ${d.tone}. Keep it under 150 words. Include one specific, helpful detail about the area to show I actually know it. End with a low-pressure question (not "When can we meet?"). No subject line needed — just the body.`,
+        tip: "After you get the output, ask the AI: \"Now write a shorter version I could send as a text message instead.\" Two for one."
+      },
+      past_client: {
+        fields: [
+          { id: "client_name", label: "Client's first name", tag: "C", type: "text", placeholder: "e.g., Sarah" },
+          { id: "transaction", label: "What did you help them with?", tag: "C", type: "select", options: ["Bought a home", "Sold a home", "Both (buy + sell)"], placeholder: "" },
+          { id: "area", label: "What area was the transaction?", tag: "C", type: "text", placeholder: "e.g., Keller, TX" },
+          { id: "time_ago", label: "How long ago did you close?", tag: "C", type: "select", options: ["3–6 months", "6–12 months", "1–2 years", "2+ years"], placeholder: "" },
+          { id: "goal", label: "What's the goal of this message?", tag: "T", type: "select", options: ["Ask for a referral", "Ask for a Google review", "Check in and stay top of mind", "Share a market update for their neighborhood"], placeholder: "" },
+        ],
+        role: "You are a thoughtful real estate agent who genuinely cares about your past clients — not just looking for the next deal.",
+        taskTemplate: (d) => `Write a ${d.goal.toLowerCase()} message to ${d.client_name}, who I helped ${d.transaction.toLowerCase()} in ${d.area} about ${d.time_ago.toLowerCase()} ago. It should feel like it's from a real person, not a drip campaign.`,
+        formatTemplate: (d) => `Keep it under 120 words. Conversational, warm tone. Reference something specific about their situation (the AI can make up a plausible detail I can swap out). No corporate jargon.`,
+        tip: "Swap out the placeholder detail for something real about that client. That one personal touch is what makes it feel human."
+      },
+      open_house_lead: {
+        fields: [
+          { id: "property", label: "Property address or description", tag: "C", type: "text", placeholder: "e.g., 4BR in Willow Bend, Plano" },
+          { id: "visitor_vibe", label: "What was the visitor's vibe?", tag: "C", type: "select", options: ["Very interested, asked lots of questions", "Casually browsing, no urgency", "Interested but concerned about price", "Looking for a different style/area"], placeholder: "" },
+          { id: "next_step", label: "What do you want them to do next?", tag: "T", type: "select", options: ["Schedule a private showing", "Get pre-approved", "See similar listings I have", "Come to my next open house"], placeholder: "" },
+        ],
+        role: "You are a proactive real estate agent who follows up after open houses with something more useful than \"Thanks for stopping by!\"",
+        taskTemplate: (d) => `Write a follow-up email to someone who visited my open house at ${d.property}. Their vibe was: ${d.visitor_vibe.toLowerCase()}. My goal is to get them to ${d.next_step.toLowerCase()}.`,
+        formatTemplate: (d) => `Under 120 words. Friendly, not pushy. Reference something specific about the property to jog their memory. Include one helpful next step that makes it easy for them to say yes.`,
+        tip: "Send this within 2 hours of the open house. Speed matters more than perfection here."
+      }
+    }
+  },
+
+  social: {
+    label: "Social Media",
+    subtypes: [
+      { id: "instagram", label: "Instagram Post" },
+      { id: "facebook_ad", label: "Facebook Ad" },
+      { id: "video_hook", label: "Video Hook/Script" },
+    ],
+    forms: {
+      instagram: {
+        fields: [
+          { id: "post_type", label: "What kind of post?", tag: "T", type: "select", options: ["Neighborhood spotlight", "Market tip/stat", "Client success story (anonymized)", "Behind-the-scenes", "Myth vs. reality", "Home maintenance tip"], placeholder: "" },
+          { id: "area", label: "Neighborhood or area to feature", tag: "C", type: "text", placeholder: "e.g., Downtown McKinney or Cedar Park" },
+          { id: "audience", label: "Who's your target audience?", tag: "C", type: "select", options: ["First-time buyers", "Young families relocating", "Move-up buyers", "Luxury buyers", "Investors", "General / mixed"], placeholder: "" },
+          { id: "format_type", label: "Post format?", tag: "F", type: "select", options: ["Single photo caption", "Carousel (multi-slide)", "Reel caption", "Story sequence"], placeholder: "" },
+          { id: "voice", label: "Your brand voice?", tag: "F", type: "select", options: ["Fun and casual", "Knowledgeable and trustworthy", "Bold and confident", "Warm and relatable"], placeholder: "" },
+        ],
+        role: "You are a real estate agent who creates social media content that educates and entertains — not just \"Just Listed!\" posts that nobody engages with.",
+        taskTemplate: (d) => `Create a ${d.format_type.toLowerCase()} about ${d.post_type.toLowerCase()} for ${d.area}. Target audience: ${d.audience.toLowerCase()}.`,
+        formatTemplate: (d) => `Voice: ${d.voice.toLowerCase()}. ${d.format_type === 'Carousel (multi-slide)' ? 'Write 5 slides, max 40 words per slide. ' : ''}Include a hook in the first line that makes people stop scrolling. End with a call-to-action. Add 5 relevant hashtags. No emojis in every sentence — use them sparingly.`,
+        tip: "Ask the AI to also give you \"3 alternative hooks\" so you can pick the strongest opening line."
+      },
+      facebook_ad: {
+        fields: [
+          { id: "objective", label: "What's the ad for?", tag: "T", type: "select", options: ["Generate buyer leads", "Promote a listing", "Promote an open house", "Build brand awareness", "Get seller leads (home valuation)"], placeholder: "" },
+          { id: "area", label: "Target area", tag: "C", type: "text", placeholder: "e.g., Arlington, TX" },
+          { id: "audience", label: "Target audience", tag: "C", type: "select", options: ["First-time buyers", "Move-up families", "Downsizers / empty nesters", "Relocating professionals", "Investors", "Homeowners curious about value"], placeholder: "" },
+          { id: "budget_note", label: "Anything specific to highlight?", tag: "C", type: "text", placeholder: "e.g., under $400K, pool, new construction, free home valuation" },
+        ],
+        role: "You are a real estate marketing expert who writes Facebook ad copy that stops the scroll and drives clicks — not generic real estate ads that blend in with every other agent.",
+        taskTemplate: (d) => `Write a Facebook ad to ${d.objective.toLowerCase()} in ${d.area}. Target: ${d.audience.toLowerCase()}.${d.budget_note ? ' Highlight: ' + d.budget_note + '.' : ''}`,
+        formatTemplate: (d) => `Write 3 versions: (1) Short and punchy (under 50 words), (2) Story-style (under 100 words), (3) Question-led (opens with a question). Each should have a clear call-to-action. Write a suggested headline for each.`,
+        tip: "Most agents run one ad and hope. Ask the AI: \"Which of these 3 versions would work best for a cold audience vs. a retargeting audience?\" to learn when to use each."
+      },
+      video_hook: {
+        fields: [
+          { id: "platform", label: "Platform?", tag: "F", type: "select", options: ["Instagram Reels", "TikTok", "YouTube Shorts", "Facebook video"], placeholder: "" },
+          { id: "topic", label: "Video topic", tag: "T", type: "text", placeholder: "e.g., 3 things buyers don't know about inspections" },
+          { id: "area", label: "Local area (if relevant)", tag: "C", type: "text", placeholder: "e.g., Flower Mound, TX (or leave blank)" },
+          { id: "length", label: "Target length?", tag: "F", type: "select", options: ["15 seconds (quick tip)", "30 seconds (one point)", "60 seconds (mini-lesson)"], placeholder: "" },
+        ],
+        role: "You are a real estate content creator who makes short-form video scripts that hook viewers in the first 2 seconds and deliver real value — not fluff.",
+        taskTemplate: (d) => `Write a ${d.platform} script about: ${d.topic}.${d.area ? ' Location: ' + d.area + '.' : ''}`,
+        formatTemplate: (d) => `Target length: ${d.length}. Structure: Hook (first 2 seconds — make it a pattern interrupt), Body (the actual value), CTA (what to do next). Write the hook 3 different ways so I can pick the best one. Include on-screen text suggestions.`,
+        tip: "The hook is everything. If you don't love any of the 3 options, tell the AI: \"Give me 5 more hooks — make them more surprising and specific.\""
+      }
+    }
+  },
+
+  market: {
+    label: "Market Updates",
+    subtypes: [
+      { id: "monthly", label: "Monthly Market Update" },
+      { id: "neighborhood", label: "Neighborhood Report" },
+    ],
+    forms: {
+      monthly: {
+        fields: [
+          { id: "area", label: "City or area", tag: "C", type: "text", placeholder: "e.g., Collin County or Austin metro" },
+          { id: "audience", label: "Who's this for?", tag: "C", type: "select", options: ["Buyers in my database", "Sellers thinking about listing", "General sphere (buyers + sellers)", "Investors"], placeholder: "" },
+          { id: "channel", label: "Where will you share this?", tag: "F", type: "select", options: ["Email newsletter", "Social media post", "Blog article", "Video script"], placeholder: "" },
+          { id: "data_points", label: "Any specific stats to include?", tag: "C", type: "text", placeholder: "e.g., median price up 4%, 45 days on market (or leave blank)" },
+        ],
+        role: "You are a local real estate market expert who translates dry housing data into insights that normal people actually care about — and can act on.",
+        taskTemplate: (d) => `Write a monthly market update for ${d.area} targeted at ${d.audience.toLowerCase()}.${d.data_points ? ' Include these data points: ' + d.data_points + '.' : ' Use realistic placeholder data I can swap with real numbers.'} The update should tell people what the data actually MEANS for their situation — not just list numbers.`,
+        formatTemplate: (d) => `Format: ${d.channel}. ${d.channel === 'Email newsletter' ? 'Under 300 words. Scannable with bold key points.' : d.channel === 'Social media post' ? 'Under 200 words. Conversational tone. End with engagement question.' : d.channel === 'Blog article' ? '500–700 words. SEO-friendly with a clear structure.' : '60-second script with a hook.'} Lead with the most surprising or actionable insight — not "The market is changing."`,
+        tip: "Ask the AI: \"Now write a 2-sentence version I can text to my top 10 past clients.\" Everyone appreciates a quick, personal heads-up."
+      },
+      neighborhood: {
+        fields: [
+          { id: "neighborhood", label: "Neighborhood name", tag: "C", type: "text", placeholder: "e.g., Southlake Town Square area" },
+          { id: "focus", label: "What should the report focus on?", tag: "T", type: "select", options: ["Why families love it here", "Investment potential", "Lifestyle and amenities", "Schools and education", "Comparing to nearby areas"], placeholder: "" },
+          { id: "audience", label: "Who is this for?", tag: "C", type: "select", options: ["Relocating families", "Local move-up buyers", "Out-of-state buyers", "Investors"], placeholder: "" },
+          { id: "format_type", label: "Output format", tag: "F", type: "select", options: ["Social media carousel (5 slides)", "Email to a prospect", "Blog post", "One-pager PDF content"], placeholder: "" },
+        ],
+        role: "You are a neighborhood expert who lives and breathes this area — you know the coffee shops by name, the hidden parks, and which streets have the best holiday lights.",
+        taskTemplate: (d) => `Create a ${d.format_type.toLowerCase()} about ${d.neighborhood} focused on ${d.focus.toLowerCase()}. Audience: ${d.audience.toLowerCase()}. Include specific place names and details that only a local would know — not generic descriptions you'd find on any city website.`,
+        formatTemplate: (d) => `${d.format_type === 'Social media carousel (5 slides)' ? 'Write 5 slides, max 40 words each. Casual, confident tone. End with a DM call-to-action.' : d.format_type === 'Email to a prospect' ? 'Under 200 words. Warm, personal tone. End with an offer to give them a personal tour.' : d.format_type === 'Blog post' ? '600–800 words. Conversational and specific. Include SEO-friendly headers.' : 'Structured with sections. Scannable. Include 3–5 data points.'} Make it feel like a recommendation from a friend, not a Wikipedia article.`,
+        tip: "After you get the output, replace any generic details with YOUR actual favorite spots. That personal specificity is what makes content shareable."
+      }
+    }
+  },
+
+  client: {
+    label: "Client Communications",
+    subtypes: [
+      { id: "objection", label: "Objection Handler" },
+      { id: "buyer_guide", label: "Buyer Education" },
+      { id: "transaction_update", label: "Transaction Update" },
+    ],
+    forms: {
+      objection: {
+        fields: [
+          { id: "client_type", label: "Buyer or seller?", tag: "C", type: "select", options: ["Seller", "Buyer"], placeholder: "" },
+          { id: "objection", label: "What's the objection?", tag: "C", type: "text", placeholder: "e.g., \"I want to wait until spring\" or \"Your commission is too high\"" },
+          { id: "relationship", label: "Relationship stage", tag: "C", type: "select", options: ["Just met / initial consultation", "We've been working together", "About to lose them to another agent"], placeholder: "" },
+          { id: "response_type", label: "How will you deliver this?", tag: "F", type: "select", options: ["Phone/in-person talking points", "Email response", "Text message"], placeholder: "" },
+        ],
+        role: "You are an experienced real estate agent who handles objections with empathy and data — never pressure. You acknowledge the concern first, then offer perspective.",
+        taskTemplate: (d) => `A ${d.client_type.toLowerCase()} told me: "${d.objection}". Relationship stage: ${d.relationship.toLowerCase()}. Write a response that acknowledges their concern, provides a thoughtful perspective with supporting reasoning, and keeps the door open without being pushy.`,
+        formatTemplate: (d) => `Format: ${d.response_type}. ${d.response_type === 'Phone/in-person talking points' ? 'Give me 3–4 bullet points I can reference naturally in conversation — not a script.' : d.response_type === 'Email response' ? 'Under 150 words. Empathetic tone. End with a soft next step.' : 'Under 50 words. Conversational. One key point only.'} Include a brief data point or market insight that supports my position without being preachy.`,
+        tip: "The best objection handling isn't about \"winning.\" Ask the AI: \"What question could I ask THEM to help them think through this differently?\" Sometimes a good question beats a good answer."
+      },
+      buyer_guide: {
+        fields: [
+          { id: "buyer_type", label: "What kind of buyer?", tag: "C", type: "select", options: ["First-time buyer (no idea where to start)", "Experienced buyer (knows the basics)", "Relocating from another state", "Investor"], placeholder: "" },
+          { id: "topic", label: "What do they need to understand?", tag: "T", type: "select", options: ["The full buying process step by step", "How to make a strong offer", "What happens during inspection", "Understanding closing costs", "How pre-approval works", "Why they need a buyer's agent"], placeholder: "" },
+          { id: "delivery", label: "How will you send this?", tag: "F", type: "select", options: ["Email explanation", "Content for a guide/PDF", "Social media post", "Quick text message summary"], placeholder: "" },
+        ],
+        role: "You are a patient, knowledgeable real estate agent who explains things in plain English — no jargon, no condescension. You make buyers feel confident, not overwhelmed.",
+        taskTemplate: (d) => `Explain ${d.topic.toLowerCase()} to a ${d.buyer_type.toLowerCase()}. Make it clear, practical, and reassuring. Anticipate the follow-up questions they'll have and address them proactively.`,
+        formatTemplate: (d) => `Format: ${d.delivery}. ${d.delivery === 'Email explanation' ? 'Under 250 words. Use short paragraphs. Bold the most important points.' : d.delivery === 'Content for a guide/PDF' ? '400–500 words. Use clear sections with headers. Include a "What to expect" timeline if relevant.' : d.delivery === 'Social media post' ? 'Under 150 words. Lead with the most surprising or misunderstood part. End with "Save this for later."' : 'Under 60 words. Hit the one thing they need to know most.'} Avoid acronyms unless you spell them out. No "in this market" filler.`,
+        tip: "Save the best outputs as templates in your CRM's email library. Build once, use forever."
+      },
+      transaction_update: {
+        fields: [
+          { id: "stage", label: "Where are you in the transaction?", tag: "C", type: "select", options: ["Under contract — just accepted", "Inspection complete", "Appraisal ordered/complete", "Clear to close", "Closing day prep", "Post-closing follow up"], placeholder: "" },
+          { id: "client_type", label: "Updating a buyer or seller?", tag: "C", type: "select", options: ["Buyer", "Seller"], placeholder: "" },
+          { id: "issue", label: "Anything notable to address?", tag: "C", type: "text", placeholder: "e.g., appraisal came in low, inspection found issues (or leave blank if routine)" },
+        ],
+        role: "You are a calm, organized real estate agent who keeps clients informed at every step. You explain what's happening, what it means, and what comes next — so they never feel in the dark.",
+        taskTemplate: (d) => `Write a transaction update for my ${d.client_type.toLowerCase()} at the "${d.stage}" stage.${d.issue ? ' Notable situation: ' + d.issue + '.' : ''} Include what just happened, what it means for them, and the next 1–2 steps.`,
+        formatTemplate: (d) => `Email format. Under 150 words. Reassuring but honest tone. Use a simple structure: "Here's where we are → Here's what this means → Here's what happens next." If there's an issue, address it directly without sugarcoating or creating panic.`,
+        tip: "These updates build massive trust. Ask the AI: \"Now write a one-line text version I can send right after the email so they know to check their inbox.\""
+      }
+    }
+  },
+
+  prospect: {
+    label: "Prospecting",
+    subtypes: [
+      { id: "cold", label: "Cold Outreach" },
+      { id: "expired", label: "Expired Listing" },
+      { id: "sphere", label: "Sphere of Influence" },
+    ],
+    forms: {
+      cold: {
+        fields: [
+          { id: "target", label: "Who are you reaching out to?", tag: "C", type: "select", options: ["Homeowners in a specific neighborhood", "People who attended a community event", "Local business owners for partnerships", "Renters in an area (potential buyers)"], placeholder: "" },
+          { id: "area", label: "What area?", tag: "C", type: "text", placeholder: "e.g., Heritage neighborhood in Fort Worth" },
+          { id: "value_offer", label: "What value are you offering?", tag: "T", type: "select", options: ["Free home valuation", "Neighborhood market report", "Invite to an event/open house", "General introduction / brand awareness"], placeholder: "" },
+          { id: "channel", label: "Delivery method?", tag: "F", type: "select", options: ["Email", "Door knock script", "Direct mail piece", "Social media DM"], placeholder: "" },
+        ],
+        role: "You are a confident but not pushy real estate agent who leads with value — giving people something useful before asking for anything in return.",
+        taskTemplate: (d) => `Write a ${d.channel.toLowerCase()} for cold outreach to ${d.target.toLowerCase()} in ${d.area}. Value offer: ${d.value_offer.toLowerCase()}. The tone should feel like a helpful neighbor, not a sales pitch.`,
+        formatTemplate: (d) => `${d.channel === 'Email' ? 'Under 100 words. Subject line included. One clear CTA.' : d.channel === 'Door knock script' ? 'Under 60 words of actual talking. Natural, conversational. Include what to say if they seem busy or uninterested.' : d.channel === 'Direct mail piece' ? 'Headline + 3–4 sentences + CTA. Scannable in 5 seconds.' : 'Under 50 words. Casual and genuine. Not copy-paste obvious.'} Lead with what THEY get, not who I am.`,
+        tip: "The #1 prospecting mistake: talking about yourself first. Notice how every good prompt leads with value for THEM."
+      },
+      expired: {
+        fields: [
+          { id: "area", label: "Where was the listing?", tag: "C", type: "text", placeholder: "e.g., Grapevine, TX" },
+          { id: "dom", label: "How long was it on the market?", tag: "C", type: "select", options: ["30–60 days", "60–90 days", "90+ days", "Not sure"], placeholder: "" },
+          { id: "likely_issue", label: "Probable reason it didn't sell?", tag: "C", type: "select", options: ["Overpriced", "Bad photos/marketing", "Limited showing availability", "Needed repairs/staging", "Wrong agent fit", "Market shift", "Not sure"], placeholder: "" },
+          { id: "channel", label: "How will you reach out?", tag: "F", type: "select", options: ["Phone script", "Email", "Handwritten note talking points"], placeholder: "" },
+        ],
+        role: "You are an empathetic, experienced real estate agent who understands how frustrating it is when a home doesn't sell. You don't trash the previous agent — you focus on what you'd do differently.",
+        taskTemplate: (d) => `Write a ${d.channel.toLowerCase()} for an expired listing in ${d.area} that was on the market for ${d.dom.toLowerCase()}. Likely issue: ${d.likely_issue.toLowerCase()}. Acknowledge their frustration, briefly explain what you'd do differently, and offer a no-pressure next step.`,
+        formatTemplate: (d) => `${d.channel === 'Phone script' ? 'Talking points, not a word-for-word script. Include how to handle "I\'m done trying" and "I\'m talking to other agents." Under 100 words.' : d.channel === 'Email' ? 'Under 120 words. Empathetic subject line. One specific thing I\'d do differently. Soft CTA.' : 'Key points to include in a handwritten note. 3–4 sentences max. Genuine and personal.'} Never badmouth the previous agent or brokerage.`,
+        tip: "The best expired listing approach: \"I looked at your listing and I think I see what happened. Can I share my thoughts — no strings attached?\" Curiosity beats commission talk every time."
+      },
+      sphere: {
+        fields: [
+          { id: "relationship", label: "Who are they to you?", tag: "C", type: "select", options: ["Past client", "Friend or family member", "Someone I met at an event", "Social media connection", "Neighbor"], placeholder: "" },
+          { id: "goal", label: "What's the goal?", tag: "T", type: "select", options: ["Stay top of mind", "Ask for referrals", "Invite to an event", "Share something valuable (market info, tips)"], placeholder: "" },
+          { id: "channel", label: "How?", tag: "F", type: "select", options: ["Text message", "Email", "Social media comment/DM", "Phone call talking points"], placeholder: "" },
+          { id: "personal_detail", label: "One personal detail you remember about them", tag: "C", type: "text", placeholder: "e.g., they just had a baby, love the Cowboys, renovating their kitchen" },
+        ],
+        role: "You are a genuine, relationship-first real estate agent. You reach out because you actually care about people — and yes, you also happen to sell houses.",
+        taskTemplate: (d) => `Write a ${d.channel.toLowerCase()} to a ${d.relationship.toLowerCase()} in my sphere of influence. Goal: ${d.goal.toLowerCase()}.${d.personal_detail ? ' Personal detail to reference: ' + d.personal_detail + '.' : ''} It should feel natural — like something I'd actually say — not like a template.`,
+        formatTemplate: (d) => `${d.channel === 'Text message' ? 'Under 40 words. Casual. No links or formatting.' : d.channel === 'Email' ? 'Under 100 words. Warm tone. One natural mention of real estate without making it the whole point.' : d.channel === 'Social media comment/DM' ? 'Under 30 words. Match social media energy — brief, genuine, specific.' : 'Under 60 words of talking points. Conversational. No agenda pushing.'} The real estate mention should feel organic, not forced.`,
+        tip: "The \"3-3-3\" daily habit: 3 texts, 3 comments on social media, 3 minutes on the phone. Use this tool to generate all of them in under 5 minutes."
+      }
+    }
+  },
+
+  marketing: {
+    label: "Marketing",
+    subtypes: [
+      { id: "just_listed", label: "Just Listed / Just Sold" },
+      { id: "open_house", label: "Open House Promo" },
+      { id: "event", label: "Event / Community" },
+    ],
+    forms: {
+      just_listed: {
+        fields: [
+          { id: "status", label: "Just Listed or Just Sold?", tag: "C", type: "select", options: ["Just Listed", "Just Sold"], placeholder: "" },
+          { id: "property", label: "Property basics", tag: "C", type: "text", placeholder: "e.g., 4BR/3BA in Trophy Club, pool, $625K" },
+          { id: "standout", label: "What makes it special?", tag: "C", type: "text", placeholder: "e.g., backing to greenbelt, fully renovated kitchen, rare lot size" },
+          { id: "channel", label: "Where will you post this?", tag: "F", type: "select", options: ["Instagram/Facebook", "Email blast", "Neighborhood flyer content", "All of the above — give me versions for each"], placeholder: "" },
+        ],
+        role: "You are a real estate marketing expert who makes listings come alive — focusing on the lifestyle and story, not just the specs.",
+        taskTemplate: (d) => `Write a ${d.status.toLowerCase()} announcement for: ${d.property}. Standout feature: ${d.standout}. ${d.status === 'Just Sold' ? 'Celebrate the win and subtly position me as the agent who gets results.' : 'Create urgency and excitement without being cheesy or misleading.'}`,
+        formatTemplate: (d) => `${d.channel === 'All of the above — give me versions for each' ? 'Write 3 versions: (1) Social media caption under 100 words with hashtags, (2) Email subject line + body under 150 words, (3) Flyer headline + 3 bullet points.' : `Format for ${d.channel.toLowerCase()}.`} Lead with the lifestyle/story, not the spec sheet. No "Welcome to..." or "This stunning home..." openers.`,
+        tip: "For Just Sold posts, ask the AI: \"Now write a version that focuses on what I did for my client — without revealing private details.\" Social proof > property specs."
+      },
+      open_house: {
+        fields: [
+          { id: "property", label: "Property basics", tag: "C", type: "text", placeholder: "e.g., 3BR/2BA ranch in Colleyville, $485K" },
+          { id: "date_time", label: "When is it?", tag: "C", type: "text", placeholder: "e.g., Saturday March 1st, 1-4 PM" },
+          { id: "hook", label: "What will draw people in?", tag: "T", type: "text", placeholder: "e.g., cookies + coffee, raffle, neighborhood with amazing schools" },
+          { id: "channel", label: "Promotion channel", tag: "F", type: "select", options: ["Social media ad/post", "Email invitation", "Neighborhood door hanger text", "All of the above"], placeholder: "" },
+        ],
+        role: "You are an energetic real estate agent who makes open houses feel like events worth attending — not obligations to check a box.",
+        taskTemplate: (d) => `Write open house promotional content for ${d.property} on ${d.date_time}. Hook/draw: ${d.hook}. Make it feel like something people would be excited to attend, not just another open house.`,
+        formatTemplate: (d) => `${d.channel === 'All of the above' ? 'Write 3 versions: (1) Social media post under 80 words, (2) Email invite under 120 words with subject line, (3) Door hanger text under 40 words.' : `Format for ${d.channel.toLowerCase()}.`} Lead with the reason to come, not the address. Create FOMO without being cheesy.`,
+        tip: "Post the promo 5 days before (awareness), 2 days before (reminder), and day-of (urgency). Ask the AI to write all 3 versions at once."
+      },
+      event: {
+        fields: [
+          { id: "event_type", label: "What kind of event?", tag: "C", type: "select", options: ["Client appreciation event", "Community sponsorship", "First-time buyer seminar", "Neighborhood block party", "Charity/volunteer event"], placeholder: "" },
+          { id: "details", label: "Key details", tag: "C", type: "text", placeholder: "e.g., BBQ at the park, April 12th, families welcome" },
+          { id: "goal", label: "What's the marketing goal?", tag: "T", type: "select", options: ["Get people to attend", "Recap the event (post-event content)", "Generate leads from attendees"], placeholder: "" },
+          { id: "channel", label: "Where will you share?", tag: "F", type: "select", options: ["Social media post", "Email to database", "Flyer/invite", "All channels"], placeholder: "" },
+        ],
+        role: "You are a community-focused real estate agent who builds relationships through real-life events — the kind of agent people know and trust in the neighborhood.",
+        taskTemplate: (d) => `Write ${d.goal.toLowerCase()} content for a ${d.event_type.toLowerCase()}. Details: ${d.details}. The real estate angle should be subtle — this is about community first, business second.`,
+        formatTemplate: (d) => `${d.channel === 'All channels' ? 'Write versions for: (1) Social media under 80 words, (2) Email under 150 words with subject line, (3) Flyer headline + 3 lines.' : `Format for ${d.channel.toLowerCase()}.`} Warm, inviting tone. The CNAT branding should be present but not dominant. Focus on the experience people will have.`,
+        tip: "Events are the highest-ROI marketing most agents never do. The content AI writes is just the start — the relationships you build at the event are the real return."
+      }
+    }
+  }
+};
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let currentStep = 1;
+let selectedCat = null;
+let selectedSubtype = null;
+let generatedPrompt = "";
+let generatedPlain = "";
+
+// ══════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════
+function goStep(n) {
+  currentStep = n;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec' + n).classList.add('active');
+
+  // Update step indicators
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById('s' + i);
+    el.classList.remove('active', 'done');
+    if (i < n) el.classList.add('done');
+    if (i === n) el.classList.add('active');
+  }
+  for (let i = 1; i <= 2; i++) {
+    const line = document.getElementById('sl' + i);
+    line.classList.toggle('done', i < n);
+  }
+
+  // Update framework bar highlights
+  document.querySelectorAll('.fw-pill').forEach(p => p.classList.remove('active'));
+  if (n === 2) {
+    document.querySelectorAll('.fw-pill').forEach(p => p.classList.add('active'));
+  } else if (n === 3) {
+    document.querySelectorAll('.fw-pill').forEach(p => p.classList.add('active'));
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════
+// CATEGORY SELECTION
+// ══════════════════════════════════════════
+document.querySelectorAll('.cat-card').forEach(card => {
+  card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); } });
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedCat = card.dataset.cat;
+
+    // Show subtypes and first form
+    const cat = DATA[selectedCat];
+    selectedSubtype = cat.subtypes[0].id;
+    renderSubtypes();
+    renderForm();
+
+    setTimeout(() => goStep(2), 250);
+  });
+});
+
+function renderSubtypes() {
+  const cat = DATA[selectedCat];
+  const row = document.getElementById('subtypeRow');
+  row.innerHTML = cat.subtypes.map(st =>
+    `<button class="subtype-btn ${st.id === selectedSubtype ? 'active' : ''}" data-sub="${st.id}">${st.label}</button>`
+  ).join('');
+
+  row.querySelectorAll('.subtype-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedSubtype = btn.dataset.sub;
+      row.querySelectorAll('.subtype-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderForm();
+    });
+  });
+}
+
+function renderForm() {
+  const formDef = DATA[selectedCat].forms[selectedSubtype];
+  const area = document.getElementById('formArea');
+
+  area.innerHTML = formDef.fields.map(f => {
+    const tagMap = { R: 'ROLE', C: 'CONTEXT', T: 'TASK', F: 'FORMAT' };
+    const tagLabel = tagMap[f.tag] || f.tag;
+
+    let input = '';
+    if (f.type === 'text') {
+      input = `<input type="text" id="field_${f.id}" placeholder="${f.placeholder}">`;
+    } else if (f.type === 'textarea') {
+      input = `<textarea id="field_${f.id}" placeholder="${f.placeholder}" rows="3"></textarea>`;
+    } else if (f.type === 'select') {
+      input = `<select id="field_${f.id}"><option value="">Choose one...</option>${f.options.map(o => `<option value="${o}">${o}</option>`).join('')}</select>`;
+    }
+
+    return `
+      <div class="form-group">
+        <label>
+          <span class="rctf-tag">${tagLabel}</span>
+          ${f.label}
+        </label>
+        ${input}
+      </div>
+    `;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// PROMPT GENERATION
+// ══════════════════════════════════════════
+function generatePrompt() {
+  const formDef = DATA[selectedCat].forms[selectedSubtype];
+
+  // Gather field values
+  const d = {};
+  let allFilled = true;
+  formDef.fields.forEach(f => {
+    const el = document.getElementById('field_' + f.id);
+    d[f.id] = el ? el.value.trim() : '';
+    // Only require selects, not text inputs (some are optional)
+    if (f.type === 'select' && !d[f.id]) allFilled = false;
+  });
+
+  if (!allFilled) {
+    // Find the first empty required field and focus it
+    for (const f of formDef.fields) {
+      if (f.type === 'select') {
+        const el = document.getElementById('field_' + f.id);
+        if (!el.value.trim()) {
+          el.style.borderColor = 'var(--coral)';
+          el.focus();
+          setTimeout(() => el.style.borderColor = '', 2000);
+          break;
+        }
+      }
+    }
+    return;
+  }
+
+  // Build the prompt
+  const role = formDef.role;
+  const task = formDef.taskTemplate(d);
+  const format = formDef.formatTemplate(d);
+
+  generatedPrompt =
+    `Role: ${role}\n\n` +
+    `Context & Task: ${task}\n\n` +
+    `Format: ${format}`;
+
+  generatedPlain =
+    `${role}\n\n${task}\n\n${format}`;
+
+  // Render output
+  const outputEl = document.getElementById('outputText');
+  outputEl.innerHTML =
+    `<span class="rctf-label">Role:</span> ${escapeHtml(role)}\n\n` +
+    `<span class="rctf-label">Context & Task:</span> ${escapeHtml(task)}\n\n` +
+    `<span class="rctf-label">Format:</span> ${escapeHtml(format)}`;
+
+  // Set tip
+  document.getElementById('tipText').textContent = formDef.tip;
+
+  goStep(3);
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// ══════════════════════════════════════════
+// COPY
+// ══════════════════════════════════════════
+function copyPrompt() {
+  navigator.clipboard.writeText(generatedPrompt).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.classList.add('copied');
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
+    }, 2000);
+  });
+}
+
+function copyPlain() {
+  navigator.clipboard.writeText(generatedPlain).then(() => {
+    const btn = document.querySelector('.plain-copy-btn');
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> &nbsp; Copied without labels!';
+    btn.style.borderColor = 'var(--mint)';
+    btn.style.color = 'var(--mint)';
+    setTimeout(() => {
+      btn.innerHTML = '<i class="fa-regular fa-clipboard"></i> &nbsp; Copy without labels (plain text)';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+
+// ══════════════════════════════════════════
+// RESET
+// ══════════════════════════════════════════
+function resetAll() {
+  selectedCat = null;
+  selectedSubtype = null;
+  generatedPrompt = "";
+  generatedPlain = "";
+  document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+  goStep(1);
+}
+</script>
+
+</body>
+</html>

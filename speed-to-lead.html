@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speed to Lead Kit | CNAT Title</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --navy: #0a1628;
+      --navy-mid: #111d33;
+      --navy-light: #1a2940;
+      --cyan: #00d4ff;
+      --cyan-dim: rgba(0, 212, 255, 0.15);
+      --teal: #028090;
+      --mint: #02c39a;
+      --gold: #f5a623;
+      --coral: #ff6b6b;
+      --white: #f0f4f8;
+      --muted: #8899aa;
+      --border: rgba(0, 212, 255, 0.12);
+      --card-bg: rgba(17, 29, 51, 0.8);
+      --radius: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse at 80% 0%, rgba(255, 107, 107, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 100%, rgba(0, 212, 255, 0.06) 0%, transparent 50%),
+        repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(0,212,255,0.015) 50px, rgba(0,212,255,0.015) 51px),
+        repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0,212,255,0.015) 50px, rgba(0,212,255,0.015) 51px);
+      pointer-events: none; z-index: 0;
+    }
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
+
+    /* Header */
+    .header { text-align: center; margin-bottom: 28px; }
+    .brand-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .brand-tag .dot { width: 6px; height: 6px; background: var(--coral); border-radius: 50%; box-shadow: 0 0 8px var(--coral); }
+    h1 { font-family: 'Space Mono', monospace; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 700; color: var(--coral); background: linear-gradient(135deg, var(--coral), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; margin-bottom: 8px; }
+    .subtitle { font-size: 1rem; color: var(--muted); max-width: 540px; margin: 0 auto; line-height: 1.5; }
+
+    /* Stat bar */
+    .stat-bar {
+      display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+      margin: 20px auto 28px;
+      padding: 14px 20px;
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 600px;
+    }
+    .stat-item { text-align: center; }
+    .stat-num { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 1.4rem; color: var(--coral); }
+    .stat-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+    /* Source tabs */
+    .source-tabs {
+      display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 24px;
+    }
+    .source-tab {
+      padding: 10px 18px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--navy-mid);
+      color: var(--white); font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem; font-weight: 500; cursor: pointer;
+      transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+    }
+    .source-tab:hover { border-color: rgba(0,212,255,0.3); }
+    .source-tab.active { border-color: var(--cyan); background: var(--cyan-dim); color: var(--cyan); }
+    .source-tab .icon { font-size: 1rem; }
+
+    /* Customize bar */
+    .customize-bar {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      background: var(--navy-mid); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px; margin-bottom: 24px;
+    }
+    .customize-bar label {
+      font-size: 0.78rem; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; display: block;
+    }
+    .customize-bar input {
+      width: 100%; padding: 10px 12px; background: var(--navy-light);
+      border: 1px solid var(--border); border-radius: 8px;
+      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px;
+    }
+    .customize-bar input:focus { outline: none; border-color: var(--cyan); }
+    .customize-bar input::placeholder { color: rgba(136,153,170,0.5); }
+    @media (max-width: 550px) { .customize-bar { grid-template-columns: 1fr; } }
+
+    /* Template cards */
+    .template-section { margin-bottom: 28px; }
+    .template-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: 12px;
+    }
+    .template-label .timing {
+      font-family: 'Space Mono', monospace; padding: 3px 10px;
+      background: rgba(255,107,107,0.12); border: 1px solid rgba(255,107,107,0.2);
+      border-radius: 100px; color: var(--coral); font-size: 0.7rem; font-weight: 700;
+    }
+
+    .template-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px; margin-bottom: 12px;
+      position: relative;
+    }
+    .template-card h3 {
+      font-size: 0.95rem; font-weight: 600; margin-bottom: 4px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .template-card h3 .channel-badge {
+      font-size: 0.68rem; font-weight: 700; padding: 2px 8px;
+      border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .badge-text { background: rgba(2,195,154,0.12); color: var(--mint); }
+    .badge-email { background: rgba(0,212,255,0.12); color: var(--cyan); }
+    .badge-call { background: rgba(245,166,35,0.12); color: var(--gold); }
+
+    .template-card .preview {
+      font-size: 0.9rem; line-height: 1.65; color: rgba(240,244,248,0.85);
+      margin-top: 10px; white-space: pre-wrap; word-wrap: break-word;
+    }
+    .template-card .preview .personalized { color: var(--cyan); font-weight: 600; }
+
+    .template-card .copy-btn {
+      position: absolute; top: 12px; right: 12px;
+      padding: 6px 12px; border-radius: 6px;
+      background: var(--cyan-dim); border: 1px solid rgba(0,212,255,0.2);
+      color: var(--cyan); font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; gap: 5px; transition: all 0.2s;
+    }
+    .template-card .copy-btn:hover { background: rgba(0,212,255,0.2); }
+    .template-card .copy-btn.copied { background: rgba(2,195,154,0.2); border-color: rgba(2,195,154,0.3); color: var(--mint); }
+
+    .template-card .subject-line {
+      font-size: 0.82rem; color: var(--gold); font-weight: 600;
+      margin-bottom: 6px; padding-bottom: 6px;
+      border-bottom: 1px dashed rgba(245,166,35,0.2);
+    }
+
+    /* Pro tip */
+    .tip-box {
+      background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.15);
+      border-radius: var(--radius); padding: 16px 20px; margin-top: 20px;
+    }
+    .tip-box h4 { font-size: 0.85rem; color: var(--gold); margin-bottom: 4px; }
+    .tip-box p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+    /* Footer */
+    .footer { text-align: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .footer p { font-size: 0.75rem; color: var(--muted); }
+    .footer .credit { font-size: 0.82rem; margin-bottom: 4px; }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.82rem; color: var(--muted); text-decoration: none;
+      margin-bottom: 16px; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--coral); }
+
+    /* Accessibility */
+    .source-tab:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+    .copy-btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
+    @media (max-width: 600px) {
+      .container { padding: 16px 14px 48px; }
+      .source-tabs { gap: 4px; }
+      .source-tab { padding: 10px 14px; font-size: 0.82rem; min-height: 44px; }
+      .stat-bar { gap: 16px; }
+      .template-card .copy-btn { position: relative; top: auto; right: auto; margin-top: 12px; width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <a href="https://ai.cnattitle.com/ai-toolkit" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Toolkit</a>
+
+  <header class="header">
+    <div class="brand-tag"><span class="dot"></span> CNAT Title &middot; AI Toolkit</div>
+    <h1>Speed to Lead</h1>
+    <p class="subtitle">Pre-built response templates by lead source. Customize in 30 seconds, send immediately. Because the first agent to respond wins.</p>
+  </header>
+
+  <div class="stat-bar">
+    <div class="stat-item">
+      <div class="stat-num">&lt; 5 min</div>
+      <div class="stat-label">Ideal response time</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">78%</div>
+      <div class="stat-label">Buy from first responder</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">48%</div>
+      <div class="stat-label">Never follow up at all</div>
+    </div>
+  </div>
+
+  <!-- Personalize -->
+  <div class="customize-bar">
+    <div>
+      <label>Your first name</label>
+      <input type="text" id="agentName" placeholder="e.g., Bradley" oninput="renderTemplates()">
+    </div>
+    <div>
+      <label>Your area / market</label>
+      <input type="text" id="agentArea" placeholder="e.g., Southlake, TX" oninput="renderTemplates()">
+    </div>
+  </div>
+
+  <!-- Source tabs -->
+  <div class="source-tabs" id="sourceTabs">
+    <button class="source-tab active" data-src="zillow"><span class="icon">🟣</span> Zillow / Realtor.com</button>
+    <button class="source-tab" data-src="website"><span class="icon">🌐</span> Your Website</button>
+    <button class="source-tab" data-src="openhouse"><span class="icon">🏠</span> Open House</button>
+    <button class="source-tab" data-src="social"><span class="icon">📱</span> Social Media</button>
+    <button class="source-tab" data-src="referral"><span class="icon">🤝</span> Referral</button>
+    <button class="source-tab" data-src="fsbo"><span class="icon">🎯</span> FSBO / Expired</button>
+  </div>
+
+  <!-- Template area -->
+  <div id="templateArea"></div>
+
+  <div class="footer">
+    <p class="credit">Built by CNAT Title &middot; Technology Team</p>
+    <p>Part of the CNAT AI Toolkit</p>
+  </div>
+</div>
+
+<script>
+const AGENT = () => document.getElementById('agentName').value.trim() || '[Your Name]';
+const AREA = () => document.getElementById('agentArea').value.trim() || '[Your Area]';
+
+const TEMPLATES = {
+  zillow: {
+    tip: "Portal leads are shopping multiple agents simultaneously. Your ONLY job in message #1 is to get a reply — not close a deal. Short, specific, and human wins every time.",
+    sections: [
+      {
+        label: "First Touch",
+        timing: "Within 5 min",
+        templates: [
+          {
+            title: "The Quick Text",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hi! This is ${AGENT()} — I just saw you were looking at homes in ${AREA()}. I'd love to help! Is there a specific neighborhood or feature that's most important to you? No pressure at all, happy to just answer questions.`
+          },
+          {
+            title: "The Email (if text isn't available)",
+            channel: "email", badge: "badge-email",
+            subject: () => `Homes in ${AREA()} — quick question for you`,
+            template: () =>
+`Hi there,
+
+I saw you were checking out properties in ${AREA()} and wanted to reach out personally — not with an automated message, but because I actually know this area well and might be able to save you some time.
+
+Quick question: are you just starting to look, or do you have a timeline in mind?
+
+Either way, I'm happy to send you listings that match what you're looking for — including ones that haven't hit the portals yet.
+
+No pressure, no obligation. Just here to help.
+
+${AGENT()}`
+          }
+        ]
+      },
+      {
+        label: "Follow-Up #1",
+        timing: "24 hours later",
+        templates: [
+          {
+            title: "The Value-Add Text",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hey — ${AGENT()} again. I put together a quick list of homes in ${AREA()} that match what you were browsing. Want me to send it over? Some aren't on Zillow yet.`
+          }
+        ]
+      },
+      {
+        label: "Follow-Up #2",
+        timing: "Day 3 — The Breakup",
+        templates: [
+          {
+            title: "The Friendly Close-Out",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hi — I don't want to be that agent who keeps texting 😅 Just wanted you to know I'm here if you ever need anything about the ${AREA()} market. Feel free to reach out anytime. Good luck with your search! — ${AGENT()}`
+          }
+        ]
+      }
+    ]
+  },
+
+  website: {
+    tip: "Website leads already chose YOU — they came to your site specifically. These leads are warmer than portal leads, so match that energy. Be personal, reference your site if possible.",
+    sections: [
+      {
+        label: "First Touch",
+        timing: "Within 5 min",
+        templates: [
+          {
+            title: "The Personal Text",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hey! This is ${AGENT()} — thanks for reaching out through my website. I'd love to help with your home search in ${AREA()}. What's the #1 thing on your must-have list?`
+          },
+          {
+            title: "The Detailed Email",
+            channel: "email", badge: "badge-email",
+            subject: () => `Thanks for reaching out — here's what I can do for you`,
+            template: () =>
+`Hi,
+
+Thanks for visiting my site and reaching out — I really appreciate it.
+
+I specialize in ${AREA()} and work with buyers and sellers every day in this market, so I can give you real insight into what's happening right now (not just what the internet says).
+
+A couple of things I can help with right away:
+• Off-market listings that aren't on the public sites
+• Honest pricing guidance so you don't overpay
+• A realistic timeline based on your situation
+
+What's the best way to connect — quick call, text, or just email back and forth for now?
+
+Looking forward to it,
+${AGENT()}`
+          }
+        ]
+      },
+      {
+        label: "Follow-Up",
+        timing: "48 hours",
+        templates: [
+          {
+            title: "The Helpful Nudge",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hey — ${AGENT()} here. Just wanted to follow up from my website. I pulled some recent sales data for ${AREA()} that might be helpful for your search. Want me to send it over?`
+          }
+        ]
+      }
+    ]
+  },
+
+  openhouse: {
+    tip: "Open house leads go cold FAST — they visited 3 other houses that day. Send your follow-up within 2 hours while they still remember the property. Reference something specific about the house.",
+    sections: [
+      {
+        label: "Same-Day Follow-Up",
+        timing: "Within 2 hours",
+        templates: [
+          {
+            title: "The Interested Visitor",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hi! This is ${AGENT()} from today's open house. Great meeting you! I noticed you seemed interested in the kitchen / backyard / layout — was that the kind of space you're looking for? I have a couple similar ones in ${AREA()} I think you'd love.`
+          },
+          {
+            title: "The Casual Browser",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hey — ${AGENT()} here from the open house today. Thanks for stopping by! Even if that one wasn't "the one," I'd love to know what you ARE looking for. I know ${AREA()} really well and might be able to point you in the right direction.`
+          },
+          {
+            title: "The Email Recap",
+            channel: "email", badge: "badge-email",
+            subject: () => `Great meeting you today — quick follow up`,
+            template: () =>
+`Hi,
+
+It was great meeting you at today's open house! I hope you enjoyed seeing the home.
+
+Whether that property is a fit or not, I'd love to help with your search. Here's what I can offer:
+
+• I know every neighborhood in ${AREA()} — I can match you with the right area for your lifestyle
+• I have access to listings before they go public
+• I'll give you honest advice, even if it means telling you NOT to buy something
+
+Would you be open to a quick 10-minute call this week? No pressure — just want to learn what you're looking for so I can keep an eye out.
+
+Thanks again for coming by,
+${AGENT()}`
+          }
+        ]
+      },
+      {
+        label: "Day-After Follow-Up",
+        timing: "Next day",
+        templates: [
+          {
+            title: "The Listing Alert Offer",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Good morning! ${AGENT()} from yesterday's open house. I just set up a custom search based on what we talked about — want me to add your email so you get notified when new homes hit the market in ${AREA()} before they go public?`
+          }
+        ]
+      }
+    ]
+  },
+
+  social: {
+    tip: "Social media leads are the most casual — they DMed you or commented, not filled out a form. Match their energy. Keep it light, short, and conversational. Do NOT send them a paragraph.",
+    sections: [
+      {
+        label: "DM Response",
+        timing: "Within 30 min",
+        templates: [
+          {
+            title: "Response to a General DM",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hey! Thanks for reaching out 🙌 I'd love to help. Are you looking to buy, sell, or just exploring what's out there in ${AREA()}?`
+          },
+          {
+            title: "Response to a Post Comment/Question",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Great question! I get asked that a lot. The short answer — it depends on your situation, but I'd be happy to give you the full picture. Want me to send you some info, or would a quick call be easier?`
+          }
+        ]
+      },
+      {
+        label: "Moving to Text/Email",
+        timing: "After they reply",
+        templates: [
+          {
+            title: "The Platform Switch",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Awesome — so I don't lose your message in my DMs, would it be cool if I texted you instead? That way I can send you listings and market info directly. What's the best number?`
+          }
+        ]
+      },
+      {
+        label: "Follow-Up (if no reply to DM)",
+        timing: "2–3 days",
+        templates: [
+          {
+            title: "The Soft Re-Engage",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hey! Just circling back — totally understand if the timing isn't right. I post a lot about the ${AREA()} market so feel free to follow along. And if you ever have a real estate question, I'm always here 👋 — ${AGENT()}`
+          }
+        ]
+      }
+    ]
+  },
+
+  referral: {
+    tip: "Referral leads are the warmest leads you'll ever get — someone vouched for you. Don't waste that trust with a generic message. Mention the referrer by name and treat it like an introduction from a friend.",
+    sections: [
+      {
+        label: "First Touch",
+        timing: "Same day as referral",
+        templates: [
+          {
+            title: "The Warm Text",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hi! This is ${AGENT()} — [Referrer's Name] mentioned you might be thinking about [buying/selling] and said I should reach out. I'd love to help! No rush — just wanted to introduce myself and see if you have any questions about the ${AREA()} market.`
+          },
+          {
+            title: "The Warm Email",
+            channel: "email", badge: "badge-email",
+            subject: () => `[Referrer's Name] thought we should connect`,
+            template: () =>
+`Hi,
+
+[Referrer's Name] reached out and mentioned you might be thinking about making a move — I'm honored they thought of me!
+
+A little about me: I specialize in ${AREA()} and I take a pretty straightforward approach — honest advice, no pressure, and I'll tell you if something isn't a good fit (even if it means talking you out of a sale).
+
+I'd love to learn more about what you're thinking. No commitment needed — even if you just have questions, I'm happy to help.
+
+When's a good time for a quick chat?
+
+Looking forward to connecting,
+${AGENT()}`
+          }
+        ]
+      },
+      {
+        label: "Thank the Referrer",
+        timing: "Immediately",
+        templates: [
+          {
+            title: "Thank You to the Referrer",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hey! Just wanted to say THANK YOU for sending [Lead's Name] my way — that means a lot. I'll take great care of them. You're the best 🙏 — ${AGENT()}`
+          }
+        ]
+      }
+    ]
+  },
+
+  fsbo: {
+    tip: "FSBOs and expired listings have already been burned. They've been called by 20 agents this week. Lead with empathy and value — not your pitch. The goal is a conversation, not a listing agreement.",
+    sections: [
+      {
+        label: "FSBO Initial Outreach",
+        timing: "After identifying listing",
+        templates: [
+          {
+            title: "The Value-First Approach",
+            channel: "call", badge: "badge-call",
+            template: () =>
+`Hi, this is ${AGENT()}. I saw your home on [Zillow/FB Marketplace/yard sign] and I'm not calling to try to list it — I know you're handling that yourself and I respect that.
+
+I actually just wanted to offer something: I pulled the recent comps in your neighborhood and I'd be happy to share them with you, no strings attached. Sometimes it helps to see what the other homes are actually closing at vs. what they're listed for.
+
+Would it be helpful if I sent that over?`
+          },
+          {
+            title: "The FSBO Text",
+            channel: "text", badge: "badge-text",
+            template: () =>
+`Hi — I'm ${AGENT()}, a local agent in ${AREA()}. I saw your home listed for sale and I'm not trying to get the listing. I actually have buyers looking in your neighborhood. Would you be open to me showing it? No commitment on your end.`
+          }
+        ]
+      },
+      {
+        label: "Expired Listing Outreach",
+        timing: "Day listing expires",
+        templates: [
+          {
+            title: "The Empathetic Call Script",
+            channel: "call", badge: "badge-call",
+            template: () =>
+`Hi, this is ${AGENT()}. I'm calling about your home on [Street Name] — and I know you're probably getting a lot of calls right now, so I'll be quick.
+
+I actually looked at your listing while it was active and I have a couple of thoughts on why it might not have gotten the traction it deserved. I'd love to share them with you — no pitch, no pressure. Just an honest perspective.
+
+Would you be open to a 10-minute conversation? If after that you decide to relist with someone else or wait, no hard feelings at all.`
+          },
+          {
+            title: "The Expired Email",
+            channel: "email", badge: "badge-email",
+            subject: () => `Your home on [Street Name] — a thought`,
+            template: () =>
+`Hi,
+
+I noticed your listing recently expired, and I wanted to reach out — not with a sales pitch, but with an honest observation.
+
+I reviewed your listing while it was on the market, and I think the issue wasn't your home — it's a great property. I believe it may have been [pricing/marketing/photos/exposure] that held it back.
+
+I have a few specific ideas on what I'd do differently, and I'm happy to share them with no obligation. Sometimes a fresh set of eyes is all it takes.
+
+Would you be open to a quick conversation this week?
+
+Either way, I wish you the best with it.
+
+${AGENT()}`
+          }
+        ]
+      }
+    ]
+  }
+};
+
+// ═══════════ RENDERING ═══════════
+let currentSource = 'zillow';
+
+function renderTemplates() {
+  const data = TEMPLATES[currentSource];
+  const area = document.getElementById('templateArea');
+  let html = '';
+
+  data.sections.forEach(sec => {
+    html += `<div class="template-section">`;
+    html += `<div class="template-label"><i class="fa-solid fa-clock"></i> &nbsp; ${sec.label} <span class="timing">${sec.timing}</span></div>`;
+
+    sec.templates.forEach((t, i) => {
+      const id = `${currentSource}_${sec.label.replace(/\s/g,'')}_${i}`;
+      const text = t.template();
+      const display = text.replace(/\[([^\]]+)\]/g, '<span class="personalized">[$1]</span>');
+
+      let subjectHtml = '';
+      if (t.subject) {
+        const subj = t.subject();
+        subjectHtml = `<div class="subject-line">Subject: ${subj.replace(/\[([^\]]+)\]/g, '<span class="personalized">[$1]</span>')}</div>`;
+      }
+
+      html += `
+        <div class="template-card">
+          <button class="copy-btn" id="btn_${id}" onclick="copyTemplate('${id}')">
+            <i class="fa-regular fa-copy"></i> Copy
+          </button>
+          <h3>${t.title} <span class="channel-badge ${t.badge}">${t.channel}</span></h3>
+          ${subjectHtml}
+          <div class="preview" id="tpl_${id}">${display}</div>
+          <input type="hidden" id="raw_${id}" value="${encodeURIComponent(t.subject ? 'Subject: ' + t.subject() + '\n\n' + text : text)}">
+        </div>`;
+    });
+
+    html += `</div>`;
+  });
+
+  html += `
+    <div class="tip-box">
+      <h4><i class="fa-solid fa-lightbulb"></i> &nbsp; Pro Tip for ${({zillow:'Portal',website:'Website',openhouse:'Open House',social:'Social Media',referral:'Referral',fsbo:'FSBO/Expired'})[currentSource]} Leads</h4>
+      <p>${data.tip}</p>
+    </div>`;
+
+  area.innerHTML = html;
+}
+
+function copyTemplate(id) {
+  const raw = decodeURIComponent(document.getElementById('raw_' + id).value);
+  navigator.clipboard.writeText(raw).then(() => {
+    const btn = document.getElementById('btn_' + id);
+    btn.classList.add('copied');
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
+    }, 2000);
+  });
+}
+
+// Tab switching
+document.querySelectorAll('.source-tab').forEach(tab => {
+  tab.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tab.click(); } });
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.source-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentSource = tab.dataset.src;
+    renderTemplates();
+  });
+});
+
+// Init
+renderTemplates();
+</script>
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Request Generator | CNAT Title</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --navy: #0a1628; --navy-mid: #111d33; --navy-light: #1a2940;
+      --cyan: #00d4ff; --cyan-dim: rgba(0,212,255,0.15);
+      --teal: #028090; --mint: #02c39a; --gold: #f5a623;
+      --coral: #ff6b6b; --purple: #a78bfa;
+      --white: #f0f4f8; --muted: #8899aa;
+      --border: rgba(0,212,255,0.12); --card-bg: rgba(17,29,51,0.8);
+      --radius: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: var(--white); min-height: 100vh; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 0%, rgba(167,139,250,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 100%, rgba(0,212,255,0.06) 0%, transparent 50%),
+        repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(0,212,255,0.015) 50px, rgba(0,212,255,0.015) 51px),
+        repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0,212,255,0.015) 50px, rgba(0,212,255,0.015) 51px);
+      pointer-events: none; z-index: 0;
+    }
+    .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
+
+    .header { text-align: center; margin-bottom: 24px; }
+    .brand-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .brand-tag .dot { width: 6px; height: 6px; background: var(--purple); border-radius: 50%; box-shadow: 0 0 8px var(--purple); }
+    h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 700; color: var(--purple); background: linear-gradient(135deg, var(--purple), var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; margin-bottom: 8px; }
+    .subtitle { font-size: 1rem; color: var(--muted); max-width: 540px; margin: 0 auto; line-height: 1.5; }
+
+    /* Why it matters */
+    .why-bar {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      margin: 20px auto 28px;
+    }
+    .why-card {
+      background: var(--navy-mid); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px; text-align: center;
+    }
+    .why-card .num { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 1.3rem; color: var(--purple); }
+    .why-card .desc { font-size: 0.75rem; color: var(--muted); margin-top: 4px; line-height: 1.3; }
+    @media (max-width: 550px) { .why-bar { grid-template-columns: 1fr; } }
+
+    /* Form */
+    .form-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px; margin-bottom: 24px;
+    }
+    .form-card h2 {
+      font-size: 1rem; font-weight: 600; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .form-card h2 .step-badge {
+      font-family: 'Space Mono', monospace; font-size: 0.72rem; font-weight: 700;
+      padding: 3px 10px; background: var(--cyan-dim); border-radius: 100px; color: var(--cyan);
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--white); margin-bottom: 5px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 11px 14px; background: var(--navy-light);
+      border: 1px solid var(--border); border-radius: 8px; color: var(--white);
+      font-family: 'DM Sans', sans-serif; font-size: 16px; -webkit-appearance: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,212,255,0.08);
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(136,153,170,0.5); }
+    .form-group select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2300d4ff' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 550px) { .form-row { grid-template-columns: 1fr; } }
+
+    /* Platform toggle */
+    .platform-toggle {
+      display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .plat-btn {
+      padding: 8px 16px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--navy-mid);
+      color: var(--white); font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s;
+    }
+    .plat-btn:hover { border-color: rgba(0,212,255,0.3); }
+    .plat-btn.active { border-color: var(--purple); background: rgba(167,139,250,0.12); color: var(--purple); }
+
+    /* Generate button */
+    .btn-generate {
+      width: 100%; padding: 14px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      border: none; color: white; font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-generate:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(167,139,250,0.25); }
+
+    /* Output */
+    .output-area { display: none; animation: fadeIn 0.35s ease; }
+    .output-area.visible { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    .output-card {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px; margin-bottom: 14px; position: relative;
+    }
+    .output-card h3 { font-size: 0.92rem; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .output-card h3 .type-badge {
+      font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .badge-google { background: rgba(2,195,154,0.12); color: var(--mint); }
+    .badge-zillow { background: rgba(167,139,250,0.12); color: var(--purple); }
+    .badge-both { background: rgba(245,166,35,0.12); color: var(--gold); }
+
+    .output-card .preview {
+      font-size: 0.9rem; line-height: 1.65; color: rgba(240,244,248,0.85);
+      white-space: pre-wrap; word-wrap: break-word;
+    }
+    .output-card .preview .personalized { color: var(--cyan); font-weight: 600; }
+
+    .output-card .copy-btn {
+      position: absolute; top: 12px; right: 12px;
+      padding: 6px 12px; border-radius: 6px;
+      background: var(--cyan-dim); border: 1px solid rgba(0,212,255,0.2);
+      color: var(--cyan); font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; gap: 5px; transition: all 0.2s;
+    }
+    .output-card .copy-btn:hover { background: rgba(0,212,255,0.2); }
+    .output-card .copy-btn.copied { background: rgba(2,195,154,0.2); border-color: rgba(2,195,154,0.3); color: var(--mint); }
+
+    .link-box {
+      background: var(--navy-light); border: 1px dashed var(--border);
+      border-radius: 8px; padding: 14px; margin-top: 12px;
+    }
+    .link-box p { font-size: 0.8rem; color: var(--muted); margin-bottom: 4px; }
+    .link-box code { font-family: 'Space Mono', monospace; font-size: 0.78rem; color: var(--cyan); word-break: break-all; }
+
+    .tip-box { background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.15); border-radius: var(--radius); padding: 16px 20px; margin-top: 16px; }
+    .tip-box h4 { font-size: 0.85rem; color: var(--gold); margin-bottom: 4px; }
+    .tip-box p { font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+    .btn-reset {
+      display: block; margin: 20px auto 0; padding: 10px 24px;
+      border-radius: 8px; background: none; border: 1px solid var(--border);
+      color: var(--muted); font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-reset:hover { border-color: var(--muted); color: var(--white); }
+
+    .footer { text-align: center; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
+    .footer p { font-size: 0.75rem; color: var(--muted); }
+    .footer .credit { font-size: 0.82rem; margin-bottom: 4px; }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.82rem; color: var(--muted); text-decoration: none;
+      margin-bottom: 16px; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--purple); }
+
+    /* Accessibility */
+    .plat-btn:focus-visible, .btn-generate:focus-visible, .btn-reset:focus-visible, .copy-btn:focus-visible {
+      outline: 2px solid var(--cyan); outline-offset: 2px;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 16px 14px 48px; }
+      .plat-btn { padding: 10px 18px; min-height: 44px; }
+      .btn-generate { min-height: 48px; }
+      .output-card .copy-btn { position: relative; top: auto; right: auto; margin-top: 12px; width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <a href="https://ai.cnattitle.com/ai-toolkit" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Toolkit</a>
+
+  <header class="header">
+    <div class="brand-tag"><span class="dot"></span> CNAT Title &middot; AI Toolkit</div>
+    <h1>Review Request Generator</h1>
+    <p class="subtitle">Generate personalized review requests that actually get responses. Because 200 reviews from 2022 don't matter if you haven't gotten one this month.</p>
+  </header>
+
+  <div class="why-bar">
+    <div class="why-card">
+      <div class="num">250+</div>
+      <div class="desc">Average reviews for top-3 ranked agents</div>
+    </div>
+    <div class="why-card">
+      <div class="num">New &gt; Old</div>
+      <div class="desc">Recent reviews matter more than total count</div>
+    </div>
+    <div class="why-card">
+      <div class="num">140+ words</div>
+      <div class="desc">Response length that correlates with top rankings</div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-card" id="formCard">
+    <h2><span class="step-badge">1</span> About the Client</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Client's first name</label>
+        <input type="text" id="clientName" placeholder="e.g., Sarah">
+      </div>
+      <div class="form-group">
+        <label>Your first name</label>
+        <input type="text" id="agentName" placeholder="e.g., Bradley">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Transaction type</label>
+        <select id="txnType">
+          <option value="">Choose one...</option>
+          <option value="bought">They bought a home</option>
+          <option value="sold">They sold a home</option>
+          <option value="both">Both (buy + sell)</option>
+          <option value="lease">They leased / rented</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>How long ago did you close?</label>
+        <select id="timing">
+          <option value="">Choose one...</option>
+          <option value="just">Just closed (past 2 weeks)</option>
+          <option value="recent">1–3 months ago</option>
+          <option value="medium">3–6 months ago</option>
+          <option value="old">6+ months ago</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Anything memorable about the transaction? (optional)</label>
+      <input type="text" id="memorable" placeholder="e.g., found them a home in 2 weeks, tough negotiation, multiple offers">
+    </div>
+
+    <h2 style="margin-top: 24px;"><span class="step-badge">2</span> Platform & Delivery</h2>
+    <div class="platform-toggle" id="platformToggle">
+      <button class="plat-btn active" data-plat="google"><i class="fa-brands fa-google"></i> &nbsp; Google</button>
+      <button class="plat-btn" data-plat="zillow"><i class="fa-solid fa-z"></i> &nbsp; Zillow</button>
+      <button class="plat-btn" data-plat="both"><i class="fa-solid fa-layer-group"></i> &nbsp; Both</button>
+    </div>
+    <div class="form-group">
+      <label>How will you send this?</label>
+      <select id="channel">
+        <option value="text">Text message (recommended)</option>
+        <option value="email">Email</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Your Google review link (optional — makes it 1-click for them)</label>
+      <input type="text" id="reviewLink" placeholder="e.g., https://g.page/r/your-link/review">
+    </div>
+
+    <button class="btn-generate" onclick="generate()"><i class="fa-solid fa-wand-magic-sparkles"></i> &nbsp; Generate Review Request</button>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="output-area" id="outputArea">
+    <div id="outputCards"></div>
+
+    <div class="link-box">
+      <p><i class="fa-solid fa-info-circle"></i> &nbsp; Don't have your Google review link?</p>
+      <code>Google your business name → Click your profile → Click "Ask for reviews" → Copy the link</code>
+    </div>
+
+    <div class="tip-box" id="tipBox">
+      <h4><i class="fa-solid fa-lightbulb"></i> &nbsp; Timing Tip</h4>
+      <p id="tipText"></p>
+    </div>
+
+    <button class="btn-reset" onclick="resetForm()"><i class="fa-solid fa-plus"></i> &nbsp; Generate Another</button>
+  </div>
+
+  <div class="footer">
+    <p class="credit">Built by CNAT Title &middot; Technology Team</p>
+    <p>Part of the CNAT AI Toolkit &middot; Companion to the Search Party class</p>
+  </div>
+</div>
+
+<script>
+let selectedPlatform = 'google';
+
+document.querySelectorAll('.plat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.plat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedPlatform = btn.dataset.plat;
+  });
+});
+
+function generate() {
+  const client = document.getElementById('clientName').value.trim() || '[Client Name]';
+  const agent = document.getElementById('agentName').value.trim() || '[Your Name]';
+  const txn = document.getElementById('txnType').value;
+  const timing = document.getElementById('timing').value;
+  const memorable = document.getElementById('memorable').value.trim();
+  const channel = document.getElementById('channel').value;
+  const link = document.getElementById('reviewLink').value.trim();
+
+  if (!txn || !timing) {
+    const missing = !txn ? 'txnType' : 'timing';
+    const el = document.getElementById(missing);
+    el.style.borderColor = 'var(--coral)';
+    el.focus();
+    setTimeout(() => el.style.borderColor = '', 2000);
+    return;
+  }
+
+  const txnPhrases = {
+    bought: { past: 'buying your home', congrats: 'finding the perfect place', their: 'home buying' },
+    sold: { past: 'selling your home', congrats: 'getting your home sold', their: 'home sale' },
+    both: { past: 'your buy and sell', congrats: 'navigating both sides of the move', their: 'transaction' },
+    lease: { past: 'finding your rental', congrats: 'getting settled in', their: 'rental search' }
+  };
+  const t = txnPhrases[txn];
+
+  const timingIntros = {
+    just: `I hope you're getting settled in!`,
+    recent: `I hope you've been enjoying your new place!`,
+    medium: `It's been a few months — I hope everything is going great!`,
+    old: `It's been a while and I've been thinking about how great it was working with you!`
+  };
+  const intro = timingIntros[timing];
+
+  const memLine = memorable ? `\n\n${memorable.charAt(0).toUpperCase() + memorable.slice(1)} — and I'm so glad we made it happen.` : '';
+
+  const cards = [];
+
+  // ═══ TEXT TEMPLATES ═══
+  if (channel === 'text') {
+    if (selectedPlatform === 'google' || selectedPlatform === 'both') {
+      cards.push({
+        title: 'Google Review Request',
+        badge: 'badge-google', badgeText: 'Google',
+        text: `Hey ${client}! ${intro} I absolutely loved working with you on ${t.past}.${memLine}\n\nI have a quick favor — would you be willing to leave me a Google review? It honestly makes a huge difference for my business and helps other people in the same situation find me.\n\nNo pressure at all, but if you have 2 minutes, here's the link:\n${link || '[Your Google Review Link]'}\n\nThank you so much — I really appreciate it! 🙏\n— ${agent}`
+      });
+    }
+    if (selectedPlatform === 'zillow' || selectedPlatform === 'both') {
+      cards.push({
+        title: 'Zillow Review Request',
+        badge: 'badge-zillow', badgeText: 'Zillow',
+        text: `Hey ${client}! Quick question — would you be open to leaving me a review on Zillow? A lot of buyers and sellers look there first when choosing an agent, so it really helps.\n\nYou can find my profile by searching my name on Zillow, or I can send you the direct link. Even just a sentence or two about your ${t.their} experience would mean a lot.\n\nTotally understand if you're too busy — just thought I'd ask! Thanks ${client} 😊\n— ${agent}`
+      });
+    }
+  }
+
+  // ═══ EMAIL TEMPLATES ═══
+  if (channel === 'email') {
+    if (selectedPlatform === 'google' || selectedPlatform === 'both') {
+      cards.push({
+        title: 'Google Review Email',
+        badge: 'badge-google', badgeText: 'Google',
+        subject: `A quick favor, ${client}?`,
+        text: `Hi ${client},\n\n${intro} I truly enjoyed working with you on ${t.past} — ${t.congrats} was such a rewarding experience for me as your agent.${memLine}\n\nI have a small favor to ask: would you be willing to share your experience in a Google review? It only takes about 2 minutes, and it makes a real difference — it helps other people in your situation find an agent they can trust.\n\nHere's the direct link (it'll take you right to the review page):\n${link || '[Your Google Review Link]'}\n\nEven just a few sentences about what your experience was like would mean the world to me. And if there's ever anything I can help with — whether it's a home question, a referral, or just a recommendation for a good contractor — please don't hesitate to reach out.\n\nThank you so much,\n${agent}`
+      });
+    }
+    if (selectedPlatform === 'zillow' || selectedPlatform === 'both') {
+      cards.push({
+        title: 'Zillow Review Email',
+        badge: 'badge-zillow', badgeText: 'Zillow',
+        subject: `Would you help me out on Zillow, ${client}?`,
+        text: `Hi ${client},\n\n${intro}\n\nI'm reaching out with a quick request — would you consider leaving me a review on Zillow? Since so many buyers and sellers start their agent search there, reviews on that platform carry a lot of weight.\n\nYou can find my profile by searching my name on Zillow.com, or I'd be happy to send you the direct link.\n\nA few sentences about your ${t.their} experience would be incredibly helpful. Things like what made you feel confident during the process, how communication went, or anything that stood out — those details really help future clients know what to expect.\n\nAbsolutely no pressure, and I appreciate you either way.\n\nWarmly,\n${agent}`
+      });
+    }
+  }
+
+  // BONUS: If both platforms, add the combo ask
+  if (selectedPlatform === 'both') {
+    cards.push({
+      title: 'The "Pick One" Combo Ask',
+      badge: 'badge-both', badgeText: 'Either',
+      text: channel === 'text'
+        ? `Hey ${client}! ${intro} Would you be open to leaving me a quick review? I know it's a lot to ask, so even just ONE of these would be amazing:\n\n⭐ Google: ${link || '[Your Google Review Link]'}\n⭐ Zillow: Search my name on Zillow\n\nEven a few sentences makes a difference. Thank you so much! — ${agent}`
+        : `Hi ${client},\n\n${intro} I wanted to ask — would you be willing to leave me a review on either Google or Zillow (or both, if you're feeling generous 😊)?\n\nI know your time is valuable, so even just one review on whichever platform is easiest for you would mean a lot:\n\n• Google: ${link || '[Your Google Review Link]'}\n• Zillow: Search my name on Zillow.com\n\nA couple sentences about your experience is all it takes. Thank you so much for considering it!\n\nGratefully,\n${agent}`,
+      subject: channel === 'email' ? `Would you leave me a review, ${client}?` : null
+    });
+  }
+
+  // Render
+  const outputCards = document.getElementById('outputCards');
+  outputCards.innerHTML = cards.map((c, i) => {
+    const id = `output_${i}`;
+    const subjectHtml = c.subject ? `<div style="font-size: 0.82rem; color: var(--gold); font-weight: 600; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px dashed rgba(245,166,35,0.2);">Subject: ${c.subject}</div>` : '';
+    return `
+      <div class="output-card">
+        <button class="copy-btn" id="btn_${id}" onclick="copyOutput('${id}')">
+          <i class="fa-regular fa-copy"></i> Copy
+        </button>
+        <h3>${c.title} <span class="type-badge ${c.badge}">${c.badgeText}</span></h3>
+        ${subjectHtml}
+        <div class="preview">${c.text.replace(/\n/g, '\n')}</div>
+        <input type="hidden" id="raw_${id}" value="${encodeURIComponent(c.subject ? 'Subject: ' + c.subject + '\n\n' + c.text : c.text)}">
+      </div>
+    `;
+  }).join('');
+
+  // Timing tip
+  const tips = {
+    just: "You're in the golden window! Clients are most likely to leave a review within the first 2 weeks after closing. Send this TODAY — don't wait.",
+    recent: "Good timing — the experience is still fresh. Send this in the morning (between 8–10 AM) when people are checking their phones but aren't buried in work yet.",
+    medium: "You're a bit late, but that's okay. Lead with the personal connection before the ask. Consider calling first to reconnect, THEN sending the text/email as a follow-up.",
+    old: "It's been a while, so reconnect first. Send a genuine check-in message (no ask), wait for them to reply, THEN send the review request a day later. Two touches, not one."
+  };
+  document.getElementById('tipText').textContent = tips[timing];
+
+  document.getElementById('outputArea').classList.add('visible');
+  document.getElementById('formCard').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyOutput(id) {
+  const raw = decodeURIComponent(document.getElementById('raw_' + id).value);
+  navigator.clipboard.writeText(raw).then(() => {
+    const btn = document.getElementById('btn_' + id);
+    btn.classList.add('copied');
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy'; }, 2000);
+  });
+}
+
+function resetForm() {
+  document.getElementById('outputArea').classList.remove('visible');
+  document.getElementById('formCard').style.display = 'block';
+  document.getElementById('clientName').value = '';
+  document.getElementById('txnType').value = '';
+  document.getElementById('timing').value = '';
+  document.getElementById('memorable').value = '';
+  // Reset platform to Google
+  selectedPlatform = 'google';
+  document.querySelectorAll('.plat-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.plat-btn[data-plat="google"]').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
