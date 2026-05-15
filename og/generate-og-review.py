@@ -61,7 +61,7 @@ def grid_overlay():
     g = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     d = ImageDraw.Draw(g)
     step = 48
-    line = (255, 255, 255, 6)
+    line = (255, 255, 255, 3)
     for x in range(0, W, step):
         d.line([(x, 0), (x, H)], fill=line)
     for y in range(0, H, step):
@@ -72,7 +72,7 @@ def grid_overlay():
     cx, cy = W // 2, H // 2
     for i in range(60, 0, -1):
         r = max(W, H) * (i / 60) * 0.7
-        v = int(220 * (1 - (i / 60) ** 1.4))
+        v = int(110 * (1 - (i / 60) ** 1.4))
         md.ellipse([cx - r, cy - r, cx + r, cy + r], fill=v)
     g.putalpha(mask)
     return g
