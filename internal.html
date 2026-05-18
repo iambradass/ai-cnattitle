@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CNAT AI Hub | Smart Tools for Real Estate Pros</title>
-<meta name="description" content="CNAT Title's AI Hub — smart tools and resources built to help you close faster, stay informed, and work smarter.">
-<meta property="og:title" content="CNAT AI Hub">
-<meta property="og:description" content="Smart tools and resources powered by AI — built for real estate pros, homebuyers, and the CNAT team.">
+<title>CNAT Internal Tools</title>
+<meta name="description" content="Team tools and resources for the CNAT crew.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="CNAT Internal Tools">
+<meta property="og:description" content="Team tools and resources for the CNAT crew.">
 <meta property="og:image" content="/og-ai-hub.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -52,9 +53,7 @@
         width: 100%;
     }
 
-    /* ========================
-       HERO
-       ======================== */
+    /* HERO */
     .ai-hub-hero {
         background: var(--bg-panel);
         border: 1px solid var(--border);
@@ -63,25 +62,15 @@
         text-align: center;
         position: relative;
         overflow: hidden;
-        box-shadow: 
-            0 25px 60px rgba(0, 0, 0, 0.3),
-            0 10px 30px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.15);
         animation: aihContainerFadeIn 0.7s ease-out;
     }
 
     .ai-hub-hero::before {
         content: '';
         position: absolute;
-        top: -2px;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
-        background: linear-gradient(45deg, 
-            transparent, 
-            rgba(45, 125, 210, 0.1), 
-            transparent, 
-            rgba(250, 237, 54, 0.1), 
-            transparent);
+        top: -2px; left: -2px; right: -2px; bottom: -2px;
+        background: linear-gradient(45deg, transparent, rgba(45, 125, 210, 0.1), transparent, rgba(250, 237, 54, 0.1), transparent);
         border-radius: 17px;
         z-index: -1;
         animation: aihBorderGlow 8s linear infinite;
@@ -130,8 +119,8 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(45, 125, 210, 0.1);
-        border: 1px solid rgba(45, 125, 210, 0.25);
+        background: rgba(250, 237, 54, 0.08);
+        border: 1px solid rgba(250, 237, 54, 0.22);
         border-radius: 50px;
         padding: 8px 18px;
         margin-bottom: 28px;
@@ -139,9 +128,8 @@
     }
 
     .ai-hub-badge .pulse-dot {
-        width: 8px;
-        height: 8px;
-        background: var(--accent-blue);
+        width: 8px; height: 8px;
+        background: var(--accent-yellow);
         border-radius: 50%;
         animation: aihPulse 2s ease-in-out infinite;
     }
@@ -155,8 +143,8 @@
         font-size: 10px;
         letter-spacing: 2px;
         text-transform: uppercase;
-        color: var(--accent-blue-light);
-        font-weight: 500;
+        color: var(--accent-yellow);
+        font-weight: 600;
     }
 
     .ai-hub-hero h1 {
@@ -186,9 +174,7 @@
         animation: aihFadeIn 0.8s ease-out 0.5s both;
     }
 
-    /* ========================
-       TILES
-       ======================== */
+    /* TILES */
     .ai-hub-tiles {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -207,9 +193,7 @@
         position: relative;
         overflow: hidden;
         transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        box-shadow: 
-            0 8px 25px rgba(0, 0, 0, 0.2),
-            0 4px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1);
         opacity: 0;
         animation: aihTileFadeIn 0.6s ease-out forwards;
         font-family: 'Montserrat', sans-serif;
@@ -224,36 +208,25 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-    .ai-hub-tile.active {
-        cursor: pointer;
-    }
+    .ai-hub-tile.active { cursor: pointer; }
 
     .ai-hub-tile.active::before {
         content: '';
         position: absolute;
-        top: -1px;
-        left: -1px;
-        right: -1px;
-        bottom: -1px;
-        background: linear-gradient(145deg, 
-            rgba(45, 125, 210, 0.2), 
-            transparent 60%);
+        top: -1px; left: -1px; right: -1px; bottom: -1px;
+        background: linear-gradient(145deg, rgba(45, 125, 210, 0.2), transparent 60%);
         border-radius: 14px;
         z-index: 0;
         opacity: 0;
         transition: opacity 0.4s ease;
     }
 
-    .ai-hub-tile.active:hover::before {
-        opacity: 1;
-    }
+    .ai-hub-tile.active:hover::before { opacity: 1; }
 
     .ai-hub-tile.active:hover {
         border-color: var(--accent-blue);
         transform: translateY(-4px);
-        box-shadow: 
-            0 16px 40px rgba(45, 125, 210, 0.15),
-            0 8px 20px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 16px 40px rgba(45, 125, 210, 0.15), 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
     .ai-hub-tile.active:active {
@@ -268,9 +241,7 @@
         opacity: 0.45;
     }
 
-    .ai-hub-tile.disabled .tile-title {
-        color: var(--disabled-text);
-    }
+    .ai-hub-tile.disabled .tile-title { color: var(--disabled-text); }
 
     .ai-hub-tile.disabled .tile-desc {
         color: var(--disabled-text);
@@ -317,9 +288,7 @@
         z-index: 1;
     }
 
-    .ai-hub-tile.active .tile-title {
-        color: var(--accent-yellow);
-    }
+    .ai-hub-tile.active .tile-title { color: var(--accent-yellow); }
 
     .ai-hub-tile .tile-desc {
         font-size: 11px;
@@ -354,9 +323,7 @@
         border: 1px solid rgba(74, 85, 104, 0.2);
     }
 
-    /* ========================
-       FOOTER
-       ======================== */
+    /* FOOTER */
     .ai-hub-footer {
         text-align: center;
         margin-top: 30px;
@@ -373,9 +340,7 @@
         font-family: 'Montserrat', sans-serif;
     }
 
-    .ai-hub-footer .tagline span {
-        color: var(--accent-yellow);
-    }
+    .ai-hub-footer .tagline span { color: var(--accent-yellow); }
 
     .ai-hub-footer .footer-link {
         display: block;
@@ -388,30 +353,17 @@
         font-family: 'Montserrat', sans-serif;
     }
 
-    .ai-hub-footer .footer-link:hover {
-        color: var(--accent-blue);
-    }
+    .ai-hub-footer .footer-link:hover { color: var(--accent-blue); }
 
-    /* ========================
-       RESPONSIVE
-       ======================== */
+    /* RESPONSIVE */
     @media (max-width: 600px) {
-        .ai-hub-wrapper {
-            padding: 40px 14px;
-        }
-
+        .ai-hub-wrapper { padding: 40px 14px; }
         .ai-hub-hero {
             padding: 40px 24px 38px;
             border-radius: 12px;
         }
-
-        .ai-hub-hero h1 {
-            font-size: 24px;
-        }
-
-        .ai-hub-hero .subtitle {
-            font-size: 13px;
-        }
+        .ai-hub-hero h1 { font-size: 24px; }
+        .ai-hub-hero .subtitle { font-size: 13px; }
 
         .ai-hub-tiles {
             grid-template-columns: 1fr;
@@ -441,9 +393,7 @@
             height: 22px;
         }
 
-        .ai-hub-tile .tile-content {
-            flex: 1;
-        }
+        .ai-hub-tile .tile-content { flex: 1; }
 
         .ai-hub-tile .tile-title {
             margin-bottom: 4px;
@@ -455,23 +405,13 @@
             margin-bottom: 0;
         }
 
-        .ai-hub-tile .tile-badge {
-            margin-top: 8px;
-        }
+        .ai-hub-tile .tile-badge { margin-top: 8px; }
     }
 
     @media (max-width: 360px) {
-        .ai-hub-hero {
-            padding: 35px 20px 32px;
-        }
-
-        .ai-hub-hero h1 {
-            font-size: 21px;
-        }
-
-        .ai-hub-tile {
-            padding: 18px 20px;
-        }
+        .ai-hub-hero { padding: 35px 20px 32px; }
+        .ai-hub-hero h1 { font-size: 21px; }
+        .ai-hub-tile { padding: 18px 20px; }
     }
 </style>
 
@@ -480,7 +420,7 @@
 
         <!-- HERO -->
         <div class="ai-hub-hero">
-            
+
             <div class="ai-hub-logo">
                 <div class="ai-hub-logo-text">CNAT Title</div>
                 <div class="ai-hub-logo-sub">Community National Title</div>
@@ -488,68 +428,66 @@
 
             <div class="ai-hub-badge">
                 <div class="pulse-dot"></div>
-                <span>AI-Powered Resources</span>
+                <span>Internal &middot; Team Only</span>
             </div>
 
-            <h1>The CNAT <span>AI Hub</span></h1>
-            <p class="subtitle">Smart tools and resources built to help you close faster, stay informed, and work smarter &mdash; powered by AI.</p>
+            <h1>CNAT <span>Internal Tools</span></h1>
+            <p class="subtitle">Resources, shortcuts, and team utilities &mdash; one tap away. More tools landing here as they come online.</p>
 
         </div>
 
         <!-- TILES -->
         <div class="ai-hub-tiles">
 
-            <a href="/the-vault" class="ai-hub-tile active">
+            <a href="https://cnattitle.tech/review" target="_blank" rel="noopener" class="ai-hub-tile active">
                 <span class="tile-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="7" width="18" height="13" rx="2"></rect>
-                        <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                        <path d="M3 13h18"></path>
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                     </svg>
                 </span>
                 <div class="tile-content">
-                    <div class="tile-title">Agents &amp; Lenders</div>
-                    <p class="tile-desc">AI tools built for real estate pros</p>
-                    <span class="tile-badge">Explore &rarr;</span>
+                    <div class="tile-title">Review Link</div>
+                    <p class="tile-desc">Post-closing review flow for clients</p>
+                    <span class="tile-badge">Open &rarr;</span>
                 </div>
             </a>
 
-            <a href="/community" class="ai-hub-tile active">
+            <div class="ai-hub-tile disabled">
                 <span class="tile-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 11.5 12 4l9 7.5"></path>
-                        <path d="M5 10v10h14V10"></path>
-                        <path d="M10 20v-5h4v5"></path>
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        <path d="M8 10h.01"></path>
+                        <path d="M12 10h.01"></path>
+                        <path d="M16 10h.01"></path>
                     </svg>
                 </span>
                 <div class="tile-content">
-                    <div class="tile-title">Public</div>
-                    <p class="tile-desc">Tools for homebuyers &amp; sellers</p>
-                    <span class="tile-badge">Explore &rarr;</span>
+                    <div class="tile-title">Order Lookup</div>
+                    <p class="tile-desc">Find RamQuest order details fast</p>
+                    <span class="tile-badge">Coming Soon</span>
                 </div>
-            </a>
+            </div>
 
-            <a href="/internal" class="ai-hub-tile active">
+            <div class="ai-hub-tile disabled">
                 <span class="tile-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="4" y="10" width="16" height="11" rx="2"></rect>
-                        <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
-                        <circle cx="12" cy="15.5" r="1.25"></circle>
+                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                     </svg>
                 </span>
                 <div class="tile-content">
-                    <div class="tile-title">Internal</div>
-                    <p class="tile-desc">Team tools &amp; operations</p>
-                    <span class="tile-badge">Explore &rarr;</span>
+                    <div class="tile-title">Commission Center</div>
+                    <p class="tile-desc">Track your closings &amp; earnings</p>
+                    <span class="tile-badge">Coming Soon</span>
                 </div>
-            </a>
+            </div>
 
         </div>
 
         <!-- FOOTER -->
         <div class="ai-hub-footer">
             <p class="tagline">#AlwaysBeClosing &middot; <span>Texas Style</span></p>
-            <a href="https://cnattitle.com" class="footer-link">&larr; Back to cnattitle.com</a>
+            <a href="/" class="footer-link">&larr; Back to AI Hub</a>
         </div>
 
     </div>
