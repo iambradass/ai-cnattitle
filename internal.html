@@ -374,9 +374,10 @@
         .ai-hub-tile { padding: 18px 20px; }
     }
 
-    /* ============================
-       LOCK SCREEN (temporary gate)
-       ============================ */
+    /* === BEGIN TEMP GATE: CSS ===
+       Delete from this marker through the matching END marker on cutover
+       day when CF Access + Entra SSO go live. See
+       ~/Desktop/cnat-sso-cutover/README.md section 7. */
     .lock-screen {
         position: fixed;
         inset: 0;
@@ -479,8 +480,12 @@
 
     body.locked { overflow: hidden; }
     body.locked .ai-hub-wrapper { visibility: hidden; }
+    /* === END TEMP GATE: CSS === */
 </style>
 
+<!-- === BEGIN TEMP GATE: MARKUP ===
+     Delete from this marker through the matching END marker on cutover
+     day when CF Access + Entra SSO go live. -->
 <div class="lock-screen" id="lockScreen">
     <div class="lock-card">
         <div class="lock-icon" aria-hidden="true">
@@ -498,6 +503,7 @@
         <div class="lock-foot">#AlwaysBeClosing &middot; <span>Texas Style</span></div>
     </div>
 </div>
+<!-- === END TEMP GATE: MARKUP === -->
 
 <div class="ai-hub-wrapper">
     <div class="ai-hub-page">
@@ -603,11 +609,13 @@
 </script>
 
 <script>
-/*
- * Temporary internal-page gate. Replace with real user-assigned auth
- * once that ships. To rotate passphrase:
+/* === BEGIN TEMP GATE: SCRIPT ===
+ * Delete this entire <script> block (from <script> through </script>) on
+ * cutover day when CF Access + Entra SSO go live.
+ *
+ * To rotate passphrase before then:
  *   echo -n 'newpassphrase' | shasum -a 256
- * Then paste the hex digest into EXPECTED_HASH below.
+ * Paste the hex digest into EXPECTED_HASH below.
  */
 (function() {
     var EXPECTED_HASH = '65fa279277af279daaa5531dc08f792fa67805c42c8a880f00dd4a54ce05699f';
@@ -670,6 +678,7 @@
         });
     }
 })();
+/* === END TEMP GATE: SCRIPT === */
 </script>
 </body>
 </html>
