@@ -94,57 +94,16 @@
     }
 
     .ai-hub-logo {
-        margin-bottom: 30px;
-        animation: aihFadeIn 0.8s ease-out 0.2s both;
-    }
-
-    .ai-hub-logo-text {
-        font-size: 11px;
-        letter-spacing: 6px;
-        text-transform: uppercase;
-        color: var(--accent-blue);
-        font-weight: 600;
-        margin-bottom: 8px;
-    }
-
-    .ai-hub-logo-sub {
-        font-size: 9px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--text-grey);
-        font-weight: 400;
-    }
-
-    .ai-hub-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(250, 237, 54, 0.08);
-        border: 1px solid rgba(250, 237, 54, 0.22);
-        border-radius: 50px;
-        padding: 8px 18px;
         margin-bottom: 28px;
-        animation: aihFadeIn 0.8s ease-out 0.3s both;
+        animation: aihFadeIn 0.8s ease-out 0.2s both;
+        display: flex;
+        justify-content: center;
     }
 
-    .ai-hub-badge .pulse-dot {
-        width: 8px; height: 8px;
-        background: var(--accent-yellow);
-        border-radius: 50%;
-        animation: aihPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes aihPulse {
-        0%, 100% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.5; transform: scale(0.8); }
-    }
-
-    .ai-hub-badge span {
-        font-size: 10px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--accent-yellow);
-        font-weight: 600;
+    .ai-hub-logo img {
+        width: 180px;
+        height: auto;
+        display: block;
     }
 
     .ai-hub-hero h1 {
@@ -414,7 +373,131 @@
         .ai-hub-hero h1 { font-size: 21px; }
         .ai-hub-tile { padding: 18px 20px; }
     }
+
+    /* ============================
+       LOCK SCREEN (temporary gate)
+       ============================ */
+    .lock-screen {
+        position: fixed;
+        inset: 0;
+        background: #1a2332;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .lock-card {
+        max-width: 380px;
+        width: 100%;
+        background: #0f1520;
+        border: 1px solid #253245;
+        border-radius: 16px;
+        padding: 40px 32px 28px;
+        text-align: center;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    }
+    .lock-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 22px;
+        border-radius: 16px;
+        background: rgba(250, 237, 54, 0.08);
+        border: 1px solid rgba(250, 237, 54, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #faed36;
+    }
+    .lock-title {
+        color: #fff;
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+    .lock-sub {
+        color: #8892a4;
+        font-size: 13px;
+        margin-bottom: 26px;
+        line-height: 1.5;
+    }
+    .lock-input {
+        width: 100%;
+        padding: 14px 16px;
+        background: #1a2332;
+        border: 1px solid #253245;
+        border-radius: 10px;
+        color: #fff;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        text-align: center;
+        letter-spacing: 1px;
+        transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .lock-input:focus {
+        outline: none;
+        border-color: #2d7dd2;
+        box-shadow: 0 0 0 3px rgba(45,125,210,0.15);
+    }
+    .lock-btn {
+        width: 100%;
+        margin-top: 10px;
+        padding: 14px 16px;
+        background: #faed36;
+        color: #1a2332;
+        border: none;
+        border-radius: 10px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .lock-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 24px rgba(250, 237, 54, 0.22);
+    }
+    .lock-btn:active { transform: translateY(0); }
+    .lock-error {
+        color: #f87171;
+        font-size: 12px;
+        margin-top: 14px;
+        min-height: 16px;
+        letter-spacing: 0.3px;
+    }
+    .lock-foot {
+        margin-top: 22px;
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #4a5568;
+    }
+    .lock-foot span { color: #faed36; }
+
+    body.locked { overflow: hidden; }
+    body.locked .ai-hub-wrapper { visibility: hidden; }
 </style>
+
+<div class="lock-screen" id="lockScreen">
+    <div class="lock-card">
+        <div class="lock-icon" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="10" width="16" height="11" rx="2"></rect>
+                <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+                <circle cx="12" cy="15.5" r="1.25"></circle>
+            </svg>
+        </div>
+        <div class="lock-title">Team only</div>
+        <p class="lock-sub">Enter the CNAT internal passphrase to continue.</p>
+        <input type="password" id="lockInput" class="lock-input" placeholder="Passphrase" autocomplete="current-password" autofocus>
+        <button class="lock-btn" id="lockBtn" type="button">Unlock</button>
+        <div class="lock-error" id="lockError" role="alert" aria-live="polite"></div>
+        <div class="lock-foot">#AlwaysBeClosing &middot; <span>Texas Style</span></div>
+    </div>
+</div>
 
 <div class="ai-hub-wrapper">
     <div class="ai-hub-page">
@@ -423,13 +506,7 @@
         <div class="ai-hub-hero">
 
             <div class="ai-hub-logo">
-                <div class="ai-hub-logo-text">CNAT Title</div>
-                <div class="ai-hub-logo-sub">Community National Title</div>
-            </div>
-
-            <div class="ai-hub-badge">
-                <div class="pulse-dot"></div>
-                <span>Internal &middot; Team Only</span>
+                <img src="/assets/cnat-logo-white.png" alt="CNAT Title">
             </div>
 
             <h1>CNAT <span>Internal Tools</span></h1>
@@ -503,7 +580,7 @@
         <!-- FOOTER -->
         <div class="ai-hub-footer">
             <p class="tagline">#AlwaysBeClosing &middot; <span>Texas Style</span></p>
-            <a href="/" class="footer-link">&larr; Back to AI Hub</a>
+            <a href="/" class="footer-link">&larr; Back to Tech Hub</a>
         </div>
 
     </div>
@@ -522,6 +599,76 @@
     }
     document.body.style.background = '#1a2332';
     document.body.style.margin = '0';
+})();
+</script>
+
+<script>
+/*
+ * Temporary internal-page gate. Replace with real user-assigned auth
+ * once that ships. To rotate passphrase:
+ *   echo -n 'newpassphrase' | shasum -a 256
+ * Then paste the hex digest into EXPECTED_HASH below.
+ */
+(function() {
+    var EXPECTED_HASH = '65fa279277af279daaa5531dc08f792fa67805c42c8a880f00dd4a54ce05699f';
+    var STORAGE_KEY = 'cnat_internal_unlocked';
+    var TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+    var lockScreen = document.getElementById('lockScreen');
+    var input = document.getElementById('lockInput');
+    var btn = document.getElementById('lockBtn');
+    var err = document.getElementById('lockError');
+
+    function sha256Hex(str) {
+        var buf = new TextEncoder().encode(str);
+        return crypto.subtle.digest('SHA-256', buf).then(function(hash) {
+            return Array.prototype.map.call(new Uint8Array(hash), function(b) {
+                return b.toString(16).padStart(2, '0');
+            }).join('');
+        });
+    }
+
+    function isUnlocked() {
+        try {
+            var raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return false;
+            var data = JSON.parse(raw);
+            return data && data.exp && data.exp > Date.now();
+        } catch(e) { return false; }
+    }
+
+    function unlock() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ exp: Date.now() + TTL_MS }));
+        } catch(e) {}
+        document.body.classList.remove('locked');
+        lockScreen.style.display = 'none';
+    }
+
+    function tryUnlock() {
+        var pass = (input.value || '').trim();
+        if (!pass) return;
+        err.textContent = '';
+        sha256Hex(pass).then(function(hash) {
+            if (hash === EXPECTED_HASH) {
+                unlock();
+            } else {
+                err.textContent = 'Incorrect passphrase.';
+                input.value = '';
+                input.focus();
+            }
+        });
+    }
+
+    if (isUnlocked()) {
+        lockScreen.style.display = 'none';
+    } else {
+        document.body.classList.add('locked');
+        btn.addEventListener('click', tryUnlock);
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); tryUnlock(); }
+        });
+    }
 })();
 </script>
 </body>
