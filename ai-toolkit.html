@@ -198,6 +198,14 @@
     }
     .framework-callout .fw-word { font-size: 0.82rem; color: var(--muted); margin-left: 6px; }
 
+    /* Back link */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.82rem; color: var(--muted); text-decoration: none;
+      margin-bottom: 16px; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--cyan); }
+
     /* Footer */
     .footer { text-align: center; padding-top: 24px; border-top: 1px solid var(--border); }
     .footer p { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
@@ -218,6 +226,8 @@
 </head>
 <body>
 <div class="container">
+
+  <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Tech Hub</a>
 
   <header class="header">
     <div class="brand-tag"><span class="logo-dot"></span> CNAT Title</div>

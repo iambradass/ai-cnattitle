@@ -73,6 +73,61 @@
       box-shadow: 0 14px 32px rgba(250, 237, 54, 0.32), 0 2px 8px rgba(0, 0, 0, 0.4);
     }
 
+    .back-fab {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 9999;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(15, 21, 32, 0.85);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      transition: transform 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .back-fab:hover {
+      transform: translateX(-1px);
+      border-color: var(--accent-blue);
+      color: #fff;
+    }
+
+    .back-fab:focus-visible {
+      outline: 2px solid var(--accent-blue);
+      outline-offset: 3px;
+    }
+
+    .back-fab svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.25;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    @media (max-width: 520px) {
+      .back-fab {
+        top: 12px;
+        left: 12px;
+        padding: 9px 13px;
+        font-size: 12px;
+      }
+      .back-fab .back-fab-label-long { display: none; }
+    }
+
     .setup-fab:focus-visible {
       outline: 2px solid #fff;
       outline-offset: 3px;
@@ -103,6 +158,12 @@
   </style>
 </head>
 <body>
+  <a href="/" class="back-fab" aria-label="Back to Tech Hub">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M15 18l-6-6 6-6"></path>
+    </svg>
+    <span><span class="back-fab-label-long">Back to </span>Tech Hub</span>
+  </a>
   <a href="/setup" class="setup-fab" aria-label="Set up your AI tool">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"></path>
