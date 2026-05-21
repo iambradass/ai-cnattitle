@@ -162,6 +162,7 @@
     .ai-hub-tile:nth-child(2) { animation-delay: 0.85s; }
     .ai-hub-tile:nth-child(3) { animation-delay: 1.0s; }
     .ai-hub-tile:nth-child(4) { animation-delay: 1.15s; }
+    .ai-hub-tile:nth-child(5) { animation-delay: 1.3s; }
 
     @keyframes aihTileFadeIn {
         from { opacity: 0; transform: translateY(15px); }
@@ -431,7 +432,7 @@
         border-radius: 10px;
         color: #fff;
         font-family: 'Montserrat', sans-serif;
-        font-size: 14px;
+        font-size: 16px; /* keep >= 16px so iOS Safari doesn't auto-zoom on focus */
         text-align: center;
         letter-spacing: 1px;
         transition: border-color .2s ease, box-shadow .2s ease;
@@ -551,7 +552,7 @@
                 </div>
             </a>
 
-            <div class="ai-hub-tile disabled">
+            <a href="https://cnat-file-bot-webapp.vercel.app/chat" target="_blank" rel="noopener" class="ai-hub-tile active">
                 <span class="tile-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -563,11 +564,11 @@
                 <div class="tile-content">
                     <div class="tile-title">Order Lookup</div>
                     <p class="tile-desc">Find RamQuest order details fast</p>
-                    <span class="tile-badge">Coming Soon</span>
+                    <span class="tile-badge">Open &rarr;</span>
                 </div>
-            </div>
+            </a>
 
-            <div class="ai-hub-tile disabled">
+            <a href="https://cnat-file-bot-webapp.vercel.app/commissions/mine" target="_blank" rel="noopener" class="ai-hub-tile active">
                 <span class="tile-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="12" y1="1" x2="12" y2="23"></line>
@@ -577,6 +578,22 @@
                 <div class="tile-content">
                     <div class="tile-title">Commission Center</div>
                     <p class="tile-desc">Track your closings &amp; earnings</p>
+                    <span class="tile-badge">Open &rarr;</span>
+                </div>
+            </a>
+
+            <div class="ai-hub-tile disabled">
+                <span class="tile-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 3h18v18H3z"></path>
+                        <path d="M3 9h18"></path>
+                        <path d="M9 21V9"></path>
+                        <path d="M15 21V9"></path>
+                    </svg>
+                </span>
+                <div class="tile-content">
+                    <div class="tile-title">Hotsheets / MLS Data</div>
+                    <p class="tile-desc">Daily MLS pulls &amp; activity summaries</p>
                     <span class="tile-badge">Coming Soon</span>
                 </div>
             </div>
