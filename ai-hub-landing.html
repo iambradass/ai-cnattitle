@@ -13,21 +13,37 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="/og-tech-hub.png">
+<link rel="icon" href="/assets/favicon.ico?v=2">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192.png?v=2">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/icon-512.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png?v=2">
+<meta name="theme-color" content="#0c1322">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+    /* CNAT Tech Hub landing — public-facing. Treatment mirrors the
+       internal hub (animated radial-mesh bg, glass-morphism hero,
+       per-tile accent colors) but more restrained: 3 accents only,
+       no theatrical hovers, no caret blinks. Professional. */
+
     :root {
-        --bg-page: #1a2332;
+        --bg-page: #0c1322;
         --bg-panel: #0f1520;
-        --accent-blue: #2d7dd2;
-        --accent-blue-light: #4a9ae8;
+        --accent-blue: #4a9ae8;
+        --accent-blue-soft: rgba(74, 154, 232, 0.14);
+        --accent-blue-border: rgba(74, 154, 232, 0.28);
         --accent-yellow: #faed36;
+        --accent-yellow-soft: rgba(250, 237, 54, 0.13);
+        --accent-yellow-border: rgba(250, 237, 54, 0.25);
+        --accent-cyan: #22d3ee;
+        --accent-cyan-soft: rgba(34, 211, 238, 0.14);
+        --accent-cyan-border: rgba(34, 211, 238, 0.26);
         --text-white: #ffffff;
-        --text-grey: #8892a4;
-        --border: #253245;
-        --disabled-bg: #111827;
-        --disabled-border: #1e293b;
-        --disabled-text: #4a5568;
+        --text-grey: #a1aac0;
+        --text-muted: #8892a4;
+        --border: rgba(255, 255, 255, 0.08);
     }
 
     * {
@@ -36,6 +52,9 @@
         padding: 0;
     }
 
+    /* ========================
+       PAGE WRAPPER + ANIMATED MESH
+       ======================== */
     .ai-hub-wrapper {
         font-family: 'Montserrat', sans-serif;
         background: var(--bg-page);
@@ -44,64 +63,116 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        padding: 60px 20px;
+        padding: 60px 28px;
+        position: relative;
+        isolation: isolate;
+        overflow-x: hidden;
+    }
+
+    /* Restrained radial-mesh drift in the background */
+    .ai-hub-wrapper::before {
+        content: '';
+        position: fixed;
+        inset: -10vh -10vw;
+        background:
+            radial-gradient(circle at 18% 22%, rgba(45, 125, 210, 0.28) 0%, transparent 38%),
+            radial-gradient(circle at 82% 18%, rgba(250, 237, 54, 0.14) 0%, transparent 42%),
+            radial-gradient(circle at 50% 88%, rgba(34, 211, 238, 0.16) 0%, transparent 45%);
+        filter: blur(70px) saturate(1.05);
+        z-index: -2;
+        animation: aih-mesh-drift 40s ease-in-out infinite alternate;
+        pointer-events: none;
+    }
+
+    /* Subtle film grain */
+    .ai-hub-wrapper::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        opacity: 0.5;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    @keyframes aih-mesh-drift {
+        0%   { transform: translate3d(0, 0, 0) scale(1); }
+        50%  { transform: translate3d(2%, -2%, 0) scale(1.04); }
+        100% { transform: translate3d(-1.5%, 1.5%, 0) scale(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ai-hub-wrapper::before { animation: none; }
+        .ai-hub-tile, .ai-hub-hero, .ai-hub-logo, .ai-hub-hero h1,
+        .ai-hub-hero .subtitle, .ai-hub-footer { animation: none !important; opacity: 1 !important; }
     }
 
     .ai-hub-page {
-        max-width: 640px;
+        max-width: 680px;
         width: 100%;
+        position: relative;
+        z-index: 1;
     }
 
     /* ========================
-       HERO
+       HERO — glass-morphism panel
        ======================== */
     .ai-hub-hero {
-        background: var(--bg-panel);
+        background: linear-gradient(180deg, rgba(15, 21, 32, 0.78) 0%, rgba(15, 21, 32, 0.62) 100%);
         border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 55px 40px 50px;
+        border-radius: 20px;
+        padding: 60px 44px 52px;
         text-align: center;
         position: relative;
         overflow: hidden;
-        box-shadow: 
-            0 25px 60px rgba(0, 0, 0, 0.3),
-            0 10px 30px rgba(0, 0, 0, 0.15);
-        animation: aihContainerFadeIn 0.7s ease-out;
+        backdrop-filter: blur(18px) saturate(1.2);
+        -webkit-backdrop-filter: blur(18px) saturate(1.2);
+        box-shadow:
+            0 25px 60px rgba(0, 0, 0, 0.35),
+            0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+            0 1px 0 rgba(255, 255, 255, 0.06) inset;
+        animation: aihContainerFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    /* Slow conic-gradient border streak */
     .ai-hub-hero::before {
         content: '';
         position: absolute;
-        top: -2px;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
-        background: linear-gradient(45deg, 
-            transparent, 
-            rgba(45, 125, 210, 0.1), 
-            transparent, 
-            rgba(250, 237, 54, 0.1), 
-            transparent);
-        border-radius: 17px;
+        inset: -1px;
+        background: conic-gradient(
+            from 90deg,
+            transparent 0deg,
+            rgba(250, 237, 54, 0.28) 60deg,
+            transparent 120deg,
+            transparent 240deg,
+            rgba(74, 154, 232, 0.32) 300deg,
+            transparent 360deg
+        );
+        border-radius: 21px;
         z-index: -1;
-        animation: aihBorderGlow 8s linear infinite;
-        background-size: 400% 400%;
+        animation: aih-border-spin 16s linear infinite;
+    }
+    .ai-hub-hero::after {
+        content: '';
+        position: absolute;
+        inset: 1px;
+        background: linear-gradient(180deg, rgba(15, 21, 32, 0.94) 0%, rgba(15, 21, 32, 0.82) 100%);
+        border-radius: 19px;
+        z-index: -1;
     }
 
-    @keyframes aihBorderGlow {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+    @keyframes aih-border-spin {
+        to { transform: rotate(1turn); }
     }
 
     @keyframes aihContainerFadeIn {
-        from { opacity: 0; transform: translateY(20px) scale(0.98); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
+        from { opacity: 0; transform: translateY(-12px) scale(0.98); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     @keyframes aihFadeIn {
         from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+        to   { opacity: 1; transform: translateY(0); }
     }
 
     .ai-hub-logo {
@@ -115,283 +186,280 @@
         width: 180px;
         height: auto;
         display: block;
+        filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
     }
 
     .ai-hub-hero h1 {
         font-family: 'Montserrat', sans-serif;
-        font-size: 30px;
+        font-size: 34px;
         font-weight: 300;
-        margin-bottom: 14px;
-        letter-spacing: 0.5px;
+        margin-bottom: 16px;
+        letter-spacing: -0.5px;
         color: #fff;
-        line-height: 1.3;
+        line-height: 1.2;
         animation: aihFadeIn 0.8s ease-out 0.4s both;
     }
 
     .ai-hub-hero h1 span {
-        color: var(--accent-yellow);
-        font-weight: 500;
+        background: linear-gradient(135deg, var(--accent-yellow) 0%, #ffd60a 50%, var(--accent-yellow) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 600;
+        letter-spacing: 0;
     }
 
     .ai-hub-hero .subtitle {
         color: var(--text-grey);
-        font-size: 14px;
-        margin-bottom: 0;
-        line-height: 1.8;
-        max-width: 420px;
-        margin-left: auto;
-        margin-right: auto;
+        font-size: 15px;
+        margin: 0 auto;
+        line-height: 1.65;
+        max-width: 440px;
+        letter-spacing: 0.1px;
         animation: aihFadeIn 0.8s ease-out 0.5s both;
     }
 
     /* ========================
-       TILES
+       TILES — per-section accent
        ======================== */
     .ai-hub-tiles {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 14px;
-        margin-top: 14px;
+        margin-top: 18px;
     }
 
     .ai-hub-tile {
-        background: var(--bg-panel);
+        --tile-accent: var(--accent-blue);
+        --tile-accent-soft: var(--accent-blue-soft);
+        --tile-accent-border: var(--accent-blue-border);
+        background: linear-gradient(180deg, rgba(15, 21, 32, 0.92) 0%, rgba(19, 26, 46, 0.92) 100%);
         border: 1px solid var(--border);
-        border-radius: 14px;
+        border-radius: 16px;
         padding: 32px 20px 28px;
         text-align: center;
         text-decoration: none;
         color: var(--text-white);
         position: relative;
         overflow: hidden;
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        box-shadow: 
-            0 8px 25px rgba(0, 0, 0, 0.2),
-            0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                    border-color 0.4s ease,
+                    box-shadow 0.4s ease;
+        box-shadow:
+            0 8px 25px rgba(0, 0, 0, 0.22),
+            0 2px 6px rgba(0, 0, 0, 0.1);
         opacity: 0;
-        animation: aihTileFadeIn 0.6s ease-out forwards;
+        animation: aihTileFadeIn 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         font-family: 'Montserrat', sans-serif;
     }
 
-    .ai-hub-tile:nth-child(1) { animation-delay: 0.7s; }
-    .ai-hub-tile:nth-child(2) { animation-delay: 0.85s; }
-    .ai-hub-tile:nth-child(3) { animation-delay: 1.0s; }
+    .ai-hub-tile:nth-child(1) {
+        --tile-accent: var(--accent-blue);
+        --tile-accent-soft: var(--accent-blue-soft);
+        --tile-accent-border: var(--accent-blue-border);
+        animation-delay: 0.7s;
+    }
+    .ai-hub-tile:nth-child(2) {
+        --tile-accent: var(--accent-cyan);
+        --tile-accent-soft: var(--accent-cyan-soft);
+        --tile-accent-border: var(--accent-cyan-border);
+        animation-delay: 0.85s;
+    }
+    .ai-hub-tile:nth-child(3) {
+        --tile-accent: var(--accent-yellow);
+        --tile-accent-soft: var(--accent-yellow-soft);
+        --tile-accent-border: var(--accent-yellow-border);
+        animation-delay: 1.0s;
+    }
 
     @keyframes aihTileFadeIn {
         from { opacity: 0; transform: translateY(15px); }
-        to { opacity: 1; transform: translateY(0); }
+        to   { opacity: 1; transform: translateY(0); }
     }
 
-    .ai-hub-tile.active {
-        cursor: pointer;
-    }
+    .ai-hub-tile.active { cursor: pointer; }
 
     .ai-hub-tile.active::before {
         content: '';
         position: absolute;
-        top: -1px;
-        left: -1px;
-        right: -1px;
-        bottom: -1px;
-        background: linear-gradient(145deg, 
-            rgba(45, 125, 210, 0.2), 
-            transparent 60%);
-        border-radius: 14px;
-        z-index: 0;
+        inset: 0;
+        background: radial-gradient(circle at 50% 0%, var(--tile-accent-soft) 0%, transparent 65%);
         opacity: 0;
         transition: opacity 0.4s ease;
+        pointer-events: none;
     }
-
-    .ai-hub-tile.active:hover::before {
-        opacity: 1;
-    }
+    .ai-hub-tile.active:hover::before { opacity: 1; }
 
     .ai-hub-tile.active:hover {
-        border-color: var(--accent-blue);
+        border-color: var(--tile-accent-border);
         transform: translateY(-4px);
-        box-shadow: 
-            0 16px 40px rgba(45, 125, 210, 0.15),
-            0 8px 20px rgba(0, 0, 0, 0.2);
+        box-shadow:
+            0 18px 40px rgba(0, 0, 0, 0.35),
+            0 0 30px var(--tile-accent-soft);
     }
-
     .ai-hub-tile.active:active {
         transform: translateY(-2px) scale(0.98);
-        transition: all 0.1s ease;
-    }
-
-    .ai-hub-tile.disabled {
-        background: var(--disabled-bg);
-        border-color: var(--disabled-border);
-        cursor: default;
-        opacity: 0.45;
-    }
-
-    .ai-hub-tile.disabled .tile-title {
-        color: var(--disabled-text);
-    }
-
-    .ai-hub-tile.disabled .tile-desc {
-        color: var(--disabled-text);
-        opacity: 0.7;
+        transition: transform 0.1s ease;
     }
 
     .ai-hub-tile .tile-icon {
-        margin-bottom: 16px;
+        margin-bottom: 18px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        background: rgba(45, 125, 210, 0.12);
-        border: 1px solid rgba(74, 154, 232, 0.22);
-        color: var(--accent-blue-light);
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: var(--tile-accent-soft);
+        border: 1px solid var(--tile-accent-border);
+        color: var(--tile-accent);
         position: relative;
         z-index: 1;
+        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .ai-hub-tile.active:hover .tile-icon {
+        transform: scale(1.08) rotate(-3deg);
     }
 
     .ai-hub-tile .tile-icon svg {
-        width: 24px;
-        height: 24px;
+        width: 26px;
+        height: 26px;
         stroke: currentColor;
     }
 
-    .ai-hub-tile.disabled .tile-icon {
-        background: rgba(74, 85, 104, 0.08);
-        border-color: rgba(74, 85, 104, 0.18);
-        color: var(--disabled-text);
-        filter: none;
-        opacity: 1;
-    }
-
     .ai-hub-tile .tile-title {
-        font-size: 13px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-bottom: 10px;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: -0.2px;
+        margin-bottom: 8px;
         color: var(--text-white);
         position: relative;
         z-index: 1;
+        line-height: 1.2;
+        transition: color 0.3s ease;
     }
 
-    .ai-hub-tile.active .tile-title {
-        color: var(--accent-yellow);
+    .ai-hub-tile.active:hover .tile-title {
+        color: var(--tile-accent);
     }
 
     .ai-hub-tile .tile-desc {
-        font-size: 11px;
+        font-size: 12.5px;
         color: var(--text-grey);
-        line-height: 1.6;
+        line-height: 1.55;
         position: relative;
         z-index: 1;
     }
 
     .ai-hub-tile .tile-badge {
-        display: inline-block;
-        margin-top: 14px;
-        padding: 5px 12px;
-        border-radius: 50px;
-        font-size: 9px;
+        display: inline-flex;
+        align-items: center;
+        margin-top: 16px;
+        padding: 6px 13px;
+        border-radius: 999px;
+        font-size: 10.5px;
         font-weight: 600;
-        letter-spacing: 1.5px;
+        letter-spacing: 1.3px;
         text-transform: uppercase;
         position: relative;
         z-index: 1;
+        background: var(--tile-accent-soft);
+        color: var(--tile-accent);
+        border: 1px solid var(--tile-accent-border);
+        transition: padding 0.3s ease;
     }
-
-    .ai-hub-tile.active .tile-badge {
-        background: rgba(45, 125, 210, 0.15);
-        color: var(--accent-blue-light);
-        border: 1px solid rgba(45, 125, 210, 0.25);
-    }
-
-    .ai-hub-tile.disabled .tile-badge {
-        background: rgba(74, 85, 104, 0.15);
-        color: var(--disabled-text);
-        border: 1px solid rgba(74, 85, 104, 0.2);
-    }
+    .ai-hub-tile.active:hover .tile-badge { padding: 6px 16px; }
 
     /* ========================
        FOOTER
        ======================== */
     .ai-hub-footer {
         text-align: center;
-        margin-top: 30px;
+        margin-top: 32px;
         opacity: 0;
         animation: aihFadeIn 0.8s ease-out 1.3s forwards;
     }
 
     .ai-hub-footer .tagline {
-        font-size: 10px;
-        letter-spacing: 2px;
+        font-size: 10.5px;
+        letter-spacing: 2.5px;
         text-transform: uppercase;
-        color: var(--text-grey);
-        font-weight: 400;
+        color: var(--text-muted);
+        font-weight: 500;
         font-family: 'Montserrat', sans-serif;
     }
 
     .ai-hub-footer .tagline span {
-        color: var(--accent-yellow);
+        background: linear-gradient(135deg, var(--accent-yellow) 0%, #ffd60a 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 600;
     }
 
     .ai-hub-footer .footer-link {
-        display: block;
-        margin-top: 12px;
+        display: inline-flex;
+        align-items: center;
+        margin-top: 14px;
+        padding: 8px 14px;
         font-size: 11px;
-        color: var(--text-grey);
+        color: var(--text-muted);
         text-decoration: none;
-        transition: color 0.3s;
+        transition: color 0.3s, background 0.3s;
         letter-spacing: 0.5px;
         font-family: 'Montserrat', sans-serif;
+        border-radius: 999px;
     }
 
     .ai-hub-footer .footer-link:hover {
-        color: var(--accent-blue);
+        color: var(--accent-yellow);
+        background: var(--accent-yellow-soft);
     }
 
     /* ========================
-       RESPONSIVE
+       RESPONSIVE — fix the mobile edge-crush
        ======================== */
     @media (max-width: 600px) {
         .ai-hub-wrapper {
-            padding: 40px 14px;
+            padding: 40px 20px;  /* was 14px — felt cheap against edges */
         }
 
         .ai-hub-hero {
-            padding: 40px 24px 38px;
-            border-radius: 12px;
+            padding: 44px 24px 40px;
+            border-radius: 18px;
         }
 
         .ai-hub-hero h1 {
-            font-size: 24px;
+            font-size: 26px;
         }
 
         .ai-hub-hero .subtitle {
-            font-size: 13px;
+            font-size: 13.5px;
         }
 
         .ai-hub-tiles {
             grid-template-columns: 1fr;
             gap: 12px;
-            margin-top: 12px;
+            margin-top: 14px;
         }
 
         .ai-hub-tile {
-            padding: 22px 24px;
-            border-radius: 12px;
+            padding: 22px 22px;
+            border-radius: 14px;
             display: flex;
             flex-direction: row;
             align-items: center;
             text-align: left;
             gap: 18px;
+            min-height: 88px;
         }
 
         .ai-hub-tile .tile-icon {
             margin-bottom: 0;
             flex-shrink: 0;
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
         }
 
         .ai-hub-tile .tile-icon svg {
@@ -399,37 +467,38 @@
             height: 22px;
         }
 
-        .ai-hub-tile .tile-content {
-            flex: 1;
+        .ai-hub-tile.active:hover .tile-icon {
+            transform: scale(1.06);
         }
+
+        .ai-hub-tile .tile-content { flex: 1; min-width: 0; }
 
         .ai-hub-tile .tile-title {
             margin-bottom: 4px;
-            font-size: 12px;
+            font-size: 16px;
         }
 
         .ai-hub-tile .tile-desc {
-            font-size: 11px;
+            font-size: 12px;
             margin-bottom: 0;
+            line-height: 1.45;
         }
 
         .ai-hub-tile .tile-badge {
             margin-top: 8px;
+            padding: 4px 10px;
+            font-size: 9.5px;
+            letter-spacing: 1.1px;
         }
+        .ai-hub-tile.active:hover .tile-badge { padding: 4px 12px; }
     }
 
-    @media (max-width: 360px) {
-        .ai-hub-hero {
-            padding: 35px 20px 32px;
-        }
-
-        .ai-hub-hero h1 {
-            font-size: 21px;
-        }
-
-        .ai-hub-tile {
-            padding: 18px 20px;
-        }
+    @media (max-width: 380px) {
+        .ai-hub-wrapper { padding: 32px 16px; }
+        .ai-hub-hero { padding: 36px 20px 32px; }
+        .ai-hub-hero h1 { font-size: 23px; }
+        .ai-hub-tile { padding: 18px 18px; gap: 14px; }
+        .ai-hub-tile .tile-title { font-size: 15px; }
     }
 </style>
 
