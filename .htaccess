@@ -15,6 +15,9 @@ Options -Indexes
 
 RewriteEngine On
 
+# Legacy internal hub moved to its own subdomain (301)
+RewriteRule ^internal(\.html)?/?$ https://internal.ai.cnattitle.com/ [R=301,L,NE]
+
 # Redirect .html extension to clean URL (301)
 RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
 RewriteRule ^ /%1 [R=301,L,NE]
