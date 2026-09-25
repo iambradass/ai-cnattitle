@@ -1,3 +1,24 @@
+# BEGIN private site: keep out of search engines and AI crawlers
+<IfModule mod_headers.c>
+  Header always set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex"
+</IfModule>
+
+# Block direct downloads of working files (notes, spreadsheets, configs, backups)
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule \.(md|xlsx|json)$ - [F,L,NC]
+RewriteRule \.backup- - [F,L,NC]
+</IfModule>
+# END private site
+
+# BEGIN agent-workflow privacy
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule (^|/)\.agent-workflow(/|$) - [F,L,NC]
+RewriteRule (^|/)(AGENTS|CLAUDE|PROJECT)\.md$ - [F,L,NC]
+</IfModule>
+# END agent-workflow privacy
+
 AddDefaultCharset UTF-8
 <IfModule mod_mime.c>
   AddCharset UTF-8 .html
